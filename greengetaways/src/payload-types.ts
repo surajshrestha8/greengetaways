@@ -69,6 +69,16 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    destinations: Destination;
+    tours: Tour;
+    'activity-categories': ActivityCategory;
+    testimonials: Testimonial;
+    bookings: Booking;
+    blog: Blog;
+    'team-members': TeamMember;
+    'csr-projects': CsrProject;
+    'special-services': SpecialService;
+    fleet: Fleet;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +88,16 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    destinations: DestinationsSelect<false> | DestinationsSelect<true>;
+    tours: ToursSelect<false> | ToursSelect<true>;
+    'activity-categories': ActivityCategoriesSelect<false> | ActivityCategoriesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
+    blog: BlogSelect<false> | BlogSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    'csr-projects': CsrProjectsSelect<false> | CsrProjectsSelect<true>;
+    'special-services': SpecialServicesSelect<false> | SpecialServicesSelect<true>;
+    fleet: FleetSelect<false> | FleetSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -161,6 +181,827 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destinations".
+ */
+export interface Destination {
+  id: number;
+  name: string;
+  /**
+   * URL-friendly version of the name
+   */
+  slug: string;
+  country: string;
+  continent: 'africa' | 'asia' | 'europe' | 'north-america' | 'south-america' | 'oceania' | 'antarctica';
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Brief description for cards and previews
+   */
+  shortDescription: string;
+  featuredImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Key attractions or points of interest
+   */
+  highlights?:
+    | {
+        highlight: string;
+        id?: string | null;
+      }[]
+    | null;
+  climate?: {
+    bestTimeToVisit?: string | null;
+    averageTemperature?: string | null;
+    weatherDescription?: string | null;
+  };
+  travelInfo?: {
+    currency?: string | null;
+    language?: string | null;
+    timezone?: string | null;
+    visaRequirements?: string | null;
+  };
+  /**
+   * Display on homepage as featured destination
+   */
+  featured?: boolean | null;
+  /**
+   * Used for sorting and recommendations
+   */
+  popularityScore?: number | null;
+  /**
+   * SEO title
+   */
+  metaTitle?: string | null;
+  /**
+   * SEO description
+   */
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tours".
+ */
+export interface Tour {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Destinations included in this tour
+   */
+  destination: (number | Destination)[];
+  /**
+   * Activity categories (e.g., Trekking, Cycling, Day Trips)
+   */
+  activityCategory: (number | ActivityCategory)[];
+  tourType: (
+    | 'adventure'
+    | 'beach'
+    | 'cultural'
+    | 'wildlife'
+    | 'city'
+    | 'cruise'
+    | 'honeymoon'
+    | 'family'
+    | 'luxury'
+    | 'budget'
+  )[];
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  shortDescription: string;
+  featuredImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  duration: {
+    days: number;
+    nights: number;
+  };
+  pricing: {
+    basePrice: number;
+    currency?: string | null;
+    /**
+     * Leave empty if no discount
+     */
+    discountedPrice?: number | null;
+    priceIncludes?:
+      | {
+          item?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    priceExcludes?:
+      | {
+          item?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  itinerary: {
+    day: number;
+    title: string;
+    description: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    meals?: ('breakfast' | 'lunch' | 'dinner')[] | null;
+    accommodation?: string | null;
+    id?: string | null;
+  }[];
+  highlights?:
+    | {
+        highlight: string;
+        id?: string | null;
+      }[]
+    | null;
+  availability?: {
+    /**
+     * First available date
+     */
+    startDate?: string | null;
+    /**
+     * Last available date
+     */
+    endDate?: string | null;
+    departureDates?:
+      | {
+          date: string;
+          availableSeats: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  groupSize: {
+    min?: number | null;
+    max: number;
+  };
+  difficulty?: ('easy' | 'moderate' | 'challenging' | 'difficult') | null;
+  ageRequirement?: {
+    minimum?: number | null;
+    maximum?: number | null;
+  };
+  status: 'active' | 'sold-out' | 'coming-soon' | 'inactive';
+  featured?: boolean | null;
+  popularityScore?: number | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activity-categories".
+ */
+export interface ActivityCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  /**
+   * For subcategories (e.g., Trekking is under Terrestrial Adventures)
+   */
+  parentCategory?: (number | null) | ActivityCategory;
+  categoryType: 'terrestrial' | 'watercourse' | 'aerial' | 'tours' | 'special';
+  /**
+   * Icon for the category
+   */
+  icon?: (number | null) | Media;
+  featuredImage?: (number | null) | Media;
+  /**
+   * Display order (lower numbers appear first)
+   */
+  order?: number | null;
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  customerName: string;
+  customerPhoto?: (number | null) | Media;
+  /**
+   * City, Country
+   */
+  customerLocation?: string | null;
+  tour: number | Tour;
+  rating: number;
+  /**
+   * Testimonial headline
+   */
+  title: string;
+  review: string;
+  travelDate: string;
+  /**
+   * Display on homepage
+   */
+  featured?: boolean | null;
+  status: 'pending' | 'approved' | 'rejected';
+  /**
+   * Verified as actual customer
+   */
+  verifiedBooking?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: number;
+  /**
+   * Unique booking reference number
+   */
+  bookingReference: string;
+  tour: number | Tour;
+  departureDate: string;
+  numberOfTravelers: number;
+  customerInfo: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address?: string | null;
+    country?: string | null;
+    passportNumber?: string | null;
+  };
+  travelers?:
+    | {
+        firstName: string;
+        lastName: string;
+        dateOfBirth?: string | null;
+        passportNumber?: string | null;
+        /**
+         * Dietary restrictions, medical conditions, etc.
+         */
+        specialRequirements?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  pricing: {
+    subtotal: number;
+    taxes?: number | null;
+    discount?: number | null;
+    total: number;
+    currency?: string | null;
+  };
+  payment: {
+    status: 'pending' | 'deposit' | 'paid' | 'refunded' | 'failed';
+    method?: ('credit-card' | 'bank-transfer' | 'paypal' | 'cash') | null;
+    transactionId?: string | null;
+    paidAmount?: number | null;
+    remainingAmount?: number | null;
+  };
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'refunded';
+  specialRequests?: string | null;
+  /**
+   * Internal notes not visible to customer
+   */
+  internalNotes?: string | null;
+  /**
+   * Travel agent handling this booking
+   */
+  assignedAgent?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog".
+ */
+export interface Blog {
+  id: number;
+  title: string;
+  slug: string;
+  author: number | User;
+  category: (
+    | 'travel-tips'
+    | 'destination-guides'
+    | 'travel-stories'
+    | 'travel-news'
+    | 'photography'
+    | 'culture'
+    | 'food'
+    | 'adventure'
+  )[];
+  /**
+   * Brief summary for previews
+   */
+  excerpt: string;
+  featuredImage: number | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedDestinations?: (number | Destination)[] | null;
+  relatedTours?: (number | Tour)[] | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Estimated reading time in minutes
+   */
+  readTime?: number | null;
+  status: 'draft' | 'published' | 'archived';
+  publishedDate?: string | null;
+  featured?: boolean | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: number;
+  fullName: string;
+  /**
+   * Job title (e.g., Managing Director, Tour Guide)
+   */
+  position: string;
+  department?: ('management' | 'operations' | 'sales-marketing' | 'guides' | 'support' | 'csr') | null;
+  photo: number | Media;
+  /**
+   * Short biography
+   */
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Areas of expertise (e.g., Everest Region Expert, First Aid Certified)
+   */
+  expertise?:
+    | {
+        skill?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  experience?: {
+    years?: number | null;
+    description?: string | null;
+  };
+  certifications?:
+    | {
+        certification?: string | null;
+        year?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  languages?:
+    | {
+        language?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  contact?: {
+    email?: string | null;
+    phone?: string | null;
+  };
+  socialMedia?: {
+    linkedin?: string | null;
+    facebook?: string | null;
+  };
+  /**
+   * Display prominently on Meet the Team page
+   */
+  featured?: boolean | null;
+  /**
+   * Display order
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "csr-projects".
+ */
+export interface CsrProject {
+  id: number;
+  projectName: string;
+  slug: string;
+  category: 'child-sponsorship' | 'environmental' | 'cultural' | 'community' | 'porter-guide' | 'responsible-tourism';
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  shortDescription?: string | null;
+  featuredImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  objectives?:
+    | {
+        objective: string;
+        id?: string | null;
+      }[]
+    | null;
+  impact?: {
+    /**
+     * Number of people/entities benefited
+     */
+    beneficiaries?: number | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    statistics?:
+      | {
+          /**
+           * e.g., "Trees Planted", "Children Educated"
+           */
+          metric?: string | null;
+          value?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  timeline: {
+    startDate: string;
+    /**
+     * Leave empty for ongoing projects
+     */
+    endDate?: string | null;
+    milestones?:
+      | {
+          milestone?: string | null;
+          date?: string | null;
+          completed?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  location?: {
+    region?: string | null;
+    specificLocation?: string | null;
+  };
+  /**
+   * Partner organizations
+   */
+  partners?:
+    | {
+        partnerName?: string | null;
+        logo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Information for people who want to contribute
+   */
+  howToContribute?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  status: 'planning' | 'active' | 'completed' | 'on-hold';
+  /**
+   * Display prominently on CSR page
+   */
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "special-services".
+ */
+export interface SpecialService {
+  id: number;
+  serviceName: string;
+  slug: string;
+  serviceType:
+    | 'mice'
+    | 'wedding'
+    | 'filming'
+    | 'yoga'
+    | 'team-building'
+    | 'rock-climbing'
+    | 'homestay'
+    | 'educational'
+    | 'custom';
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  shortDescription: string;
+  featuredImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Key features or highlights of this service
+   */
+  features?:
+    | {
+        feature: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Specific offerings included in this service
+   */
+  whatWeOffer?:
+    | {
+        offering?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  pricing?: {
+    pricingModel?: ('fixed' | 'per-person' | 'per-day' | 'custom') | null;
+    /**
+     * Starting price (if applicable)
+     */
+    startingPrice?: number | null;
+    currency?: string | null;
+    pricingNote?: string | null;
+  };
+  /**
+   * Requirements or prerequisites for this service
+   */
+  requirements?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Sample itinerary (if applicable)
+   */
+  sampleItinerary?:
+    | {
+        day?: number | null;
+        title?: string | null;
+        description?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Related testimonials for this service
+   */
+  testimonials?: (number | Testimonial)[] | null;
+  /**
+   * Specific contact for this service
+   */
+  contactInfo?: {
+    contactPerson?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  faq?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  featured?: boolean | null;
+  status: 'active' | 'coming-soon' | 'seasonal' | 'inactive';
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fleet".
+ */
+export interface Fleet {
+  id: number;
+  /**
+   * Name or model of the vehicle
+   */
+  vehicleName: string;
+  vehicleType: 'tourist-bus' | 'mini-van' | 'jeep' | 'car' | 'helicopter' | 'other';
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  capacity: {
+    passengers: number;
+    /**
+     * Luggage capacity description
+     */
+    luggage?: string | null;
+  };
+  /**
+   * Vehicle features (e.g., Air Conditioning, WiFi, First Aid Kit)
+   */
+  features?:
+    | {
+        feature?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  specifications?: {
+    make?: string | null;
+    model?: string | null;
+    year?: number | null;
+    registrationNumber?: string | null;
+  };
+  /**
+   * Safety features (e.g., Seat belts, Fire extinguisher, GPS)
+   */
+  safetyFeatures?:
+    | {
+        feature?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'active' | 'maintenance' | 'retired';
+  availableFor?:
+    | {
+        serviceType?: ('airport-transfer' | 'city-tours' | 'long-distance' | 'private-hire') | null;
+        id?: string | null;
+      }[]
+    | null;
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -190,6 +1031,46 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'destinations';
+        value: number | Destination;
+      } | null)
+    | ({
+        relationTo: 'tours';
+        value: number | Tour;
+      } | null)
+    | ({
+        relationTo: 'activity-categories';
+        value: number | ActivityCategory;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: number | Booking;
+      } | null)
+    | ({
+        relationTo: 'blog';
+        value: number | Blog;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: number | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'csr-projects';
+        value: number | CsrProject;
+      } | null)
+    | ({
+        relationTo: 'special-services';
+        value: number | SpecialService;
+      } | null)
+    | ({
+        relationTo: 'fleet';
+        value: number | Fleet;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -272,6 +1153,507 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destinations_select".
+ */
+export interface DestinationsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  country?: T;
+  continent?: T;
+  description?: T;
+  shortDescription?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  highlights?:
+    | T
+    | {
+        highlight?: T;
+        id?: T;
+      };
+  climate?:
+    | T
+    | {
+        bestTimeToVisit?: T;
+        averageTemperature?: T;
+        weatherDescription?: T;
+      };
+  travelInfo?:
+    | T
+    | {
+        currency?: T;
+        language?: T;
+        timezone?: T;
+        visaRequirements?: T;
+      };
+  featured?: T;
+  popularityScore?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tours_select".
+ */
+export interface ToursSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  destination?: T;
+  activityCategory?: T;
+  tourType?: T;
+  description?: T;
+  shortDescription?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  duration?:
+    | T
+    | {
+        days?: T;
+        nights?: T;
+      };
+  pricing?:
+    | T
+    | {
+        basePrice?: T;
+        currency?: T;
+        discountedPrice?: T;
+        priceIncludes?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+        priceExcludes?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+      };
+  itinerary?:
+    | T
+    | {
+        day?: T;
+        title?: T;
+        description?: T;
+        meals?: T;
+        accommodation?: T;
+        id?: T;
+      };
+  highlights?:
+    | T
+    | {
+        highlight?: T;
+        id?: T;
+      };
+  availability?:
+    | T
+    | {
+        startDate?: T;
+        endDate?: T;
+        departureDates?:
+          | T
+          | {
+              date?: T;
+              availableSeats?: T;
+              id?: T;
+            };
+      };
+  groupSize?:
+    | T
+    | {
+        min?: T;
+        max?: T;
+      };
+  difficulty?: T;
+  ageRequirement?:
+    | T
+    | {
+        minimum?: T;
+        maximum?: T;
+      };
+  status?: T;
+  featured?: T;
+  popularityScore?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activity-categories_select".
+ */
+export interface ActivityCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  parentCategory?: T;
+  categoryType?: T;
+  icon?: T;
+  featuredImage?: T;
+  order?: T;
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  customerName?: T;
+  customerPhoto?: T;
+  customerLocation?: T;
+  tour?: T;
+  rating?: T;
+  title?: T;
+  review?: T;
+  travelDate?: T;
+  featured?: T;
+  status?: T;
+  verifiedBooking?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings_select".
+ */
+export interface BookingsSelect<T extends boolean = true> {
+  bookingReference?: T;
+  tour?: T;
+  departureDate?: T;
+  numberOfTravelers?: T;
+  customerInfo?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+        email?: T;
+        phone?: T;
+        address?: T;
+        country?: T;
+        passportNumber?: T;
+      };
+  travelers?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+        dateOfBirth?: T;
+        passportNumber?: T;
+        specialRequirements?: T;
+        id?: T;
+      };
+  pricing?:
+    | T
+    | {
+        subtotal?: T;
+        taxes?: T;
+        discount?: T;
+        total?: T;
+        currency?: T;
+      };
+  payment?:
+    | T
+    | {
+        status?: T;
+        method?: T;
+        transactionId?: T;
+        paidAmount?: T;
+        remainingAmount?: T;
+      };
+  status?: T;
+  specialRequests?: T;
+  internalNotes?: T;
+  assignedAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog_select".
+ */
+export interface BlogSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  author?: T;
+  category?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  content?: T;
+  relatedDestinations?: T;
+  relatedTours?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  readTime?: T;
+  status?: T;
+  publishedDate?: T;
+  featured?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  fullName?: T;
+  position?: T;
+  department?: T;
+  photo?: T;
+  bio?: T;
+  expertise?:
+    | T
+    | {
+        skill?: T;
+        id?: T;
+      };
+  experience?:
+    | T
+    | {
+        years?: T;
+        description?: T;
+      };
+  certifications?:
+    | T
+    | {
+        certification?: T;
+        year?: T;
+        id?: T;
+      };
+  languages?:
+    | T
+    | {
+        language?: T;
+        id?: T;
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        linkedin?: T;
+        facebook?: T;
+      };
+  featured?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "csr-projects_select".
+ */
+export interface CsrProjectsSelect<T extends boolean = true> {
+  projectName?: T;
+  slug?: T;
+  category?: T;
+  description?: T;
+  shortDescription?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  objectives?:
+    | T
+    | {
+        objective?: T;
+        id?: T;
+      };
+  impact?:
+    | T
+    | {
+        beneficiaries?: T;
+        description?: T;
+        statistics?:
+          | T
+          | {
+              metric?: T;
+              value?: T;
+              id?: T;
+            };
+      };
+  timeline?:
+    | T
+    | {
+        startDate?: T;
+        endDate?: T;
+        milestones?:
+          | T
+          | {
+              milestone?: T;
+              date?: T;
+              completed?: T;
+              id?: T;
+            };
+      };
+  location?:
+    | T
+    | {
+        region?: T;
+        specificLocation?: T;
+      };
+  partners?:
+    | T
+    | {
+        partnerName?: T;
+        logo?: T;
+        id?: T;
+      };
+  howToContribute?: T;
+  status?: T;
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "special-services_select".
+ */
+export interface SpecialServicesSelect<T extends boolean = true> {
+  serviceName?: T;
+  slug?: T;
+  serviceType?: T;
+  description?: T;
+  shortDescription?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  whatWeOffer?:
+    | T
+    | {
+        offering?: T;
+        id?: T;
+      };
+  pricing?:
+    | T
+    | {
+        pricingModel?: T;
+        startingPrice?: T;
+        currency?: T;
+        pricingNote?: T;
+      };
+  requirements?: T;
+  sampleItinerary?:
+    | T
+    | {
+        day?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  testimonials?: T;
+  contactInfo?:
+    | T
+    | {
+        contactPerson?: T;
+        email?: T;
+        phone?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  featured?: T;
+  status?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fleet_select".
+ */
+export interface FleetSelect<T extends boolean = true> {
+  vehicleName?: T;
+  vehicleType?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  description?: T;
+  capacity?:
+    | T
+    | {
+        passengers?: T;
+        luggage?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  specifications?:
+    | T
+    | {
+        make?: T;
+        model?: T;
+        year?: T;
+        registrationNumber?: T;
+      };
+  safetyFeatures?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  status?: T;
+  availableFor?:
+    | T
+    | {
+        serviceType?: T;
+        id?: T;
+      };
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
