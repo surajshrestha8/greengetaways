@@ -1,0 +1,61 @@
+.why-choose-us {
+  position: relative;
+  background-image: url('/images/why-choose-us-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 500px;
+}
+
+.why-choose-us-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(13, 31, 13, 0.75) 0%,
+    rgba(13, 31, 13, 0.95) 30%,
+    rgba(13, 31, 13, 0.95) 70%,
+    rgba(13, 31, 13, 0.75) 100%
+  );
+}
+
+.why-choose-us-container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.why-choose-us-title {
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 40px 0;
+  text-align: center;
+}
+
+.why-choose-us-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .why-choose-us {
+    background-attachment: scroll;
+  }
+
+  .why-choose-us-container {
+    padding: 40px 20px;
+  }
+
+  .why-choose-us-title {
+    font-size: 1.75rem;
+    margin-bottom: 32px;
+  }
+
+  .why-choose-us-content {
+    gap: 24px;
+  }
+}
