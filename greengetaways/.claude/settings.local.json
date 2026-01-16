@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s \"C:\\\\Users\\\\Suraj Shrestha\\\\Desktop\\\\greengetaways\\\\greengetaways\\\\greengetaways\")",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(npm run build)"
+    ]
+  }
+}

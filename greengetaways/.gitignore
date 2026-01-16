@@ -42,6 +42,9 @@ next-env.d.ts
 
 /media
 
+# Windows reserved names (can be accidentally created)
+nul
+
 # Playwright
 node_modules/
 /test-results/
