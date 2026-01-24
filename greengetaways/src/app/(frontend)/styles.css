@@ -4,9 +4,9 @@
   --color-primary-dark: #1b5e20;
   --color-secondary: #1976d2;
   --color-accent: #4caf50;
-  --color-text: #333333;
-  --color-text-light: #666666;
-  --color-background: #ffffff;
+  --color-text: #ffffff;
+  --color-text-light: #b0b0b0;
+  --color-background: #041202;
   --color-background-gradient: linear-gradient(180deg, #87ceeb 0%, #b3e5fc 100%);
 }
 
@@ -18,7 +18,7 @@ html {
   font-size: 18px;
   line-height: 32px;
 
-  background: var(--color-background);
+  background: #041202;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -35,11 +35,17 @@ body {
 
   margin: 0;
   color: var(--color-text);
+  background: #041202;
 
   @media (max-width: 1024px) {
     font-size: 15px;
     line-height: 24px;
   }
+}
+
+main {
+  background: #041202;
+  min-height: 100vh;
 }
 
 img {

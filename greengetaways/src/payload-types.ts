@@ -79,6 +79,7 @@ export interface Config {
     'csr-projects': CsrProject;
     'special-services': SpecialService;
     fleet: Fleet;
+    'newsletter-subscribers': NewsletterSubscriber;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -98,6 +99,7 @@ export interface Config {
     'csr-projects': CsrProjectsSelect<false> | CsrProjectsSelect<true>;
     'special-services': SpecialServicesSelect<false> | SpecialServicesSelect<true>;
     fleet: FleetSelect<false> | FleetSelect<true>;
+    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -319,18 +321,36 @@ export interface Tour {
      * Leave empty if no discount
      */
     discountedPrice?: number | null;
-    priceIncludes?:
-      | {
-          item?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-    priceExcludes?:
-      | {
-          item?: string | null;
-          id?: string | null;
-        }[]
-      | null;
+    priceIncludes?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    priceExcludes?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
   };
   itinerary: {
     day: number;
@@ -1002,6 +1022,18 @@ export interface Fleet {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers".
+ */
+export interface NewsletterSubscriber {
+  id: number;
+  email: string;
+  subscribedAt: string;
+  status: 'active' | 'unsubscribed';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1071,6 +1103,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'fleet';
         value: number | Fleet;
+      } | null)
+    | ({
+        relationTo: 'newsletter-subscribers';
+        value: number | NewsletterSubscriber;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1231,18 +1267,8 @@ export interface ToursSelect<T extends boolean = true> {
         basePrice?: T;
         currency?: T;
         discountedPrice?: T;
-        priceIncludes?:
-          | T
-          | {
-              item?: T;
-              id?: T;
-            };
-        priceExcludes?:
-          | T
-          | {
-              item?: T;
-              id?: T;
-            };
+        priceIncludes?: T;
+        priceExcludes?: T;
       };
   itinerary?:
     | T
@@ -1652,6 +1678,17 @@ export interface FleetSelect<T extends boolean = true> {
         id?: T;
       };
   featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers_select".
+ */
+export interface NewsletterSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  subscribedAt?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

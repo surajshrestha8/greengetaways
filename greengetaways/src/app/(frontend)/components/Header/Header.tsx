@@ -35,12 +35,17 @@ const navItems: NavItem[] = [
   },
   {
     label: 'COMPANY',
-    href: '/company',
+    href: '/about',
     hasDropdown: true,
     dropdownItems: [
-      { label: 'About Us', href: '/company/about' },
-      { label: 'Our Team', href: '/company/team' },
-      { label: 'Contact', href: '/company/contact' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Why Green Getaways', href: '/why-green-getaways' },
+      { label: 'Request a B2B Brochure', href: '/b2b-brochure' },
+      { label: 'Sign Up for Newsletter', href: '/newsletter' },
+      { label: 'Our Fleet', href: '/fleet' },
+      { label: 'Meet the Team', href: '/team' },
+      { label: 'Legal Document', href: '/legal' },
+      { label: 'Contact Us', href: '/contact' },
     ],
   },
   {

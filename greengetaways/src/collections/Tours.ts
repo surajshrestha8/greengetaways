@@ -131,23 +131,11 @@ export const Tours: CollectionConfig = {
         },
         {
           name: 'priceIncludes',
-          type: 'array',
-          fields: [
-            {
-              name: 'item',
-              type: 'text',
-            },
-          ],
+          type: 'richText',
         },
         {
           name: 'priceExcludes',
-          type: 'array',
-          fields: [
-            {
-              name: 'item',
-              type: 'text',
-            },
-          ],
+          type: 'richText',
         },
       ],
     },

@@ -55,19 +55,29 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Navigation Links */}
+            {/* About Links */}
             <div className="footer-column">
+              <h3 className="footer-column-title">About</h3>
               <nav className="footer-nav">
-                <Link href="/" className="footer-link">Home</Link>
                 <Link href="/about" className="footer-link">About Us</Link>
-                <Link href="/contact" className="footer-link">Contact</Link>
-                <Link href="/career" className="footer-link">Career</Link>
+                <Link href="/why-green-getaways" className="footer-link">Why Green Getaways</Link>
+                <Link href="/b2b-brochure" className="footer-link">Request a B2B Brochure</Link>
+                <Link href="/newsletter" className="footer-link">Sign Up for Newsletter</Link>
+                <Link href="/fleet" className="footer-link">Our Fleet</Link>
+                <Link href="/team" className="footer-link">Meet the Team</Link>
+                <Link href="/legal" className="footer-link">Legal Document</Link>
+                <Link href="/contact" className="footer-link">Contact Us</Link>
               </nav>
             </div>
 
-            {/* Legal Links */}
+            {/* Quick Links */}
             <div className="footer-column">
+              <h3 className="footer-column-title">Quick Links</h3>
               <nav className="footer-nav">
+                <Link href="/" className="footer-link">Home</Link>
+                <Link href="/tours" className="footer-link">Tours</Link>
+                <Link href="/blogs" className="footer-link">Blogs</Link>
+                <Link href="/career" className="footer-link">Career</Link>
                 <Link href="/terms" className="footer-link">Terms and Conditions</Link>
                 <Link href="/privacy" className="footer-link">Privacy Policy</Link>
                 <Link href="/travel-insurance" className="footer-link">Travel Insurance</Link>

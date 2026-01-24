@@ -4,7 +4,10 @@
       "Bash(dir /s \"C:\\\\Users\\\\Suraj Shrestha\\\\Desktop\\\\greengetaways\\\\greengetaways\\\\greengetaways\")",
       "Bash(ls:*)",
       "Bash(cat:*)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "mcp__ide__getDiagnostics",
+      "Bash(find:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

@@ -17,6 +17,7 @@ import { TeamMembers } from './collections/TeamMembers'
 import { CSRProjects } from './collections/CsrProjects'
 import { SpecialServices } from './collections/SpecialServices'
 import { Fleet } from './collections/Fleet'
+import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,6 +42,7 @@ export default buildConfig({
     CSRProjects,
     SpecialServices,
     Fleet,
+    NewsletterSubscribers,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
