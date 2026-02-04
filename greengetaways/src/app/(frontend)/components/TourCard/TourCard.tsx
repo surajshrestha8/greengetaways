@@ -11,11 +11,11 @@ interface TourCardProps {
 export default function TourCard({ tour }: TourCardProps) {
   const featuredImage = tour.featuredImage as Media
   const imageUrl = featuredImage?.url || '/placeholder-tour.jpg'
-  const duration = tour.duration.days
-  const nights = tour.duration.nights
-  const price = tour.pricing.basePrice
-  const discountedPrice = tour.pricing.discountedPrice
-  const currency = tour.pricing.currency || 'USD'
+  const duration = tour.duration?.days || 0
+  const nights = tour.duration?.nights || 0
+  const price = tour.pricing?.basePrice || 0
+  const discountedPrice = tour.pricing?.discountedPrice
+  const currency = tour.pricing?.currency || 'USD'
   const destinations = tour.destination as Destination[]
   const tourTypes = tour.tourType || []
   const difficulty = tour.difficulty

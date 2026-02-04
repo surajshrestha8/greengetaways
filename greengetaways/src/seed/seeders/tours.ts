@@ -343,8 +343,8 @@ export async function seedTours(
           basePrice: template.basePrice,
           currency: 'USD',
           discountedPrice: Math.random() > 0.7 ? Math.floor(template.basePrice * 0.9) : undefined,
-          priceIncludes: template.priceIncludes.map((item) => ({ item })),
-          priceExcludes: template.priceExcludes.map((item) => ({ item })),
+          priceIncludes: createRichText(template.priceIncludes.join('\n')),
+          priceExcludes: createRichText(template.priceExcludes.join('\n')),
         },
         itinerary: template.itinerary.map((day, index) => ({
           day: index + 1,
@@ -427,17 +427,8 @@ export async function seedTours(
         pricing: {
           basePrice: tour.price,
           currency: 'USD',
-          priceIncludes: [
-            { item: 'Professional guide' },
-            { item: 'All transportation' },
-            { item: 'Accommodation' },
-            { item: 'Permits and fees' },
-          ],
-          priceExcludes: [
-            { item: 'International flights' },
-            { item: 'Travel insurance' },
-            { item: 'Personal expenses' },
-          ],
+          priceIncludes: createRichText(['Professional guide', 'All transportation', 'Accommodation', 'Permits and fees'].join('\n')),
+          priceExcludes: createRichText(['International flights', 'Travel insurance', 'Personal expenses'].join('\n')),
         },
         itinerary: Array.from({ length: tour.days }, (_, i) => ({
           day: i + 1,

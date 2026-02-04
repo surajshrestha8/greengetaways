@@ -19,7 +19,7 @@ const tabs: { key: TabKey; label: string }[] = [
   { key: 'faqs', label: 'FAQs' },
 ]
 
-export default function TourTabs({ tour, testimonials }: TourTabsProps) {
+export default function TourTabs({ tour, testimonials }: any) {
   const [activeTab, setActiveTab] = useState<TabKey>('itinerary')
 
   const formatPrice = (amount: number, currency: string) => {
@@ -58,7 +58,7 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
           <div className="tab-panel">
             {tour.itinerary && tour.itinerary.length > 0 ? (
               <div className="tour-itinerary">
-                {tour.itinerary.map((day, index) => (
+                {tour.itinerary.map((day: any, index: any) => (
                   <ItineraryItem key={index} day={day} defaultOpen={index === 0} />
                 ))}
               </div>
@@ -75,16 +75,30 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               {/* Price Includes */}
               <div className="includes-section">
                 <h3>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4caf50" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#4caf50"
+                    strokeWidth="2"
+                  >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                   What&apos;s Included
                 </h3>
-                {tour.pricing.priceIncludes && tour.pricing.priceIncludes.length > 0 ? (
+                {tour.pricing?.priceIncludes && tour.pricing.priceIncludes.length > 0 ? (
                   <ul className="includes-list included">
-                    {tour.pricing.priceIncludes.map((item, index) => (
+                    {tour.pricing.priceIncludes.map((item: any, index: any) => (
                       <li key={index}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4caf50" strokeWidth="2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#4caf50"
+                          strokeWidth="2"
+                        >
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                         {item.item}
@@ -99,17 +113,31 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               {/* Price Excludes */}
               <div className="includes-section">
                 <h3>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f44336" strokeWidth="2">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#f44336"
+                    strokeWidth="2"
+                  >
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
                   What&apos;s Not Included
                 </h3>
-                {tour.pricing.priceExcludes && tour.pricing.priceExcludes.length > 0 ? (
+                {tour.pricing?.priceExcludes && tour.pricing.priceExcludes.length > 0 ? (
                   <ul className="includes-list excluded">
-                    {tour.pricing.priceExcludes.map((item, index) => (
+                    {tour.pricing.priceExcludes.map((item: any, index: any) => (
                       <li key={index}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f44336" strokeWidth="2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#f44336"
+                          strokeWidth="2"
+                        >
                           <line x1="18" y1="6" x2="6" y2="18" />
                           <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
@@ -133,13 +161,19 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               <div className="pricing-info">
                 <div className="price-display">
                   <span className="price-label">Starting From</span>
-                  {tour.pricing.discountedPrice ? (
+                  {tour.pricing?.discountedPrice ? (
                     <div className="price-values">
-                      <span className="price-original">{formatPrice(tour.pricing.basePrice, tour.pricing.currency || 'USD')}</span>
-                      <span className="price-current">{formatPrice(tour.pricing.discountedPrice, tour.pricing.currency || 'USD')}</span>
+                      <span className="price-original">
+                        {formatPrice(tour.pricing?.basePrice || 0, tour.pricing?.currency || 'USD')}
+                      </span>
+                      <span className="price-current">
+                        {formatPrice(tour.pricing.discountedPrice, tour.pricing?.currency || 'USD')}
+                      </span>
                     </div>
                   ) : (
-                    <span className="price-current">{formatPrice(tour.pricing.basePrice, tour.pricing.currency || 'USD')}</span>
+                    <span className="price-current">
+                      {formatPrice(tour.pricing?.basePrice || 0, tour.pricing?.currency || 'USD')}
+                    </span>
                   )}
                   <span className="price-per">per person</span>
                 </div>
@@ -148,18 +182,21 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               {/* Available Dates */}
               <div className="available-dates">
                 <h3>Available Departure Dates</h3>
-                {tour.availability?.departureDates && tour.availability.departureDates.length > 0 ? (
+                {tour.availability?.departureDates &&
+                tour.availability.departureDates.length > 0 ? (
                   <div className="dates-table">
                     <div className="dates-table-header">
                       <span>Departure Date</span>
                       <span>Available Seats</span>
                       <span>Status</span>
                     </div>
-                    {tour.availability.departureDates.map((departure, index) => (
+                    {tour.availability.departureDates.map((departure: any, index: any) => (
                       <div key={index} className="dates-table-row">
                         <span className="departure-date">{formatDate(departure.date)}</span>
                         <span className="departure-seats">{departure.availableSeats} seats</span>
-                        <span className={`departure-status ${departure.availableSeats > 0 ? 'available' : 'sold-out'}`}>
+                        <span
+                          className={`departure-status ${departure.availableSeats > 0 ? 'available' : 'sold-out'}`}
+                        >
                           {departure.availableSeats > 0 ? 'Available' : 'Sold Out'}
                         </span>
                       </div>
@@ -178,14 +215,17 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
           <div className="tab-panel">
             {testimonials && testimonials.length > 0 ? (
               <div className="reviews-list">
-                {testimonials.map((testimonial) => (
+                {testimonials.map((testimonial: any) => (
                   <div key={testimonial.id} className="review-card">
                     <div className="review-header">
                       <div className="reviewer-info">
                         {testimonial.customerPhoto && (
                           <div className="reviewer-photo">
                             <img
-                              src={(testimonial.customerPhoto as Media).url || '/placeholder-avatar.jpg'}
+                              src={
+                                (testimonial.customerPhoto as Media).url ||
+                                '/placeholder-avatar.jpg'
+                              }
                               alt={testimonial.customerName}
                             />
                           </div>
@@ -193,7 +233,9 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
                         <div className="reviewer-details">
                           <h4>{testimonial.customerName}</h4>
                           {testimonial.customerLocation && (
-                            <span className="reviewer-location">{testimonial.customerLocation}</span>
+                            <span className="reviewer-location">
+                              {testimonial.customerLocation}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -216,14 +258,25 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
                     <h5 className="review-title">{testimonial.title}</h5>
                     <p className="review-text">{testimonial.review}</p>
                     <span className="review-date">
-                      Traveled: {new Date(testimonial.travelDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      Traveled:{' '}
+                      {new Date(testimonial.travelDate).toLocaleDateString('en-US', {
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="no-reviews">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
                 <p>No reviews yet for this tour.</p>
@@ -297,8 +350,8 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 // Itinerary Item Component with accordion behavior
 interface ItineraryDay {
-  day: number
-  title: string
+  day?: number | null
+  title?: string | null
   description?: any
   meals?: ('breakfast' | 'lunch' | 'dinner')[] | null
   accommodation?: string | null
@@ -311,8 +364,8 @@ function ItineraryItem({ day, defaultOpen = false }: { day: ItineraryDay; defaul
     <div className={`itinerary-item ${isOpen ? 'open' : ''}`}>
       <button className="itinerary-header" onClick={() => setIsOpen(!isOpen)}>
         <div className="itinerary-header-left">
-          <span className="itinerary-day-number">Day {day.day}</span>
-          <h3 className="itinerary-day-title">{day.title}</h3>
+          <span className="itinerary-day-number">Day {day.day || 0}</span>
+          <h3 className="itinerary-day-title">{day.title || 'Untitled'}</h3>
         </div>
         <svg
           width="20"
@@ -336,19 +389,35 @@ function ItineraryItem({ day, defaultOpen = false }: { day: ItineraryDay; defaul
           <div className="itinerary-meta">
             {day.meals && day.meals.length > 0 && (
               <div className="itinerary-meals">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
                   <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
                   <line x1="6" y1="1" x2="6" y2="4" />
                   <line x1="10" y1="1" x2="10" y2="4" />
                   <line x1="14" y1="1" x2="14" y2="4" />
                 </svg>
-                <span>Meals: {day.meals.map(m => m.charAt(0).toUpperCase() + m.slice(1)).join(', ')}</span>
+                <span>
+                  Meals: {day.meals.map((m) => m.charAt(0).toUpperCase() + m.slice(1)).join(', ')}
+                </span>
               </div>
             )}
             {day.accommodation && (
               <div className="itinerary-accommodation">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>

@@ -7,7 +7,14 @@
       "Bash(npm run build)",
       "mcp__ide__getDiagnostics",
       "Bash(find:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(xargs:*)",
+      "Bash(where:*)",
+      "Bash(pdftotext:*)",
+      "Bash(npm run generate:types:*)",
+      "Bash(npm run dev)"
     ]
   }
 }

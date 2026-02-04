@@ -270,24 +270,76 @@ export interface Tour {
   /**
    * Destinations included in this tour
    */
-  destination: (number | Destination)[];
+  destination?: (number | Destination)[] | null;
   /**
    * Activity categories (e.g., Trekking, Cycling, Day Trips)
    */
-  activityCategory: (number | ActivityCategory)[];
-  tourType: (
-    | 'adventure'
-    | 'beach'
-    | 'cultural'
-    | 'wildlife'
-    | 'city'
-    | 'cruise'
-    | 'honeymoon'
-    | 'family'
-    | 'luxury'
-    | 'budget'
-  )[];
-  description: {
+  activityCategory?: (number | ActivityCategory)[] | null;
+  tourType?:
+    | (
+        | 'adventure'
+        | 'beach'
+        | 'cultural'
+        | 'wildlife'
+        | 'city'
+        | 'cruise'
+        | 'honeymoon'
+        | 'family'
+        | 'luxury'
+        | 'budget'
+      )[]
+    | null;
+  /**
+   * Trekking region (e.g., Everest, Annapurna, Manaslu, Langtang)
+   */
+  region?: string | null;
+  /**
+   * Maximum altitude reached during the trek
+   */
+  maxAltitude?: {
+    /**
+     * Altitude in meters (e.g., 5545)
+     */
+    meters?: number | null;
+    /**
+     * Altitude in feet (e.g., 18225)
+     */
+    feet?: number | null;
+    /**
+     * Location name (e.g., "at Kalapathar")
+     */
+    location?: string | null;
+  };
+  /**
+   * Best months/seasons to trek (e.g., "Mar-May, Sep-Dec")
+   */
+  bestSeason?: string | null;
+  /**
+   * Type of accommodation (e.g., "Hotel/ Tea House/ Lodge")
+   */
+  accommodationType?: string | null;
+  /**
+   * Average walking hours per day (e.g., "5 to 7 Hrs per Day")
+   */
+  adventureWalkHours?: string | null;
+  /**
+   * Total meals included in the package
+   */
+  totalMeals?: {
+    /**
+     * Number of breakfasts included
+     */
+    breakfast?: number | null;
+    /**
+     * Number of lunches included
+     */
+    lunch?: number | null;
+    /**
+     * Number of dinners included
+     */
+    dinner?: number | null;
+  };
+  description?: {
     root: {
       type: string;
       children: {
@@ -301,21 +353,21 @@ export interface Tour {
       version: number;
     };
     [k: string]: unknown;
-  };
-  shortDescription: string;
-  featuredImage: number | Media;
+  } | null;
+  shortDescription?: string | null;
+  featuredImage?: (number | null) | Media;
   gallery?:
     | {
-        image: number | Media;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
-  duration: {
-    days: number;
-    nights: number;
+  duration?: {
+    days?: number | null;
+    nights?: number | null;
   };
-  pricing: {
-    basePrice: number;
+  pricing?: {
+    basePrice?: number | null;
     currency?: string | null;
     /**
      * Leave empty if no discount
@@ -352,31 +404,33 @@ export interface Tour {
       [k: string]: unknown;
     } | null;
   };
-  itinerary: {
-    day: number;
-    title: string;
-    description: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
+  itinerary?:
+    | {
+        day?: number | null;
+        title?: string | null;
+        description?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
           [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-    meals?: ('breakfast' | 'lunch' | 'dinner')[] | null;
-    accommodation?: string | null;
-    id?: string | null;
-  }[];
+        } | null;
+        meals?: ('breakfast' | 'lunch' | 'dinner')[] | null;
+        accommodation?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   highlights?:
     | {
-        highlight: string;
+        highlight?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -391,26 +445,338 @@ export interface Tour {
     endDate?: string | null;
     departureDates?:
       | {
-          date: string;
-          availableSeats: number;
+          date?: string | null;
+          availableSeats?: number | null;
           id?: string | null;
         }[]
       | null;
   };
-  groupSize: {
+  groupSize?: {
     min?: number | null;
-    max: number;
+    max?: number | null;
   };
   difficulty?: ('easy' | 'moderate' | 'challenging' | 'difficult') | null;
   ageRequirement?: {
     minimum?: number | null;
     maximum?: number | null;
   };
-  status: 'active' | 'sold-out' | 'coming-soon' | 'inactive';
+  status?: ('active' | 'sold-out' | 'coming-soon' | 'inactive') | null;
   featured?: boolean | null;
   popularityScore?: number | null;
   metaTitle?: string | null;
   metaDescription?: string | null;
+  /**
+   * Why travelers should choose this tour with your company
+   */
+  whyChooseUs?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Environmental and community sustainability initiatives
+   */
+  commitmentToSustainability?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Environmental, cultural, and safety responsibilities
+   */
+  trekkersResponsibilities?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Physical, health, gear, permit, and mental preparation guide
+   */
+  trekkersPreparation?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Local culture, traditions, and community information
+   */
+  cultureAndCommunity?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Comprehensive packing list with categories
+   */
+  packingList?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Details about teahouses, lodges, and facilities
+   */
+  accommodationInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Meal options, typical dishes, and dietary information
+   */
+  foodInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Seasonal breakdown with weather and conditions
+   */
+  bestTimeToTrek?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * What a typical trekking day looks like
+   */
+  typicalRoutine?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Required permits, costs, and how to obtain them
+   */
+  permitInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Guide requirements and solo trekking policies
+   */
+  guideRequirement?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Altitude sickness prevention and acclimatization strategies
+   */
+  acclimatizationInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * ATM availability, cash requirements, and currency tips
+   */
+  currencyExchangeInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Passport, permits, insurance, and document requirements
+   */
+  requiredDocuments?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Women-specific services, guides, and safety arrangements
+   */
+  womenParticipation?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Frequently Asked Questions
+   */
+  faqs?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1246,6 +1612,24 @@ export interface ToursSelect<T extends boolean = true> {
   destination?: T;
   activityCategory?: T;
   tourType?: T;
+  region?: T;
+  maxAltitude?:
+    | T
+    | {
+        meters?: T;
+        feet?: T;
+        location?: T;
+      };
+  bestSeason?: T;
+  accommodationType?: T;
+  adventureWalkHours?: T;
+  totalMeals?:
+    | T
+    | {
+        breakfast?: T;
+        lunch?: T;
+        dinner?: T;
+      };
   description?: T;
   shortDescription?: T;
   featuredImage?: T;
@@ -1317,6 +1701,29 @@ export interface ToursSelect<T extends boolean = true> {
   popularityScore?: T;
   metaTitle?: T;
   metaDescription?: T;
+  whyChooseUs?: T;
+  commitmentToSustainability?: T;
+  trekkersResponsibilities?: T;
+  trekkersPreparation?: T;
+  cultureAndCommunity?: T;
+  packingList?: T;
+  accommodationInfo?: T;
+  foodInfo?: T;
+  bestTimeToTrek?: T;
+  typicalRoutine?: T;
+  permitInfo?: T;
+  guideRequirement?: T;
+  acclimatizationInfo?: T;
+  currencyExchangeInfo?: T;
+  requiredDocuments?: T;
+  womenParticipation?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

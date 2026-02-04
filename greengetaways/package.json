@@ -14,6 +14,9 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/index.ts",
+    "seed:ebc-trek": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/ebc-trek-seed.ts",
+    "seed:abc-trek": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/abc-trek-seed.ts",
+    "seed:manaslu-trek": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/manaslu-trek-seed.ts",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"

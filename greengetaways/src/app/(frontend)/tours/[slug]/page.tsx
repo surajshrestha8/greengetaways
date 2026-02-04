@@ -78,9 +78,9 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
   })
 
   const featuredImage = tour.featuredImage as Media
-  const price = tour.pricing.basePrice
-  const discountedPrice = tour.pricing.discountedPrice
-  const currency = tour.pricing.currency || 'USD'
+  const price = tour.pricing?.basePrice || 0
+  const discountedPrice = tour.pricing?.discountedPrice
+  const currency = tour.pricing?.currency || 'USD'
   const destinations = tour.destination as Destination[]
 
   // Prepare gallery images (featured image + gallery)
@@ -339,7 +339,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 <line x1="8" y1="2" x2="8" y2="6" />  
                 <line x1="3" y1="10" x2="21" y2="10" />
               </svg>
-              {tour.duration.days} Days / {tour.duration.nights} Nights
+              {tour.duration?.days || 0} Days / {tour.duration?.nights || 0} Nights
             </span>
             {tour.difficulty && (
               <span
@@ -444,7 +444,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
-                <span>{tour.duration.days} Days</span>
+                <span>{tour.duration?.days || 0} Days</span>
               </div>
               {tour.highlights && tour.highlights.length > 0 && (
                 <div className="quick-info-item">
@@ -486,22 +486,25 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 <p className="what-to-expect-subtitle">Key experiences on this journey</p>
                 <div className="experience-cards-container">
                   <div className="experience-cards">
-                    {tour.highlights.slice(0, 6).map((item, index) => (
-                      <div key={index} className="experience-card">
-                        <div className="experience-icon">
-                          {getExperienceIcon(item.highlight)}
+                    {tour.highlights.slice(0, 6).map((item, index) => {
+                      const highlight = item.highlight || ''
+                      return (
+                        <div key={index} className="experience-card">
+                          <div className="experience-icon">
+                            {getExperienceIcon(highlight)}
+                          </div>
+                          <div className="experience-content">
+                            <h4>{highlight.length > 40 ? highlight.substring(0, 40) + '...' : highlight}</h4>
+                            <p>
+                              {highlight.length > 40
+                                ? highlight
+                                : 'Experience the best this tour has to offer'
+                              }
+                            </p>
+                          </div>
                         </div>
-                        <div className="experience-content">
-                          <h4>{item.highlight.length > 40 ? item.highlight.substring(0, 40) + '...' : item.highlight}</h4>
-                          <p>
-                            {item.highlight.length > 40
-                              ? item.highlight
-                              : 'Experience the best this tour has to offer'
-                            }
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 </div>
               </div>
@@ -543,7 +546,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 <ul>
                   <li>
                     <span className="fact-label">Duration</span>
-                    <span className="fact-value">{tour.duration.days} Days / {tour.duration.nights} Nights</span>
+                    <span className="fact-value">{tour.duration?.days || 0} Days / {tour.duration?.nights || 0} Nights</span>
                   </li>
                   <li>
                     <span className="fact-label">Group Size</span>
