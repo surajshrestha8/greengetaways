@@ -4,8 +4,7 @@ import { getPayload } from 'payload'
 import Hero from './components/Hero'
 import TourCardSection from './components/TourCardSection'
 import WhyChooseUs from './components/WhyChooseUs'
-import TestimonialSection from './components/TestimonialSection'
-import BlogSection from './components/BlogSection'
+import CTASection from './components/CTASection'
 
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
@@ -19,24 +18,6 @@ export default async function HomePage() {
     limit: 6,
   })
 
-  const { docs: testimonials } = await payload.find({
-    collection: 'testimonials',
-    where: {
-      featured: { equals: true },
-      status: { equals: 'approved' },
-    },
-    limit: 3,
-  })
-
-  const { docs: blogs } = await payload.find({
-    collection: 'blog',
-    where: {
-      featured: { equals: true },
-      status: { equals: 'published' },
-    },
-    limit: 3,
-  })
-
   return (
     <>
       <Hero />
@@ -46,8 +27,7 @@ export default async function HomePage() {
         tours={featuredTours}
       />
       <WhyChooseUs />
-      <TestimonialSection testimonials={testimonials} />
-      <BlogSection blogs={blogs} />
+      <CTASection />
     </>
   )
 }

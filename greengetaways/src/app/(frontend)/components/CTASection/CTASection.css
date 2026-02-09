@@ -1,0 +1,130 @@
+.cta-section {
+  background: linear-gradient(135deg, rgba(30, 50, 30, 0.5) 0%, rgba(10, 30, 10, 0.7) 100%);
+  padding: 120px 20px;
+  text-align: center;
+  border-top: 1px solid rgba(76, 175, 80, 0.1);
+}
+
+.cta-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.cta-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 48px 0;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cta-button-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #4caf50;
+  color: #ffffff;
+  padding: 18px 36px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+}
+
+.cta-button-primary:hover {
+  background: #5bc05f;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(76, 175, 80, 0.4);
+}
+
+.cta-button-primary svg {
+  transition: transform 0.3s ease;
+}
+
+.cta-button-primary:hover svg {
+  transform: translateX(4px);
+}
+
+.cta-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: #ffffff;
+  padding: 18px 36px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.cta-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .cta-section {
+    padding: 100px 20px;
+  }
+
+  .cta-title {
+    font-size: 2.5rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 80px 20px;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.0625rem;
+    margin-bottom: 40px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .cta-button-primary,
+  .cta-button-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 32px;
+  }
+}

@@ -1,6 +1,6 @@
 .tour-card-section {
   background: #041202;
-  padding: 60px 20px;
+  padding: 100px 20px;
 }
 
 .tour-card-section-container {
@@ -10,20 +10,25 @@
 
 .tour-card-section-header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 64px;
 }
 
 .tour-card-section-title {
   color: #ffffff;
-  font-size: 2.25rem;
-  font-weight: 700;
-  margin: 0 0 12px 0;
+  font-size: 2.75rem;
+  font-weight: 800;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
 .tour-card-section-subtitle {
-  color: #a0a0a0;
-  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.125rem;
+  font-weight: 400;
   margin: 0;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -31,37 +36,41 @@
 
 .tour-card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+  gap: 40px;
+  justify-content: center;
 }
 
+
 @media (max-width: 1024px) {
-  .tour-card-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+  .tour-card-section {
+    padding: 80px 20px;
   }
 
-  .tour-card-section-title {
-    font-size: 1.875rem;
+  .tour-card-section-header {
+    margin-bottom: 56px;
   }
 }
 
 @media (max-width: 680px) {
   .tour-card-section {
-    padding: 40px 16px;
+    padding: 60px 16px;
   }
 
   .tour-card-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 380px));
     gap: 20px;
   }
 
   .tour-card-section-title {
-    font-size: 1.5rem;
+    font-size: 2rem;
+  }
+
+  .tour-card-section-subtitle {
+    font-size: 1rem;
   }
 
   .tour-card-section-header {
-    margin-bottom: 32px;
+    margin-bottom: 40px;
   }
 }

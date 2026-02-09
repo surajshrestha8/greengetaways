@@ -16,8 +16,7 @@ export default function Hero() {
           <span className="highlight"> Adventures</span>
         </h1>
         <p className="hero-subtitle">
-          Explore breathtaking destinations while preserving nature.
-          Experience eco-friendly tours that make a positive impact on local communities and the environment.
+          Explore breathtaking destinations while making a positive impact on nature and local communities.
         </p>
 
         {/* Search Box */}
@@ -58,14 +57,9 @@ export default function Hero() {
             <span className="stat-number">10K+</span>
             <span className="stat-label">Happy Travelers</span>
           </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">100%</span>
-            <span className="stat-label">Sustainable</span>
-          </div>
         </div>
 
-        {/* CTA Buttons */}
+        {/* CTA Button */}
         <div className="hero-cta">
           <Link href="/tours" className="cta-primary">
             Explore Tours
@@ -73,26 +67,6 @@ export default function Hero() {
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
-          <Link href="/about" className="cta-secondary">
-            Learn More
-          </Link>
-        </div>
-      </div>
-
-      {/* Decorative Elements */}
-      <div className="hero-decoration">
-        <div className="floating-leaf leaf-1">🍃</div>
-        <div className="floating-leaf leaf-2">🌿</div>
-        <div className="floating-leaf leaf-3">🍃</div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="scroll-indicator">
-        <span>Scroll to explore</span>
-        <div className="scroll-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
         </div>
       </div>
     </section>
