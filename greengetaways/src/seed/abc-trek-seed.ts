@@ -622,7 +622,34 @@ async function seed() {
       data: {
         name: 'Annapurna Region',
         slug: 'annapurna-region',
-        description: 'The Annapurna region is one of the most popular trekking destinations in Nepal, known for its diverse landscapes and stunning mountain views.',
+        country: 'Nepal',
+        continent: 'asia',
+        shortDescription: 'The Annapurna region is one of the most popular trekking destinations in Nepal, known for its diverse landscapes and stunning mountain views.',
+        description: {
+          root: {
+            type: 'root',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    type: 'text',
+                    text: 'The Annapurna region is one of the most popular trekking destinations in Nepal, known for its diverse landscapes and stunning mountain views.',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        },
         featured: true,
       },
     })
