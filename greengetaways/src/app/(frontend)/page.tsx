@@ -5,18 +5,26 @@ import Hero from './components/Hero'
 import TourCardSection from './components/TourCardSection'
 import WhyChooseUs from './components/WhyChooseUs'
 import CTASection from './components/CTASection'
+import type { Tour } from '@/payload-types'
 
 export default async function HomePage() {
-  const payload = await getPayload({ config: configPromise })
+  let featuredTours: Tour[] = []
 
-  const { docs: featuredTours } = await payload.find({
-    collection: 'tours',
-    where: {
-      featured: { equals: true },
-      status: { equals: 'active' },
-    },
-    limit: 6,
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'tours',
+      where: {
+        featured: { equals: true },
+        status: { equals: 'active' },
+      },
+      limit: 6,
+    })
+    featuredTours = result.docs
+  } catch (_error) {
+    // Database not ready yet (first deployment) - continue with empty data
+    console.log('Database not ready, continuing with empty tours')
+  }
 
   return (
     <>

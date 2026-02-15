@@ -15,7 +15,9 @@
       "Bash(pdftotext:*)",
       "Bash(npm run generate:types:*)",
       "Bash(npm run dev)",
-      "Bash(pnpm run build:*)"
+      "Bash(pnpm run build:*)",
+      "Bash(cd:*)",
+      "Bash(grep:*)"
     ]
   }
 }

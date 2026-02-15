@@ -52,6 +52,10 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
+      // Enable SSL for Supabase connections (connection string contains 'supabase.com')
+      ssl: (process.env.DATABASE_URI || process.env.DATABASE_URL || '').includes('supabase.com')
+        ? { rejectUnauthorized: false }
+        : false,
     },
   }),
   sharp,

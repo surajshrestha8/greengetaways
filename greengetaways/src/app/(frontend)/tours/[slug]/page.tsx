@@ -13,184 +13,194 @@ interface TourDetailPageProps {
   params: Promise<{ slug: string }>
 }
 
+// Force dynamic rendering to avoid database queries at build time
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ params }: TourDetailPageProps) {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
 
-  const { docs } = await payload.find({
-    collection: 'tours',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const { docs } = await payload.find({
+      collection: 'tours',
+      where: { slug: { equals: slug } },
+      limit: 1,
+    })
 
-  const tour = docs[0]
+    const tour = docs[0]
 
-  if (!tour) {
-    return { title: 'Tour Not Found - Green Getaways' }
-  }
+    if (!tour) {
+      return { title: 'Tour Not Found - Green Getaways' }
+    }
 
-  return {
-    title: `${tour.title} - Green Getaways`,
-    description: tour.shortDescription || tour.metaDescription,
+    return {
+      title: `${tour.title} - Green Getaways`,
+      description: tour.shortDescription || tour.metaDescription,
+    }
+  } catch (_error) {
+    // Database not ready yet
+    return { title: 'Tour - Green Getaways' }
   }
 }
 
 export default async function TourDetailPage({ params }: TourDetailPageProps) {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
 
-  const { docs } = await payload.find({
-    collection: 'tours',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
 
-  const tour = docs[0] as Tour
-
-  if (!tour) {
-    notFound()
-  }
-
-  // Fetch testimonials for this tour
-  const { docs: testimonials } = await payload.find({
-    collection: 'testimonials',
-    where: {
-      and: [
-        { tour: { equals: tour.id } },
-        { status: { equals: 'approved' } },
-      ],
-    },
-    limit: 10,
-    sort: '-createdAt',
-  })
-
-  // Fetch suggested tours (same tour type, excluding current tour)
-  const { docs: suggestedTours } = await payload.find({
-    collection: 'tours',
-    where: {
-      and: [
-        { slug: { not_equals: slug } },
-        { status: { equals: 'active' } },
-      ],
-    },
-    limit: 3,
-    sort: '-popularityScore',
-  })
-
-  const featuredImage = tour.featuredImage as Media
-  const price = tour.pricing?.basePrice || 0
-  const discountedPrice = tour.pricing?.discountedPrice
-  const currency = tour.pricing?.currency || 'USD'
-  const destinations = tour.destination as Destination[]
-
-  // Prepare gallery images (featured image + gallery)
-  const galleryImages: { url: string; alt: string }[] = []
-
-  // Add featured image first
-  if (featuredImage?.url) {
-    galleryImages.push({ url: featuredImage.url, alt: featuredImage.alt || tour.title })
-  }
-
-  // Add gallery images
-  if (tour.gallery && tour.gallery.length > 0) {
-    tour.gallery.forEach((item) => {
-      const img = item.image as Media
-      if (img?.url) {
-        galleryImages.push({ url: img.url, alt: img.alt || tour.title })
-      }
+    const { docs } = await payload.find({
+      collection: 'tours',
+      where: { slug: { equals: slug } },
+      limit: 1,
     })
-  }
 
-  const formatPrice = (amount: number, curr: string) => {
-    const symbol = curr === 'USD' ? '$' : curr
-    return `${symbol} ${amount.toLocaleString()}`
-  }
+    const tour = docs[0] as Tour
 
-  const difficultyColors: Record<string, string> = {
-    easy: '#4caf50',
-    moderate: '#ff9800',
-    challenging: '#f44336',
-    difficult: '#9c27b0',
-  }
+    if (!tour) {
+      notFound()
+    }
 
-  // Tour type colors
-  const tourTypeColors: Record<string, string> = {
-    adventure: '#ff6b35',
-    beach: '#00b4d8',
-    cultural: '#9c27b0',
-    wildlife: '#4caf50',
-    city: '#607d8b',
-    cruise: '#0077b6',
-    honeymoon: '#e91e63',
-    family: '#ff9800',
-    luxury: '#ffd700',
-    budget: '#8bc34a',
-  }
+    // Fetch testimonials for this tour
+    const { docs: testimonials } = await payload.find({
+      collection: 'testimonials',
+      where: {
+        and: [
+          { tour: { equals: tour.id } },
+          { status: { equals: 'approved' } },
+        ],
+      },
+      limit: 10,
+      sort: '-createdAt',
+    })
 
-  // Tour type icons
-  const tourTypeIcons: Record<string, React.ReactNode> = {
-    adventure: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M3 11l18-5v12L3 14v-3z" />
-        <path d="M11.6 16.8a3 3 0 11-5.8-1.6" />
-      </svg>
-    ),
-    beach: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="12" cy="5" r="3" />
-        <path d="M12 22V8M5 12l7 3 7-3" />
-      </svg>
-    ),
-    cultural: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-      </svg>
-    ),
-    wildlife: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M12 2a4 4 0 014 4c0 1.5-.8 3-2 4l2 10H8l2-10c-1.2-1-2-2.5-2-4a4 4 0 014-4z" />
-      </svg>
-    ),
-    city: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-        <path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01" />
-      </svg>
-    ),
-    cruise: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
-        <path d="M19.38 20A11.6 11.6 0 0020 17l-9-4-9 4c0 1 .19 2.04.56 3" />
-        <path d="M11 4V1l-1 3M19 8l-4-2" />
-      </svg>
-    ),
-    honeymoon: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z" />
-      </svg>
-    ),
-    family: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-      </svg>
-    ),
-    luxury: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    ),
-    budget: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <line x1="12" y1="1" x2="12" y2="23" />
-        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-      </svg>
-    ),
-  }
+    // Fetch suggested tours (same tour type, excluding current tour)
+    const { docs: suggestedTours } = await payload.find({
+      collection: 'tours',
+      where: {
+        and: [
+          { slug: { not_equals: slug } },
+          { status: { equals: 'active' } },
+        ],
+      },
+      limit: 3,
+      sort: '-popularityScore',
+    })
 
-  // Activity category icons
-  const activityIcons: Record<string, React.ReactNode> = {
+    const featuredImage = tour.featuredImage as Media
+    const price = tour.pricing?.basePrice || 0
+    const discountedPrice = tour.pricing?.discountedPrice
+    const currency = tour.pricing?.currency || 'USD'
+    const destinations = tour.destination as Destination[]
+
+    // Prepare gallery images (featured image + gallery)
+    const galleryImages: { url: string; alt: string }[] = []
+
+    // Add featured image first
+    if (featuredImage?.url) {
+      galleryImages.push({ url: featuredImage.url, alt: featuredImage.alt || tour.title })
+    }
+
+    // Add gallery images
+    if (tour.gallery && tour.gallery.length > 0) {
+      tour.gallery.forEach((item) => {
+        const img = item.image as Media
+        if (img?.url) {
+          galleryImages.push({ url: img.url, alt: img.alt || tour.title })
+        }
+      })
+    }
+
+    const formatPrice = (amount: number, curr: string) => {
+      const symbol = curr === 'USD' ? '$' : curr
+      return `${symbol} ${amount.toLocaleString()}`
+    }
+
+    const difficultyColors: Record<string, string> = {
+      easy: '#4caf50',
+      moderate: '#ff9800',
+      challenging: '#f44336',
+      difficult: '#9c27b0',
+    }
+
+    // Tour type colors
+    const tourTypeColors: Record<string, string> = {
+      adventure: '#ff6b35',
+      beach: '#00b4d8',
+      cultural: '#9c27b0',
+      wildlife: '#4caf50',
+      city: '#607d8b',
+      cruise: '#0077b6',
+      honeymoon: '#e91e63',
+      family: '#ff9800',
+      luxury: '#ffd700',
+      budget: '#8bc34a',
+    }
+
+    // Tour type icons
+    const tourTypeIcons: Record<string, React.ReactNode> = {
+      adventure: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M3 11l18-5v12L3 14v-3z" />
+          <path d="M11.6 16.8a3 3 0 11-5.8-1.6" />
+        </svg>
+      ),
+      beach: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="5" r="3" />
+          <path d="M12 22V8M5 12l7 3 7-3" />
+        </svg>
+      ),
+      cultural: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+      ),
+      wildlife: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 2a4 4 0 014 4c0 1.5-.8 3-2 4l2 10H8l2-10c-1.2-1-2-2.5-2-4a4 4 0 014-4z" />
+        </svg>
+      ),
+      city: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+          <path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01" />
+        </svg>
+      ),
+      cruise: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
+          <path d="M19.38 20A11.6 11.6 0 0020 17l-9-4-9 4c0 1 .19 2.04.56 3" />
+          <path d="M11 4V1l-1 3M19 8l-4-2" />
+        </svg>
+      ),
+      honeymoon: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z" />
+        </svg>
+      ),
+      family: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+        </svg>
+      ),
+      luxury: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      ),
+      budget: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="12" y1="1" x2="12" y2="23" />
+          <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+        </svg>
+      ),
+    }
+
+    // Activity category icons
+    const activityIcons: Record<string, React.ReactNode> = {
     trekking: (
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M13 16.5l3-3m0 0l3-3m-3 3l-3-3m3 3l3 3" />
@@ -314,10 +324,10 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     )
-  }
+    }
 
-  return (
-    <div className="tour-detail">
+    return (
+      <div className="tour-detail">
       {/* Tour Title Section */}
       <section className="tour-title-section">
         <div className="tour-title-container">
@@ -590,5 +600,10 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         </section>
       )}
     </div>
-  )
+    )
+  } catch (_error) {
+    // Database not ready or tour not found
+    console.log('Database error')
+    notFound()
+  }
 }

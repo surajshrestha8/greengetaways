@@ -2,6 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import TourCardSection from '../components/TourCardSection'
+import type { Tour } from '@/payload-types'
 import './tours.css'
 
 export const metadata = {
@@ -10,16 +11,23 @@ export const metadata = {
 }
 
 export default async function ToursPage() {
-  const payload = await getPayload({ config: configPromise })
+  let tours: Tour[] = []
 
-  const { docs: tours } = await payload.find({
-    collection: 'tours',
-    where: {
-      status: { equals: 'active' },
-    },
-    limit: 50,
-    sort: '-createdAt',
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'tours',
+      where: {
+        status: { equals: 'active' },
+      },
+      limit: 50,
+      sort: '-createdAt',
+    })
+    tours = result.docs
+  } catch (_error) {
+    // Database not ready yet (first deployment) - continue with empty data
+    console.log('Database not ready, continuing with empty tours')
+  }
 
   return (
     <div className="tours-page">
