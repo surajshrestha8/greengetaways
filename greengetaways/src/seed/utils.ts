@@ -19,7 +19,7 @@ export const COLLECTION_SLUGS = [
 export async function clearCollection(payload: Payload, collectionSlug: string): Promise<void> {
   try {
     const result = await payload.delete({
-      collection: collectionSlug as any,
+      collection: collectionSlug as (typeof COLLECTION_SLUGS)[number],
       where: {
         id: { exists: true },
       },

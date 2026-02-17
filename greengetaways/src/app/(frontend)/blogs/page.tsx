@@ -3,6 +3,9 @@ import configPromise from '@payload-config'
 import BlogSection from "../components/BlogSection"
 import type { Blog } from '@/payload-types'
 
+// Force dynamic rendering to avoid database queries at build time
+export const dynamic = 'force-dynamic'
+
 const Blogs = async () => {
     let blogs: Blog[] = []
 

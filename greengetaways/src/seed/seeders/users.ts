@@ -36,8 +36,8 @@ export async function seedUsers(payload: Payload): Promise<number[]> {
         })
         userIds.push(user.id)
         console.log(`  Created user: ${userData.email} (ID: ${user.id})`)
-      } catch (error: any) {
-        console.error(`  Error creating user ${userData.email}:`, error.message)
+      } catch (error: unknown) {
+        console.error(`  Error creating user ${userData.email}:`, error instanceof Error ? error.message : error)
       }
     }
   }

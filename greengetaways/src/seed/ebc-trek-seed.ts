@@ -12,8 +12,6 @@ import config from '@payload-config'
  * Run with: npx tsx src/seed/ebc-trek-seed.ts
  */
 
-type MealType = 'breakfast' | 'lunch' | 'dinner'
-
 const ebcTrekData = {
   title: 'Everest Base Camp Trek (EBC) 16 Days',
   slug: 'everest-base-camp-trek-16-days',
@@ -3081,7 +3079,7 @@ async function seed() {
         ...ebcTrekData,
         destination: [destinationId],
         activityCategory: [activityCategoryId],
-      } as any,
+      } as unknown as Record<string, unknown>,
     })
 
     console.log(`Tour updated successfully!`)
@@ -3094,7 +3092,7 @@ async function seed() {
         ...ebcTrekData,
         destination: [destinationId],
         activityCategory: [activityCategoryId],
-      } as any,
+      } as unknown as Record<string, unknown>,
     })
 
     console.log(`Tour created successfully!`)

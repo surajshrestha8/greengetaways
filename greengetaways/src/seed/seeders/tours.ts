@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import type { Payload } from 'payload'
+import type { Tour } from '@/payload-types'
 import {
   createRichText,
   generateSlug,
@@ -7,7 +8,6 @@ import {
   logComplete,
   logStart,
   randomInRange,
-  randomItem,
   randomItems,
 } from '../utils'
 
@@ -303,8 +303,6 @@ const TOUR_TEMPLATES: TourTemplate[] = [
   },
 ]
 
-const tourTypeOptions: ('adventure' | 'beach' | 'cultural' | 'wildlife' | 'city' | 'cruise' | 'honeymoon' | 'family' | 'luxury' | 'budget')[] = ['adventure', 'beach', 'cultural', 'wildlife', 'city', 'cruise', 'honeymoon', 'family', 'luxury', 'budget']
-
 export async function seedTours(
   payload: Payload,
   mediaId: number,
@@ -416,7 +414,7 @@ export async function seedTours(
         slug: generateSlug(tour.title),
         destination: randomItems(destinationIds, randomInRange(1, 2)),
         activityCategory: randomItems(categoryIds, randomInRange(1, 2)),
-        tourType: tour.type as any,
+        tourType: tour.type as Tour['tourType'],
         description: createRichText(faker.lorem.paragraphs(3)),
         shortDescription: faker.lorem.sentence(),
         featuredImage: mediaId,

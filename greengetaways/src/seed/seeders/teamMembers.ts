@@ -1,6 +1,5 @@
-import { faker } from '@faker-js/faker'
 import type { Payload } from 'payload'
-import { createRichText, logComplete, logStart, randomInRange, randomItem } from '../utils'
+import { createRichText, logComplete, logStart, randomInRange } from '../utils'
 
 interface TeamMemberData {
   fullName: string

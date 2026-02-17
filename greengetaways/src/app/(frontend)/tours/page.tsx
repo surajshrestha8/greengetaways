@@ -5,6 +5,9 @@ import TourCardSection from '../components/TourCardSection'
 import type { Tour } from '@/payload-types'
 import './tours.css'
 
+// Force dynamic rendering to avoid database queries at build time
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Tours - Green Getaways',
   description: 'Explore our eco-friendly tours and sustainable travel packages. Discover breathtaking destinations while preserving nature.',

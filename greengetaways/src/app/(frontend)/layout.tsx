@@ -13,17 +13,24 @@ export const metadata = {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
-  const payload = await getPayload({ config: configPromise })
+  let tours: import('@/payload-types').Tour[] = []
 
-  // Fetch active tours for the header dropdown
-  const { docs: tours } = await payload.find({
-    collection: 'tours',
-    where: {
-      status: { equals: 'active' },
-    },
-    limit: 10,
-    sort: '-featured,-createdAt',
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    // Fetch active tours for the header dropdown
+    const result = await payload.find({
+      collection: 'tours',
+      where: {
+        status: { equals: 'active' },
+      },
+      limit: 10,
+      sort: '-featured,-createdAt',
+    })
+    tours = result.docs
+  } catch (_error) {
+    // Database not ready yet (first deployment) - continue with empty data
+  }
 
   return (
     <html lang="en">

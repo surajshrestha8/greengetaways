@@ -617,7 +617,7 @@ async function seed() {
     )
     console.log('Creating Annapurna region destination...')
 
-    const destination = await payload.create({
+    await payload.create({
       collection: 'destinations',
       data: {
         name: 'Annapurna Region',
@@ -705,7 +705,7 @@ async function seed() {
         ...abcTrekData,
         destination: [destinationId],
         activityCategory: [activityCategoryId],
-      } as any,
+      } as unknown as Record<string, unknown>,
     })
 
     console.log(`Tour updated successfully!`)
@@ -718,7 +718,7 @@ async function seed() {
         ...abcTrekData,
         destination: [destinationId],
         activityCategory: [activityCategoryId],
-      } as any,
+      } as unknown as Record<string, unknown>,
     })
 
     console.log(`Tour created successfully!`)

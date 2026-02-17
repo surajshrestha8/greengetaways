@@ -1,5 +1,5 @@
 import type { Payload } from 'payload'
-import { createRichText, generateSlug, getPastDate, logComplete, logStart, randomInRange } from '../utils'
+import { createRichText, generateSlug, logComplete, logStart, randomInRange } from '../utils'
 
 interface CSRProjectData {
   projectName: string

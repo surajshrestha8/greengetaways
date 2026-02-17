@@ -7,6 +7,9 @@ import WhyChooseUs from './components/WhyChooseUs'
 import CTASection from './components/CTASection'
 import type { Tour } from '@/payload-types'
 
+// Force dynamic rendering to avoid database queries at build time
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   let featuredTours: Tour[] = []
 

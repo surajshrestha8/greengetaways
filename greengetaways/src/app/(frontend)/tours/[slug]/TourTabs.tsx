@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour, Media, Testimonial } from '@/payload-types'
 
@@ -19,7 +20,7 @@ const tabs: { key: TabKey; label: string }[] = [
   { key: 'faqs', label: 'FAQs' },
 ]
 
-export default function TourTabs({ tour, testimonials }: any) {
+export default function TourTabs({ tour, testimonials }: TourTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('itinerary')
 
   const formatPrice = (amount: number, currency: string) => {
@@ -58,7 +59,7 @@ export default function TourTabs({ tour, testimonials }: any) {
           <div className="tab-panel">
             {tour.itinerary && tour.itinerary.length > 0 ? (
               <div className="tour-itinerary">
-                {tour.itinerary.map((day: any, index: any) => (
+                {tour.itinerary.map((day: ItineraryDay, index: number) => (
                   <ItineraryItem key={index} day={day} defaultOpen={index === 0} />
                 ))}
               </div>
@@ -87,24 +88,10 @@ export default function TourTabs({ tour, testimonials }: any) {
                   </svg>
                   What&apos;s Included
                 </h3>
-                {tour.pricing?.priceIncludes && tour.pricing.priceIncludes.length > 0 ? (
-                  <ul className="includes-list included">
-                    {tour.pricing.priceIncludes.map((item: any, index: any) => (
-                      <li key={index}>
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#4caf50"
-                          strokeWidth="2"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        {item.item}
-                      </li>
-                    ))}
-                  </ul>
+                {tour.pricing?.priceIncludes ? (
+                  <div className="includes-list included">
+                    <RichText data={tour.pricing.priceIncludes} />
+                  </div>
                 ) : (
                   <p className="tab-empty">Inclusion details coming soon.</p>
                 )}
@@ -126,25 +113,10 @@ export default function TourTabs({ tour, testimonials }: any) {
                   </svg>
                   What&apos;s Not Included
                 </h3>
-                {tour.pricing?.priceExcludes && tour.pricing.priceExcludes.length > 0 ? (
-                  <ul className="includes-list excluded">
-                    {tour.pricing.priceExcludes.map((item: any, index: any) => (
-                      <li key={index}>
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#f44336"
-                          strokeWidth="2"
-                        >
-                          <line x1="18" y1="6" x2="6" y2="18" />
-                          <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
-                        {item.item}
-                      </li>
-                    ))}
-                  </ul>
+                {tour.pricing?.priceExcludes ? (
+                  <div className="includes-list excluded">
+                    <RichText data={tour.pricing.priceExcludes} />
+                  </div>
                 ) : (
                   <p className="tab-empty">Exclusion details coming soon.</p>
                 )}
@@ -190,14 +162,14 @@ export default function TourTabs({ tour, testimonials }: any) {
                       <span>Available Seats</span>
                       <span>Status</span>
                     </div>
-                    {tour.availability.departureDates.map((departure: any, index: any) => (
+                    {tour.availability.departureDates.map((departure: { date?: string | null; availableSeats?: number | null }, index: number) => (
                       <div key={index} className="dates-table-row">
-                        <span className="departure-date">{formatDate(departure.date)}</span>
-                        <span className="departure-seats">{departure.availableSeats} seats</span>
+                        <span className="departure-date">{departure.date ? formatDate(departure.date) : 'TBD'}</span>
+                        <span className="departure-seats">{departure.availableSeats ?? 0} seats</span>
                         <span
-                          className={`departure-status ${departure.availableSeats > 0 ? 'available' : 'sold-out'}`}
+                          className={`departure-status ${(departure.availableSeats ?? 0) > 0 ? 'available' : 'sold-out'}`}
                         >
-                          {departure.availableSeats > 0 ? 'Available' : 'Sold Out'}
+                          {(departure.availableSeats ?? 0) > 0 ? 'Available' : 'Sold Out'}
                         </span>
                       </div>
                     ))}
@@ -215,18 +187,20 @@ export default function TourTabs({ tour, testimonials }: any) {
           <div className="tab-panel">
             {testimonials && testimonials.length > 0 ? (
               <div className="reviews-list">
-                {testimonials.map((testimonial: any) => (
+                {testimonials.map((testimonial: Testimonial) => (
                   <div key={testimonial.id} className="review-card">
                     <div className="review-header">
                       <div className="reviewer-info">
                         {testimonial.customerPhoto && (
                           <div className="reviewer-photo">
-                            <img
+                            <Image
                               src={
                                 (testimonial.customerPhoto as Media).url ||
                                 '/placeholder-avatar.jpg'
                               }
                               alt={testimonial.customerName}
+                              width={48}
+                              height={48}
                             />
                           </div>
                         )}
@@ -349,13 +323,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 // Itinerary Item Component with accordion behavior
-interface ItineraryDay {
-  day?: number | null
-  title?: string | null
-  description?: any
-  meals?: ('breakfast' | 'lunch' | 'dinner')[] | null
-  accommodation?: string | null
-}
+type ItineraryDay = NonNullable<Tour['itinerary']>[number]
 
 function ItineraryItem({ day, defaultOpen = false }: { day: ItineraryDay; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen)

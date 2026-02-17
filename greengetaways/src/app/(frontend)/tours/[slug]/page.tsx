@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Tour, Media, Destination, Testimonial, ActivityCategory } from '@/payload-types'
+import type { Tour, Media, Testimonial, ActivityCategory } from '@/payload-types'
 import TourCard from '../../components/TourCard'
 import TourTabs from './TourTabs'
 import './tour-detail.css'
@@ -91,8 +91,6 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     const price = tour.pricing?.basePrice || 0
     const discountedPrice = tour.pricing?.discountedPrice
     const currency = tour.pricing?.currency || 'USD'
-    const destinations = tour.destination as Destination[]
-
     // Prepare gallery images (featured image + gallery)
     const galleryImages: { url: string; alt: string }[] = []
 

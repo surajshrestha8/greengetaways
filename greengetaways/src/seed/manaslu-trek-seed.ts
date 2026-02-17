@@ -986,7 +986,7 @@ async function seed() {
       'Error: Destination with slug "manaslu-region" not found. Creating it now...',
     )
 
-    const destination = await payload.create({
+    await payload.create({
       collection: 'destinations',
       data: {
         name: 'Manaslu Region',
@@ -1048,7 +1048,7 @@ async function seed() {
         ...manasluTrekData,
         destination: [destinationId],
         activityCategory: [activityCategoryId],
-      } as any,
+      } as unknown as Record<string, unknown>,
     })
 
     console.log(`Tour updated successfully!`)
@@ -1061,7 +1061,7 @@ async function seed() {
         ...manasluTrekData,
         destination: [destinationId],
         activityCategory: [activityCategoryId],
-      } as any,
+      } as unknown as Record<string, unknown>,
     })
 
     console.log(`Tour created successfully!`)
