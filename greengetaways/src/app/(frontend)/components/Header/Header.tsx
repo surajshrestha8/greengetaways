@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Tour } from '@/payload-types'
 import './Header.css'
 
@@ -14,47 +15,51 @@ interface NavItem {
 
 interface HeaderProps {
   tours: Tour[]
+  logoUrl?: string | null
 }
 
-export default function Header({ tours }: HeaderProps) {
-  const navItems: NavItem[] = useMemo(() => [
-    { label: 'Home', href: '/' },
-    {
-      label: 'Tours',
-      href: '/tours',
-      hasDropdown: true,
-      dropdownItems: [
-        { label: 'All Tours', href: '/tours' },
-        ...tours.map(tour => ({
-          label: tour.title,
-          href: `/tours/${tour.slug}`,
-        })),
-      ],
-    },
-    {
-      label: 'Destinations',
-      href: '/destinations',
-      hasDropdown: true,
-      dropdownItems: [
-        { label: 'Everest Region', href: '/destinations/everest' },
-        { label: 'Annapurna Region', href: '/destinations/annapurna' },
-        { label: 'Manaslu Region', href: '/destinations/manaslu' },
-        { label: 'Langtang Region', href: '/destinations/langtang' },
-      ],
-    },
-    {
-      label: 'About',
-      href: '/about',
-      hasDropdown: true,
-      dropdownItems: [
-        { label: 'Our Story', href: '/about' },
-        { label: 'Why Choose Us', href: '/about/why-us' },
-        { label: 'Our Team', href: '/about/team' },
-        { label: 'Sustainability', href: '/about/sustainability' },
-      ],
-    },
-    { label: 'Contact', href: '/contact' },
-  ], [tours])
+export default function Header({ tours, logoUrl }: HeaderProps) {
+  const navItems: NavItem[] = useMemo(
+    () => [
+      { label: 'Home', href: '/' },
+      {
+        label: 'Tours',
+        href: '/tours',
+        hasDropdown: true,
+        dropdownItems: [
+          { label: 'All Tours', href: '/tours' },
+          ...tours.map((tour) => ({
+            label: tour.title,
+            href: `/tours/${tour.slug}`,
+          })),
+        ],
+      },
+      {
+        label: 'Destinations',
+        href: '/destinations',
+        hasDropdown: true,
+        dropdownItems: [
+          { label: 'Everest Region', href: '/destinations/everest' },
+          { label: 'Annapurna Region', href: '/destinations/annapurna' },
+          { label: 'Manaslu Region', href: '/destinations/manaslu' },
+          { label: 'Langtang Region', href: '/destinations/langtang' },
+        ],
+      },
+      {
+        label: 'About',
+        href: '/about',
+        hasDropdown: true,
+        dropdownItems: [
+          { label: 'Our Story', href: '/about' },
+          { label: 'Why Choose Us', href: '/about/why-us' },
+          { label: 'Our Team', href: '/about/team' },
+          { label: 'Sustainability', href: '/about/sustainability' },
+        ],
+      },
+      { label: 'Contact', href: '/contact' },
+    ],
+    [tours],
+  )
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -84,19 +89,32 @@ export default function Header({ tours }: HeaderProps) {
       <div className="header-container">
         {/* Logo */}
         <Link href="/" className="logo">
-          <div className="logo-icon">
-            <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="30" cy="20" rx="28" ry="18" fill="#e8f5e9" />
-              <path d="M5 32 L18 12 L25 20 L35 8 L50 32 Z" fill="#2e7d32" />
-              <path d="M35 8 L40 15 L35 15 Z" fill="#ffffff" />
-              <circle cx="20" cy="28" r="1.5" fill="#1b5e20" />
-              <line x1="20" y1="29.5" x2="20" y2="33" stroke="#1b5e20" strokeWidth="1.2" />
-            </svg>
-          </div>
-          <div className="logo-text">
-            <span className="logo-title">Green Getaways</span>
-            <span className="logo-tagline">Sustainable Adventures</span>
-          </div>
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt="Green Getaways"
+              width={180}
+              height={180}
+              className="logo-image"
+              priority
+            />
+          ) : (
+            <>
+              <div className="logo-icon">
+                <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <ellipse cx="30" cy="20" rx="28" ry="18" fill="#e8f5e9" />
+                  <path d="M5 32 L18 12 L25 20 L35 8 L50 32 Z" fill="#2e7d32" />
+                  <path d="M35 8 L40 15 L35 15 Z" fill="#ffffff" />
+                  <circle cx="20" cy="28" r="1.5" fill="#1b5e20" />
+                  <line x1="20" y1="29.5" x2="20" y2="33" stroke="#1b5e20" strokeWidth="1.2" />
+                </svg>
+              </div>
+              <div className="logo-text">
+                <span className="logo-title">Green Getaways</span>
+                <span className="logo-tagline">Sustainable Adventures</span>
+              </div>
+            </>
+          )}
         </Link>
 
         {/* Desktop Navigation */}
