@@ -255,121 +255,57 @@
   margin: 0;
 }
 
-/* Highlights List */
-.tour-highlights-list {
-  margin-top: 24px;
+/* Tour Highlights Section */
+.tour-highlights {
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.tour-highlights-list h3 {
-  font-size: 18px;
-  font-weight: 600;
+.tour-highlights h2 {
+  font-size: 24px;
+  font-weight: 700;
   color: #ffffff;
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
 }
 
-.tour-highlights-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.highlights-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
-.tour-highlights-list li {
+.highlight-item {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 14px;
-  color: #c0c0c0;
-}
-
-.tour-highlights-list li svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-/* What to Expect Section */
-.what-to-expect {
-  padding: 32px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.what-to-expect h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 8px 0;
-}
-
-.what-to-expect-subtitle {
-  font-size: 14px;
-  color: #a0a0a0;
-  margin: 0 0 24px 0;
-}
-
-.experience-cards-container {
-  overflow: hidden;
-}
-
-.experience-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.experience-card {
-  display: flex;
-  gap: 16px;
-  padding: 20px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
 }
 
-.experience-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(105, 189, 69, 0.3);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+.highlight-item:hover {
+  background: rgba(105, 189, 69, 0.06);
+  border-color: rgba(105, 189, 69, 0.25);
 }
 
-.experience-icon {
+.highlight-icon {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(105, 189, 69, 0.2) 0%, rgba(105, 189, 69, 0.1) 100%);
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(105, 189, 69, 0.2) 0%, rgba(105, 189, 69, 0.08) 100%);
+  border-radius: 10px;
   color: #69bd45;
 }
 
-.experience-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.experience-content h4 {
+.highlight-text {
   font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0 0 6px 0;
-  line-height: 1.4;
-}
-
-.experience-content p {
-  font-size: 12px;
+  color: #c8c8c8;
   line-height: 1.5;
-  color: #a0a0a0;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* Why Choose Us Section */
@@ -1452,9 +1388,9 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Experience cards - 2 columns on tablet */
-  .experience-cards {
-    grid-template-columns: repeat(2, 1fr);
+  /* Highlights grid - single column on tablet */
+  .highlights-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1487,10 +1423,6 @@
     gap: 12px;
   }
 
-  .tour-highlights-list ul {
-    grid-template-columns: 1fr;
-  }
-
   .tour-tabs-nav {
     overflow-x: auto;
   }
@@ -1517,30 +1449,6 @@
 
   .suggested-tours-header h2 {
     font-size: 24px;
-  }
-
-  /* Experience cards - horizontal scroll on mobile */
-  .experience-cards-container {
-    margin: 0 -16px;
-    padding: 0 16px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .experience-cards-container::-webkit-scrollbar {
-    display: none;
-  }
-
-  .experience-cards {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 8px;
-  }
-
-  .experience-card {
-    flex: 0 0 280px;
-    min-width: 280px;
   }
 
   /* Badges and pills adjustments */
@@ -1602,24 +1510,7 @@
     gap: 12px;
   }
 
-  /* Smaller experience cards on small screens */
-  .experience-card {
-    flex: 0 0 240px;
-    min-width: 240px;
-    padding: 16px;
-  }
-
-  .experience-icon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .experience-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .what-to-expect h2 {
+  .tour-highlights h2 {
     font-size: 20px;
   }
 }

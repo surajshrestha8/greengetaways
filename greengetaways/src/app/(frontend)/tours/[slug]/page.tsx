@@ -480,51 +480,24 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
               <h2>Overview</h2>
               <p>{tour.shortDescription}</p>
 
-              {/* Highlights */}
-              {tour.highlights && tour.highlights.length > 0 && (
-                <div className="tour-highlights-list">
-                  <h3>Tour Highlights</h3>
-                  <ul>
-                    {tour.highlights.map((item, index) => (
-                      <li key={index}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4caf50" strokeWidth="3">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        {item.highlight}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
 
-            {/* What to Expect Section */}
+            {/* Tour Highlights */}
             {tour.highlights && tour.highlights.length > 0 && (
-              <div className="what-to-expect">
-                <h2>What to Expect</h2>
-                <p className="what-to-expect-subtitle">Key experiences on this journey</p>
-                <div className="experience-cards-container">
-                  <div className="experience-cards">
-                    {tour.highlights.slice(0, 6).map((item, index) => {
-                      const highlight = item.highlight || ''
-                      return (
-                        <div key={index} className="experience-card">
-                          <div className="experience-icon">
-                            {getExperienceIcon(highlight)}
-                          </div>
-                          <div className="experience-content">
-                            <h4>{highlight.length > 40 ? highlight.substring(0, 40) + '...' : highlight}</h4>
-                            <p>
-                              {highlight.length > 40
-                                ? highlight
-                                : 'Experience the best this tour has to offer'
-                              }
-                            </p>
-                          </div>
+              <div className="tour-highlights">
+                <h2>Tour Highlights</h2>
+                <div className="highlights-grid">
+                  {tour.highlights.map((item, index) => {
+                    const highlight = item.highlight || ''
+                    return (
+                      <div key={index} className="highlight-item">
+                        <div className="highlight-icon">
+                          {getExperienceIcon(highlight)}
                         </div>
-                      )
-                    })}
-                  </div>
+                        <span className="highlight-text">{highlight}</span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
