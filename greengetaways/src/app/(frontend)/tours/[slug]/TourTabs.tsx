@@ -10,12 +10,13 @@ interface TourTabsProps {
   testimonials: Testimonial[]
 }
 
-type TabKey = 'itinerary' | 'includes' | 'dates-prices' | 'reviews' | 'faqs'
+type TabKey = 'itinerary' | 'includes' | 'dates-prices' | 'useful-info' | 'reviews' | 'faqs'
 
 const tabs: { key: TabKey; label: string }[] = [
   { key: 'itinerary', label: 'Itinerary' },
   { key: 'includes', label: 'Includes' },
   { key: 'dates-prices', label: 'Dates & Prices' },
+  { key: 'useful-info', label: 'Useful Info' },
   { key: 'reviews', label: 'Reviews' },
   { key: 'faqs', label: 'FAQs' },
 ]
@@ -182,6 +183,41 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
           </div>
         )}
 
+        {/* Useful Info Tab */}
+        {activeTab === 'useful-info' && (
+          <div className="tab-panel">
+            {(() => {
+              const infoItems = [
+                { title: 'Commitment to Sustainability', content: tour.commitmentToSustainability },
+                { title: 'Trekkers Responsibilities',    content: tour.trekkersResponsibilities },
+                { title: 'Trekkers Preparation',         content: tour.trekkersPreparation },
+                { title: 'Culture & Community',          content: tour.cultureAndCommunity },
+                { title: 'Packing List',                 content: tour.packingList },
+                { title: 'Accommodation',                content: tour.accommodationInfo },
+                { title: 'Food & Dining',                content: tour.foodInfo },
+                { title: 'Best Time to Visit',           content: tour.bestTimeToTrek },
+                { title: 'Typical Daily Routine',        content: tour.typicalRoutine },
+                { title: 'Permits & Fees',               content: tour.permitInfo },
+                { title: 'Guide Requirements',           content: tour.guideRequirement },
+                { title: 'Acclimatization',              content: tour.acclimatizationInfo },
+                { title: 'Currency & Exchange',          content: tour.currencyExchangeInfo },
+                { title: 'Required Documents',           content: tour.requiredDocuments },
+                { title: 'Women Participation',          content: tour.womenParticipation },
+              ].filter(item => item.content != null)
+
+              return infoItems.length > 0 ? (
+                <div className="useful-info-list">
+                  {infoItems.map((item, index) => (
+                    <InfoAccordionItem key={index} title={item.title} content={item.content!} />
+                  ))}
+                </div>
+              ) : (
+                <p className="tab-empty">No additional information available for this tour.</p>
+              )
+            })()}
+          </div>
+        )}
+
         {/* Reviews Tab */}
         {activeTab === 'reviews' && (
           <div className="tab-panel">
@@ -263,29 +299,19 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
         {/* FAQs Tab */}
         {activeTab === 'faqs' && (
           <div className="tab-panel">
-            <div className="faqs-list">
-              {/* Common FAQs for tours - you can make this dynamic later */}
-              <FAQItem
-                question="What is the cancellation policy?"
-                answer="Free cancellation up to 30 days before departure. 50% refund for cancellations 15-29 days before. No refund for cancellations less than 15 days before departure."
-              />
-              <FAQItem
-                question="What should I pack for this tour?"
-                answer="We recommend comfortable walking shoes, weather-appropriate clothing, sunscreen, a hat, and a reusable water bottle. A detailed packing list will be provided upon booking."
-              />
-              <FAQItem
-                question="Are meals included in the tour?"
-                answer="Meal inclusions vary by day and are detailed in the itinerary. Generally, breakfast is included daily. Check the 'Includes' tab for specific details."
-              />
-              <FAQItem
-                question="What is the group size?"
-                answer={`This tour operates with a minimum of ${tour.groupSize?.min || 1} and maximum of ${tour.groupSize?.max} travelers to ensure a quality experience.`}
-              />
-              <FAQItem
-                question="Is travel insurance required?"
-                answer="Yes, comprehensive travel insurance is mandatory for all participants. We recommend coverage that includes trip cancellation, medical expenses, and emergency evacuation."
-              />
-            </div>
+            {tour.faqs && tour.faqs.length > 0 ? (
+              <div className="faqs-list">
+                {tour.faqs.map((faq, index) => (
+                  <FAQItem
+                    key={index}
+                    question={faq.question}
+                    answer={faq.answer}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="tab-empty">No FAQs available for this tour.</p>
+            )}
           </div>
         )}
       </div>
@@ -294,7 +320,9 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
 }
 
 // FAQ Item Component with accordion behavior
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+type FAQAnswer = NonNullable<NonNullable<Tour['faqs']>[number]>['answer']
+
+function FAQItem({ question, answer }: { question: string; answer: FAQAnswer }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -315,7 +343,38 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       </button>
       {isOpen && (
         <div className="faq-answer">
-          <p>{answer}</p>
+          <RichText data={answer} />
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Info Accordion Item Component for Useful Info tab
+type RichTextContent = NonNullable<Tour['packingList']>
+
+function InfoAccordionItem({ title, content }: { title: string; content: RichTextContent }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div className={`info-accordion-item ${isOpen ? 'open' : ''}`}>
+      <button className="info-accordion-header" onClick={() => setIsOpen(!isOpen)}>
+        <span>{title}</span>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className={`info-accordion-icon ${isOpen ? 'rotated' : ''}`}
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="info-accordion-content">
+          <RichText data={content} />
         </div>
       )}
     </div>

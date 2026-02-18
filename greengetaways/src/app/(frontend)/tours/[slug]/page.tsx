@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour, Media, Testimonial, ActivityCategory } from '@/payload-types'
 import TourCard from '../../components/TourCard'
 import TourTabs from './TourTabs'
@@ -514,6 +515,16 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                       )
                     })}
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* Why Choose Us Section */}
+            {tour.whyChooseUs && (
+              <div className="why-choose-us">
+                <h2>Why Choose Us</h2>
+                <div className="why-choose-us-content">
+                  <RichText data={tour.whyChooseUs} />
                 </div>
               </div>
             )}

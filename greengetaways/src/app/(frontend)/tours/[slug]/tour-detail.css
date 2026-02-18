@@ -372,6 +372,46 @@
   overflow: hidden;
 }
 
+/* Why Choose Us Section */
+.why-choose-us {
+  padding: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(76, 175, 80, 0.15);
+  border-radius: 16px;
+}
+
+.why-choose-us h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+}
+
+.why-choose-us-content {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #c0c0c0;
+}
+
+.why-choose-us-content p {
+  margin: 0 0 12px 0;
+}
+
+.why-choose-us-content p:last-child {
+  margin-bottom: 0;
+}
+
+.why-choose-us-content ul,
+.why-choose-us-content ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.why-choose-us-content li {
+  margin-bottom: 6px;
+}
+
 /* ===== TABS STYLES ===== */
 .tour-tabs {
   background: rgba(255, 255, 255, 0.03);
@@ -896,6 +936,81 @@
   line-height: 1.7;
   color: #c0c0c0;
   margin: 0;
+}
+
+/* Useful Info Tab */
+.useful-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-accordion-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.info-accordion-item.open {
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.info-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 18px 20px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.info-accordion-header:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.info-accordion-icon {
+  flex-shrink: 0;
+  color: #4caf50;
+  transition: transform 0.3s;
+}
+
+.info-accordion-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.info-accordion-content {
+  padding: 0 20px 20px;
+  animation: fadeIn 0.3s ease;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #c0c0c0;
+}
+
+.info-accordion-content p {
+  margin: 0 0 8px 0;
+}
+
+.info-accordion-content p:last-child {
+  margin-bottom: 0;
+}
+
+.info-accordion-content ul,
+.info-accordion-content ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.info-accordion-content li {
+  margin-bottom: 4px;
 }
 
 /* Sidebar */

@@ -18,6 +18,7 @@ import { CSRProjects } from './collections/CsrProjects'
 import { SpecialServices } from './collections/SpecialServices'
 import { Fleet } from './collections/Fleet'
 import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,6 +30,23 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  plugins: [
+    s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: process.env.SUPABASE_BUCKET_NAME || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.SUPABASE_S3_ACCESS_KEY || '',
+          secretAccessKey: process.env.SUPABASE_S3_SECRET_KEY || '',
+        },
+        region: process.env.SUPABASE_REGION || 'ap-northeast-2',
+        endpoint: process.env.SUPABASE_S3_ENDPOINT,
+        forcePathStyle: true, // required for Supabase
+      },
+    }),
+  ],
   collections: [
     Users,
     Media,
@@ -59,5 +77,4 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
 })
