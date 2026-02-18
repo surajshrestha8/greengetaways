@@ -92,20 +92,30 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     const price = tour.pricing?.basePrice || 0
     const discountedPrice = tour.pricing?.discountedPrice
     const currency = tour.pricing?.currency || 'USD'
+
+    const getSupabaseImageUrl = (media: Media | null | undefined): string | null => {
+      if (media?.filename && process.env.SUPABASE_PUBLIC_URL) {
+        return `${process.env.SUPABASE_PUBLIC_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET_NAME}/${media.filename}`
+      }
+      return media?.url || null
+    }
+
     // Prepare gallery images (featured image + gallery)
     const galleryImages: { url: string; alt: string }[] = []
 
     // Add featured image first
-    if (featuredImage?.url) {
-      galleryImages.push({ url: featuredImage.url, alt: featuredImage.alt || tour.title })
+    const featuredUrl = getSupabaseImageUrl(featuredImage)
+    if (featuredUrl) {
+      galleryImages.push({ url: featuredUrl, alt: featuredImage.alt || tour.title })
     }
 
     // Add gallery images
     if (tour.gallery && tour.gallery.length > 0) {
       tour.gallery.forEach((item) => {
         const img = item.image as Media
-        if (img?.url) {
-          galleryImages.push({ url: img.url, alt: img.alt || tour.title })
+        const imgUrl = getSupabaseImageUrl(img)
+        if (imgUrl) {
+          galleryImages.push({ url: imgUrl, alt: img?.alt || tour.title })
         }
       })
     }

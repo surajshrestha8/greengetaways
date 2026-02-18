@@ -20,7 +20,9 @@
       "Bash(grep:*)",
       "WebFetch(domain:www.magicalnepal.com)",
       "Bash(npm install:*)",
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

@@ -8,9 +8,16 @@ interface TourCardProps {
   tour: Tour
 }
 
+function getSupabaseImageUrl(media: Media | null | undefined, fallback: string): string {
+  if (media?.filename && process.env.SUPABASE_PUBLIC_URL) {
+    return `${process.env.SUPABASE_PUBLIC_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET_NAME}/${media.filename}`
+  }
+  return media?.url || fallback
+}
+
 export default function TourCard({ tour }: TourCardProps) {
   const featuredImage = tour.featuredImage as Media
-  const imageUrl = featuredImage?.url || '/placeholder-tour.jpg'
+  const imageUrl = getSupabaseImageUrl(featuredImage, '/placeholder-tour.jpg')
   const duration = tour.duration?.days || 0
   const price = tour.pricing?.basePrice || 0
   const discountedPrice = tour.pricing?.discountedPrice
