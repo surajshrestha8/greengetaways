@@ -1,4 +1,7 @@
 :root {
+  --font-heading: 'Atyp Text', sans-serif;
+  --font-body: 'Atyp Text', sans-serif;
+  --font-ui: 'Montserrat', sans-serif;
   --font-mono: 'Roboto Mono', monospace;
   --color-primary: #009444;
   --color-primary-dark: #006d30;
@@ -29,7 +32,7 @@ body,
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.7;
   font-weight: 400;
@@ -146,6 +149,60 @@ a {
 
 svg {
   vertical-align: middle;
+}
+
+/* ── Typography ─────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+/* Montserrat Light for navigation, labels, badges, buttons, meta */
+.nav-link,
+.dropdown-link,
+.mobile-nav-link,
+.mobile-dropdown-link,
+.cta-btn,
+.form-label,
+.contact-label,
+.tour-card-badge,
+.tour-card-meta,
+.stat-label,
+.summary-title,
+.booking-reference-label,
+.contact-info-label,
+.contact-hours-row,
+.badge,
+button,
+input,
+select,
+textarea,
+.btn-primary-action,
+.btn-outline,
+.submit-btn,
+.contact-submit-btn,
+.subscribe-btn,
+.search-btn,
+.cta-button-primary,
+.cta-button-secondary,
+.cta-primary,
+.tour-card-btn,
+.book-now-btn,
+.inquiry-btn,
+.blog-explore-btn,
+.blog-card-link,
+.back-to-tour-link,
+.footer-link,
+.footer-contact-link,
+.logo-tagline,
+.tour-tab-btn,
+.tour-card-price-per,
+.fact-label,
+.itinerary-day-number,
+.departure-status,
+.activity-pill {
+  font-family: var(--font-ui);
+  font-weight: 300;
 }
 
 .home {
