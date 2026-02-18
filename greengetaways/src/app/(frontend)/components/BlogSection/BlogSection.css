@@ -1,5 +1,5 @@
 .blog-section {
-  background: #0d1f0d;
+  background: #091e22;
   padding: 60px 20px;
 }
 
@@ -41,9 +41,9 @@
 .blog-explore-btn {
   display: inline-block;
   background: transparent;
-  color: #d4a857;
+  color: #fbb040;
   padding: 12px 32px;
-  border: 2px solid #d4a857;
+  border: 2px solid #fbb040;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
@@ -52,8 +52,8 @@
 }
 
 .blog-explore-btn:hover {
-  background: #d4a857;
-  color: #1a2e1a;
+  background: #fbb040;
+  color: #0a1e22;
 }
 
 @media (max-width: 1024px) {

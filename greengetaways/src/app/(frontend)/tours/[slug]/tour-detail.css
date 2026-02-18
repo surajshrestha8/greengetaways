@@ -1,12 +1,12 @@
 .tour-detail {
   min-height: 100vh;
-  background: #041202;
+  background: #0d2b2f;
 }
 
 /* Title Section */
 .tour-title-section {
   padding: 40px 24px 24px;
-  background: linear-gradient(180deg, rgba(46, 125, 50, 0.1) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 148, 68, 0.1) 0%, transparent 100%);
 }
 
 .tour-title-container {
@@ -38,7 +38,7 @@
 }
 
 .tour-meta-info svg {
-  color: #4caf50;
+  color: #69bd45;
 }
 
 /* Tour Type Badges & Activity Pills */
@@ -97,14 +97,14 @@
 }
 
 .activity-pill:hover {
-  border-color: #4caf50;
-  color: #4caf50;
-  background: rgba(76, 175, 80, 0.1);
+  border-color: #69bd45;
+  color: #69bd45;
+  background: rgba(105, 189, 69, 0.1);
 }
 
 .activity-pill svg {
   flex-shrink: 0;
-  color: #4caf50;
+  color: #69bd45;
 }
 
 /* Gallery Section */
@@ -232,7 +232,7 @@
 }
 
 .tour-quick-info-bar .quick-info-item svg {
-  color: #4caf50;
+  color: #69bd45;
 }
 
 /* Overview Section */
@@ -331,7 +331,7 @@
 
 .experience-card:hover {
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(105, 189, 69, 0.3);
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
@@ -343,9 +343,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(105, 189, 69, 0.2) 0%, rgba(105, 189, 69, 0.1) 100%);
   border-radius: 12px;
-  color: #4caf50;
+  color: #69bd45;
 }
 
 .experience-content {
@@ -377,7 +377,7 @@
   padding: 32px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(105, 189, 69, 0.15);
   border-radius: 16px;
 }
 
@@ -454,8 +454,8 @@
 }
 
 .tour-tab-btn.active {
-  color: #4caf50;
-  background: rgba(76, 175, 80, 0.1);
+  color: #69bd45;
+  background: rgba(105, 189, 69, 0.1);
 }
 
 .tour-tab-btn.active::after {
@@ -465,7 +465,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: #4caf50;
+  background: #69bd45;
 }
 
 .tour-tabs-content {
@@ -510,7 +510,7 @@
 }
 
 .itinerary-item.open {
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(105, 189, 69, 0.3);
 }
 
 .itinerary-header {
@@ -521,7 +521,7 @@
   padding: 18px 20px;
   background: transparent;
   border: none;
-  border-left: 4px solid #4caf50;
+  border-left: 4px solid #69bd45;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -540,7 +540,7 @@
   font-size: 12px;
   font-weight: 700;
   color: #ffffff;
-  background: #4caf50;
+  background: #69bd45;
   padding: 4px 12px;
   border-radius: 20px;
   text-transform: uppercase;
@@ -557,7 +557,7 @@
 
 .itinerary-icon {
   flex-shrink: 0;
-  color: #4caf50;
+  color: #69bd45;
   transition: transform 0.3s;
 }
 
@@ -567,7 +567,7 @@
 
 .itinerary-content {
   padding: 0 20px 20px 20px;
-  border-left: 4px solid #4caf50;
+  border-left: 4px solid #69bd45;
   animation: fadeIn 0.3s ease;
 }
 
@@ -615,7 +615,7 @@
 
 .itinerary-meals svg,
 .itinerary-accommodation svg {
-  color: #4caf50;
+  color: #69bd45;
 }
 
 /* Includes Tab */
@@ -633,8 +633,8 @@
 }
 
 .includes-section.included-section {
-  background: linear-gradient(160deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.03) 100%);
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  background: linear-gradient(160deg, rgba(105, 189, 69, 0.1) 0%, rgba(105, 189, 69, 0.03) 100%);
+  border: 1px solid rgba(105, 189, 69, 0.3);
 }
 
 .includes-section.excluded-section {
@@ -655,7 +655,7 @@
 }
 
 .includes-section.included-section h3 {
-  border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+  border-bottom: 1px solid rgba(105, 189, 69, 0.2);
 }
 
 .includes-section.excluded-section h3 {
@@ -673,8 +673,8 @@
 }
 
 .includes-icon-wrap.included-icon {
-  background: rgba(76, 175, 80, 0.2);
-  border: 1px solid rgba(76, 175, 80, 0.4);
+  background: rgba(105, 189, 69, 0.2);
+  border: 1px solid rgba(105, 189, 69, 0.4);
 }
 
 .includes-icon-wrap.excluded-icon {
@@ -717,9 +717,9 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: rgba(76, 175, 80, 0.15);
-  border: 1.5px solid rgba(76, 175, 80, 0.6);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='3' stroke-linecap='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background: rgba(105, 189, 69, 0.15);
+  border: 1.5px solid rgba(105, 189, 69, 0.6);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2369bd45' stroke-width='3' stroke-linecap='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 10px;
@@ -763,7 +763,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(76, 175, 80, 0.55);
+  background: rgba(105, 189, 69, 0.55);
   border: none;
   background-image: none;
 }
@@ -860,8 +860,8 @@
 }
 
 .pricing-info {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(76, 175, 80, 0.05) 100%);
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, rgba(105, 189, 69, 0.15) 0%, rgba(105, 189, 69, 0.05) 100%);
+  border: 1px solid rgba(105, 189, 69, 0.3);
   border-radius: 12px;
   padding: 24px;
 }
@@ -895,7 +895,7 @@
 .price-display > .price-current {
   font-size: 36px;
   font-weight: 800;
-  color: #4caf50;
+  color: #69bd45;
 }
 
 .price-per {
@@ -963,8 +963,8 @@
 }
 
 .departure-status.available {
-  color: #4caf50;
-  background: rgba(76, 175, 80, 0.15);
+  color: #69bd45;
+  background: rgba(105, 189, 69, 0.15);
 }
 
 .departure-status.sold-out {
@@ -1088,7 +1088,7 @@
 }
 
 .faq-item.open {
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(105, 189, 69, 0.3);
 }
 
 .faq-question {
@@ -1113,7 +1113,7 @@
 
 .faq-icon {
   flex-shrink: 0;
-  color: #4caf50;
+  color: #69bd45;
   transition: transform 0.3s;
 }
 
@@ -1149,7 +1149,7 @@
 }
 
 .info-accordion-item.open {
-  border-color: rgba(76, 175, 80, 0.3);
+  border-color: rgba(105, 189, 69, 0.3);
 }
 
 .info-accordion-header {
@@ -1174,7 +1174,7 @@
 
 .info-accordion-icon {
   flex-shrink: 0;
-  color: #4caf50;
+  color: #69bd45;
   transition: transform 0.3s;
 }
 
@@ -1242,7 +1242,7 @@
 .price-current {
   font-size: 36px;
   font-weight: 800;
-  color: #4caf50;
+  color: #69bd45;
 }
 
 .book-now-btn {
@@ -1251,7 +1251,7 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  background: #4caf50;
+  background: #69bd45;
   color: #ffffff;
   padding: 16px 24px;
   border-radius: 8px;
@@ -1263,7 +1263,7 @@
 }
 
 .book-now-btn:hover {
-  background: #43a047;
+  background: #58b038;
   transform: translateY(-2px);
 }
 
@@ -1271,9 +1271,9 @@
   display: block;
   width: 100%;
   text-align: center;
-  color: #2e7d32;
+  color: #009444;
   padding: 14px 24px;
-  border: 2px solid #2e7d32;
+  border: 2px solid #009444;
   border-radius: 8px;
   text-decoration: none;
   font-size: 14px;
@@ -1283,7 +1283,7 @@
 }
 
 .inquiry-btn:hover {
-  background: #2e7d32;
+  background: #009444;
   color: #ffffff;
 }
 

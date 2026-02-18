@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 380px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(76, 175, 80, 0.12);
+  border: 1px solid rgba(105, 189, 69, 0.12);
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -13,9 +13,9 @@
 
 .tour-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(76, 175, 80, 0.4);
-  box-shadow: 0 16px 32px rgba(76, 175, 80, 0.15),
-              0 0 0 1px rgba(76, 175, 80, 0.1);
+  border-color: rgba(105, 189, 69, 0.4);
+  box-shadow: 0 16px 32px rgba(105, 189, 69, 0.15),
+              0 0 0 1px rgba(105, 189, 69, 0.1);
   background: rgba(255, 255, 255, 0.04);
 }
 
@@ -41,8 +41,8 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(4, 18, 2, 0) 30%,
-    rgba(4, 18, 2, 0.3) 100%
+    rgba(13, 43, 47, 0) 30%,
+    rgba(13, 43, 47, 0.3) 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -72,8 +72,8 @@
 }
 
 .tour-card-badge-featured {
-  background: linear-gradient(135deg, #f5c563 0%, #e0a82e 100%);
-  color: #1a2e1a;
+  background: linear-gradient(135deg, #fdc96e 0%, #e09a2c 100%);
+  color: #0a1e22;
   box-shadow: 0 4px 12px rgba(245, 197, 99, 0.4);
 }
 
@@ -105,12 +105,12 @@
 
 .tour-card-meta-item svg {
   flex-shrink: 0;
-  color: #5ec663;
+  color: #69bd45;
   opacity: 0.85;
 }
 
 .tour-card-meta-separator {
-  color: rgba(76, 175, 80, 0.25);
+  color: rgba(105, 189, 69, 0.25);
   font-weight: 300;
 }
 
@@ -134,7 +134,7 @@
 }
 
 .tour-card-title a:hover {
-  color: #5ec663;
+  color: #69bd45;
 }
 
 /* Bottom Row */
@@ -164,10 +164,10 @@
 .tour-card-price {
   font-size: 1.625rem;
   font-weight: 800;
-  color: #5ec663;
+  color: #69bd45;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  text-shadow: 0 0 20px rgba(94, 198, 99, 0.2);
+  text-shadow: 0 0 20px rgba(105, 189, 69, 0.2);
 }
 
 .tour-card-price-per {
@@ -184,7 +184,7 @@
   align-items: center;
   gap: 6px;
   padding: 11px 20px;
-  background: #4caf50;
+  background: #69bd45;
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
@@ -196,7 +196,7 @@
 }
 
 .tour-card-btn:hover {
-  background: #5bc05f;
+  background: #58b038;
   transform: translateX(4px);
 }
 

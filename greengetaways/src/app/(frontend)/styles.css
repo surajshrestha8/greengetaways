@@ -1,12 +1,12 @@
 :root {
   --font-mono: 'Roboto Mono', monospace;
-  --color-primary: #2e7d32;
-  --color-primary-dark: #1b5e20;
-  --color-secondary: #1976d2;
-  --color-accent: #4caf50;
+  --color-primary: #009444;
+  --color-primary-dark: #006d30;
+  --color-secondary: #1c75bc;
+  --color-accent: #69bd45;
   --color-text: #ffffff;
   --color-text-light: #b0b0b0;
-  --color-background: #041202;
+  --color-background: #0d2b2f;
   --color-background-gradient: linear-gradient(180deg, #87ceeb 0%, #b3e5fc 100%);
 }
 
@@ -18,7 +18,7 @@ html {
   font-size: 18px;
   line-height: 32px;
 
-  background: #041202;
+  background: #0d2b2f;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -37,7 +37,7 @@ body {
 
   margin: 0;
   color: var(--color-text);
-  background: #041202;
+  background: #0d2b2f;
 
   @media (max-width: 1024px) {
     font-size: 15px;
@@ -46,7 +46,7 @@ body {
 }
 
 main {
-  background: #041202;
+  background: #0d2b2f;
   min-height: 100vh;
 }
 

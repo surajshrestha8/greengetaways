@@ -1,13 +1,13 @@
 /* ===== CONTACT PAGE ===== */
 .contact-page {
   min-height: 100vh;
-  background: #041202;
+  background: #0d2b2f;
 }
 
 /* Hero / Header */
 .contact-hero {
   padding: 64px 24px 56px;
-  background: linear-gradient(180deg, rgba(46, 125, 50, 0.12) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 148, 68, 0.12) 0%, transparent 100%);
   text-align: center;
 }
 
@@ -21,12 +21,12 @@
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  background: rgba(76, 175, 80, 0.12);
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  background: rgba(105, 189, 69, 0.12);
+  border: 1px solid rgba(105, 189, 69, 0.3);
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  color: #4caf50;
+  color: #69bd45;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 20px;
@@ -119,8 +119,8 @@
 
 .contact-input:focus,
 .contact-textarea:focus {
-  border-color: #4caf50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+  border-color: #69bd45;
+  box-shadow: 0 0 0 3px rgba(105, 189, 69, 0.15);
 }
 
 .contact-input.contact-input-error,
@@ -146,7 +146,7 @@
   justify-content: center;
   gap: 10px;
   padding: 15px 28px;
-  background: #4caf50;
+  background: #69bd45;
   color: #ffffff;
   border: none;
   border-radius: 10px;
@@ -159,7 +159,7 @@
 }
 
 .contact-submit-btn:hover {
-  background: #43a047;
+  background: #58b038;
   transform: translateY(-2px);
 }
 
@@ -171,13 +171,13 @@
   text-align: center;
   padding: 48px 32px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(105, 189, 69, 0.2);
   border-radius: 20px;
   gap: 16px;
 }
 
 .contact-success-icon svg {
-  filter: drop-shadow(0 0 14px rgba(76, 175, 80, 0.4));
+  filter: drop-shadow(0 0 14px rgba(105, 189, 69, 0.4));
 }
 
 .contact-success h2 {
@@ -203,9 +203,9 @@
   margin-top: 8px;
   padding: 12px 28px;
   background: transparent;
-  border: 2px solid #2e7d32;
+  border: 2px solid #009444;
   border-radius: 10px;
-  color: #4caf50;
+  color: #69bd45;
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
@@ -214,7 +214,7 @@
 }
 
 .contact-back-btn:hover {
-  background: #2e7d32;
+  background: #009444;
   color: #ffffff;
 }
 
@@ -234,7 +234,7 @@
 .contact-info-section h3 {
   font-size: 13px;
   font-weight: 700;
-  color: #4caf50;
+  color: #69bd45;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0 0 14px;
@@ -255,13 +255,13 @@
   flex-shrink: 0;
   width: 36px;
   height: 36px;
-  background: rgba(76, 175, 80, 0.12);
-  border: 1px solid rgba(76, 175, 80, 0.25);
+  background: rgba(105, 189, 69, 0.12);
+  border: 1px solid rgba(105, 189, 69, 0.25);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4caf50;
+  color: #69bd45;
 }
 
 .contact-info-text {

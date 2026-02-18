@@ -1,6 +1,6 @@
 /* Header */
 .header {
-  background: rgba(10, 20, 10, 0.7);
+  background: rgba(13, 43, 47, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   position: sticky;
@@ -11,7 +11,7 @@
 }
 
 .header.scrolled {
-  background: rgba(10, 20, 10, 0.85);
+  background: rgba(13, 43, 47, 0.85);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   border-bottom-color: rgba(255, 255, 255, 0.12);
 }
@@ -119,8 +119,8 @@
 }
 
 .nav-link:hover {
-  color: #5ec663;
-  background: rgba(94, 198, 99, 0.12);
+  color: #69bd45;
+  background: rgba(105, 189, 69, 0.12);
 }
 
 .dropdown-icon {
@@ -137,7 +137,7 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  background: rgba(15, 25, 15, 0.95);
+  background: rgba(8, 21, 25, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 12px;
@@ -171,8 +171,8 @@
 }
 
 .dropdown-link:hover {
-  background: rgba(94, 198, 99, 0.15);
-  color: #5ec663;
+  background: rgba(105, 189, 69, 0.15);
+  color: #69bd45;
   transform: translateX(4px);
 }
 
@@ -185,7 +185,7 @@
 
 /* CTA Button */
 .cta-btn {
-  background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
+  background: linear-gradient(135deg, #009444 0%, #00a84d 100%);
   color: white;
   padding: 12px 28px;
   border-radius: 50px;
@@ -193,13 +193,13 @@
   font-size: 14px;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 148, 68, 0.2);
   letter-spacing: 0.2px;
 }
 
 .cta-btn:hover {
-  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+  background: linear-gradient(135deg, #006d30 0%, #009444 100%);
+  box-shadow: 0 6px 20px rgba(0, 148, 68, 0.3);
   transform: translateY(-2px);
 }
 
@@ -289,7 +289,7 @@
 }
 
 .mobile-nav {
-  background: rgba(15, 25, 15, 0.98);
+  background: rgba(8, 21, 25, 0.98);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   max-height: calc(100vh - 80px);
@@ -312,8 +312,8 @@
 }
 
 .mobile-nav-link:hover {
-  background: rgba(94, 198, 99, 0.12);
-  color: #5ec663;
+  background: rgba(105, 189, 69, 0.12);
+  color: #69bd45;
 }
 
 .mobile-dropdown {
@@ -335,9 +335,9 @@
 }
 
 .mobile-dropdown-link:hover {
-  background: rgba(94, 198, 99, 0.12);
-  color: #5ec663;
-  border-left-color: #5ec663;
+  background: rgba(105, 189, 69, 0.12);
+  color: #69bd45;
+  border-left-color: #69bd45;
 }
 
 /* Responsive Design */
@@ -417,6 +417,6 @@ html {
 .dropdown-link:focus,
 .cta-btn:focus,
 .mobile-menu-btn:focus {
-  outline: 2px solid #5ec663;
+  outline: 2px solid #69bd45;
   outline-offset: 4px;
 }

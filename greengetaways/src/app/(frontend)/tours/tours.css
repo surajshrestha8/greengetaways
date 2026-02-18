@@ -1,13 +1,13 @@
 .tours-page {
   min-height: 100vh;
-  background: #041202;
+  background: #0d2b2f;
 }
 
 /* Hero Section */
 .tours-hero {
   position: relative;
   padding: 100px 24px 80px;
-  background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #43a047 100%);
+  background: linear-gradient(135deg, #009444 0%, #00a84d 50%, #58b038 100%);
   text-align: center;
   overflow: hidden;
 }
@@ -35,7 +35,7 @@
 }
 
 .tours-hero-title .highlight {
-  color: #c8e6c9;
+  color: #d5efc5;
 }
 
 .tours-hero-subtitle {

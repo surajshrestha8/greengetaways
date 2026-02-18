@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #2e7d32 0%, #388e3c 30%, #43a047 60%, #4caf50 100%);
+  background: linear-gradient(135deg, #009444 0%, #00a84d 30%, #58b038 60%, #69bd45 100%);
   overflow: hidden;
 }
 
@@ -41,7 +41,7 @@
 
 .newsletter-title .highlight {
   display: block;
-  color: #c8e6c9;
+  color: #d5efc5;
 }
 
 .newsletter-subtitle {
@@ -98,7 +98,7 @@
 }
 
 .subscribe-btn {
-  background: #2e7d32;
+  background: #009444;
   color: white;
   border: none;
   padding: 14px 32px;
@@ -111,7 +111,7 @@
 }
 
 .subscribe-btn:hover:not(:disabled) {
-  background: #1b5e20;
+  background: #006d30;
   transform: scale(1.02);
 }
 
@@ -136,7 +136,7 @@
 
 .form-message.success {
   background: rgba(255, 255, 255, 0.2);
-  color: #c8e6c9;
+  color: #d5efc5;
 }
 
 .form-message.error {

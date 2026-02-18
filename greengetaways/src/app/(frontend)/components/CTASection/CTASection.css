@@ -1,8 +1,8 @@
 .cta-section {
-  background: linear-gradient(135deg, rgba(30, 50, 30, 0.5) 0%, rgba(10, 30, 10, 0.7) 100%);
+  background: linear-gradient(135deg, rgba(9, 30, 34, 0.5) 0%, rgba(10, 30, 10, 0.7) 100%);
   padding: 120px 20px;
   text-align: center;
-  border-top: 1px solid rgba(76, 175, 80, 0.1);
+  border-top: 1px solid rgba(105, 189, 69, 0.1);
 }
 
 .cta-container {
@@ -40,7 +40,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #4caf50;
+  background: #69bd45;
   color: #ffffff;
   padding: 18px 36px;
   border-radius: 12px;
@@ -49,13 +49,13 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 8px 24px rgba(105, 189, 69, 0.3);
 }
 
 .cta-button-primary:hover {
-  background: #5bc05f;
+  background: #58b038;
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 12px 32px rgba(105, 189, 69, 0.4);
 }
 
 .cta-button-primary svg {
