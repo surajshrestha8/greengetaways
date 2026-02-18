@@ -75,18 +75,21 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
           <div className="tab-panel">
             <div className="includes-grid">
               {/* Price Includes */}
-              <div className="includes-section">
+              <div className="includes-section included-section">
                 <h3>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#4caf50"
-                    strokeWidth="2"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                  <span className="includes-icon-wrap included-icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#4caf50"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
                   What&apos;s Included
                 </h3>
                 {tour.pricing?.priceIncludes ? (
@@ -99,19 +102,22 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               </div>
 
               {/* Price Excludes */}
-              <div className="includes-section">
+              <div className="includes-section excluded-section">
                 <h3>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#f44336"
-                    strokeWidth="2"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
+                  <span className="includes-icon-wrap excluded-icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#f44336"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </span>
                   What&apos;s Not Included
                 </h3>
                 {tour.pricing?.priceExcludes ? (
