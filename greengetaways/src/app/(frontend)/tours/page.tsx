@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import TourCardSection from '../components/TourCardSection'
 import ToursFilterBar from './ToursFilterBar'
 import type { Tour, Destination } from '@/payload-types'
+import type { Where } from 'payload'
 import './tours.css'
 import Link from 'next/link'
 
@@ -30,11 +31,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   try {
     const payload = await getPayload({ config: configPromise })
 
-    const where: Record<string, unknown> = {
+    const where: Where = {
       status: { equals: 'active' },
-    }
-    if (typeFilter) {
-      where.tourType = { contains: typeFilter }
+      ...(typeFilter && { tourType: { contains: typeFilter } }),
     }
 
     const result = await payload.find({
