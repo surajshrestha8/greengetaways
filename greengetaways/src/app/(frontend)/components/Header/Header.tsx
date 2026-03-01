@@ -27,24 +27,13 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
         href: '/tours',
         hasDropdown: true,
         dropdownItems: [
-          { label: 'All Tours', href: '/tours' },
           ...tours.map((tour) => ({
             label: tour.title,
             href: `/tours/${tour.slug}`,
           })),
         ],
       },
-      {
-        label: 'Destinations',
-        href: '/destinations',
-        hasDropdown: true,
-        dropdownItems: [
-          { label: 'Everest Region', href: '/destinations/everest' },
-          { label: 'Annapurna Region', href: '/destinations/annapurna' },
-          { label: 'Manaslu Region', href: '/destinations/manaslu' },
-          { label: 'Langtang Region', href: '/destinations/langtang' },
-        ],
-      },
+
       {
         label: 'About',
         href: '/about',
@@ -55,6 +44,19 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
           { label: 'Our Team', href: '/about/team' },
           { label: 'Sustainability', href: '/about/sustainability' },
         ],
+      },
+      {
+        label: 'Blog',
+        href: '/blog',
+      },
+      {
+        label: "What's on",
+        href: '/what-on',
+      },
+      {
+        label: 'CSR',
+        href: '/csr',
+        hasDropdown: true,
       },
       { label: 'Contact', href: '/contact' },
     ],

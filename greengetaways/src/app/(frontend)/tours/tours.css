@@ -73,3 +73,249 @@
     font-size: 28px;
   }
 }
+
+/* ─── Tours Filter Bar ───────────────────────────────────────── */
+.tours-filter-bar {
+  position: sticky;
+  top: 70px;
+  z-index: 50;
+  background: #0d2b2f;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 24px 12px;
+  transition: opacity 0.2s;
+}
+
+.tours-filter-bar.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.tours-filter-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto 12px;
+}
+
+.tours-filter-search-field {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0 14px;
+  transition: border-color 0.2s;
+}
+
+.tours-filter-search-field:focus-within {
+  border-color: #69bd45;
+}
+
+.tours-filter-search-icon {
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.tours-filter-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 15px;
+  font-family: var(--font-ui, 'Montserrat', sans-serif);
+  padding: 11px 0;
+}
+
+.tours-filter-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.tours-filter-clear {
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.tours-filter-clear:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tours-filter-btn {
+  background: #69bd45;
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-ui, 'Montserrat', sans-serif);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tours-filter-btn:hover {
+  background: #58b038;
+  transform: translateY(-1px);
+}
+
+/* Type chips */
+.tours-type-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tours-type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-ui, 'Montserrat', sans-serif);
+  padding: 6px 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.tours-type-chip:hover {
+  background: rgba(105, 189, 69, 0.15);
+  border-color: rgba(105, 189, 69, 0.4);
+  color: #fff;
+}
+
+.tours-type-chip.active {
+  background: #69bd45;
+  border-color: #69bd45;
+  color: #fff;
+}
+
+/* Filter meta row */
+.tours-filter-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 10px auto 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-ui, 'Montserrat', sans-serif);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tours-filter-count {
+  color: #69bd45;
+  font-weight: 700;
+}
+
+.tours-filter-clear-all {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.tours-filter-clear-all:hover {
+  color: #69bd45;
+  text-decoration: underline;
+}
+
+/* ─── Enhanced Empty State ───────────────────────────────────── */
+.tours-empty {
+  text-align: center;
+  padding: 80px 24px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tours-empty-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.tours-empty-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 12px;
+  font-family: var(--font-ui, 'Montserrat', sans-serif);
+}
+
+.tours-empty-text {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto 28px;
+}
+
+.tours-empty-reset {
+  display: inline-flex;
+  align-items: center;
+  background: #69bd45;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-ui, 'Montserrat', sans-serif);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.tours-empty-reset:hover {
+  background: #58b038;
+  transform: translateY(-2px);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tours-filter-bar {
+    position: static;
+    padding: 12px 16px;
+  }
+
+  .tours-filter-bar-inner {
+    flex-wrap: wrap;
+  }
+
+  .tours-filter-search-field {
+    flex: 1 1 100%;
+  }
+
+  .tours-filter-btn {
+    flex: 1 1 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .tours-type-chip {
+    font-size: 12px;
+    padding: 5px 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tours-filter-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
