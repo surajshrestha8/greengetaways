@@ -73,61 +73,34 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
         {/* Includes Tab */}
         {activeTab === 'includes' && (
           <div className="tab-panel">
-            <div className="includes-grid">
-              {/* Price Includes */}
-              <div className="includes-section included-section">
-                <h3>
-                  <span className="includes-icon-wrap included-icon">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#4caf50"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  What&apos;s Included
-                </h3>
-                {tour.pricing?.priceIncludes ? (
-                  <div className="includes-list included">
-                    <RichText data={tour.pricing.priceIncludes} />
-                  </div>
-                ) : (
-                  <p className="tab-empty">Inclusion details coming soon.</p>
-                )}
-              </div>
-
-              {/* Price Excludes */}
-              <div className="includes-section excluded-section">
-                <h3>
-                  <span className="includes-icon-wrap excluded-icon">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#f44336"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    >
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  </span>
-                  What&apos;s Not Included
-                </h3>
-                {tour.pricing?.priceExcludes ? (
-                  <div className="includes-list excluded">
-                    <RichText data={tour.pricing.priceExcludes} />
-                  </div>
-                ) : (
-                  <p className="tab-empty">Exclusion details coming soon.</p>
-                )}
-              </div>
+            <div className="includes-accordion-stack">
+              <IncludesAccordionItem
+                title="What's Included"
+                sectionClass="included-section"
+                listClass="included"
+                iconStroke="#4caf50"
+                icon={<polyline points="20 6 9 17 4 12" />}
+                iconWrapClass="included-icon"
+                content={tour.pricing?.priceIncludes}
+                emptyText="Inclusion details coming soon."
+                defaultOpen={false}
+              />
+              <IncludesAccordionItem
+                title="What's Not Included"
+                sectionClass="excluded-section"
+                listClass="excluded"
+                iconStroke="#f44336"
+                icon={
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </>
+                }
+                iconWrapClass="excluded-icon"
+                content={tour.pricing?.priceExcludes}
+                emptyText="Exclusion details coming soon."
+                defaultOpen={false}
+              />
             </div>
           </div>
         )}
@@ -169,17 +142,26 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
                       <span>Available Seats</span>
                       <span>Status</span>
                     </div>
-                    {tour.availability.departureDates.map((departure: { date?: string | null; availableSeats?: number | null }, index: number) => (
-                      <div key={index} className="dates-table-row">
-                        <span className="departure-date">{departure.date ? formatDate(departure.date) : 'TBD'}</span>
-                        <span className="departure-seats">{departure.availableSeats ?? 0} seats</span>
-                        <span
-                          className={`departure-status ${(departure.availableSeats ?? 0) > 0 ? 'available' : 'sold-out'}`}
-                        >
-                          {(departure.availableSeats ?? 0) > 0 ? 'Available' : 'Sold Out'}
-                        </span>
-                      </div>
-                    ))}
+                    {tour.availability.departureDates.map(
+                      (
+                        departure: { date?: string | null; availableSeats?: number | null },
+                        index: number,
+                      ) => (
+                        <div key={index} className="dates-table-row">
+                          <span className="departure-date">
+                            {departure.date ? formatDate(departure.date) : 'TBD'}
+                          </span>
+                          <span className="departure-seats">
+                            {departure.availableSeats ?? 0} seats
+                          </span>
+                          <span
+                            className={`departure-status ${(departure.availableSeats ?? 0) > 0 ? 'available' : 'sold-out'}`}
+                          >
+                            {(departure.availableSeats ?? 0) > 0 ? 'Available' : 'Sold Out'}
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 ) : (
                   <p className="tab-empty">Contact us for available dates.</p>
@@ -195,21 +177,21 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
             {(() => {
               const infoItems = [
                 { title: 'Commitment to Sustainability', content: tour.commitmentToSustainability },
-                { title: 'Trekkers Responsibilities',    content: tour.trekkersResponsibilities },
-                { title: 'Trekkers Preparation',         content: tour.trekkersPreparation },
-                { title: 'Culture & Community',          content: tour.cultureAndCommunity },
-                { title: 'Packing List',                 content: tour.packingList },
-                { title: 'Accommodation',                content: tour.accommodationInfo },
-                { title: 'Food & Dining',                content: tour.foodInfo },
-                { title: 'Best Time to Visit',           content: tour.bestTimeToTrek },
-                { title: 'Typical Daily Routine',        content: tour.typicalRoutine },
-                { title: 'Permits & Fees',               content: tour.permitInfo },
-                { title: 'Guide Requirements',           content: tour.guideRequirement },
-                { title: 'Acclimatization',              content: tour.acclimatizationInfo },
-                { title: 'Currency & Exchange',          content: tour.currencyExchangeInfo },
-                { title: 'Required Documents',           content: tour.requiredDocuments },
-                { title: 'Women Participation',          content: tour.womenParticipation },
-              ].filter(item => item.content != null)
+                { title: 'Trekkers Responsibilities', content: tour.trekkersResponsibilities },
+                { title: 'Trekkers Preparation', content: tour.trekkersPreparation },
+                { title: 'Culture & Community', content: tour.cultureAndCommunity },
+                { title: 'Packing List', content: tour.packingList },
+                { title: 'Accommodation', content: tour.accommodationInfo },
+                { title: 'Food & Dining', content: tour.foodInfo },
+                { title: 'Best Time to Visit', content: tour.bestTimeToTrek },
+                { title: 'Typical Daily Routine', content: tour.typicalRoutine },
+                { title: 'Permits & Fees', content: tour.permitInfo },
+                { title: 'Guide Requirements', content: tour.guideRequirement },
+                { title: 'Acclimatization', content: tour.acclimatizationInfo },
+                { title: 'Currency & Exchange', content: tour.currencyExchangeInfo },
+                { title: 'Required Documents', content: tour.requiredDocuments },
+                { title: 'Women Participation', content: tour.womenParticipation },
+              ].filter((item) => item.content != null)
 
               return infoItems.length > 0 ? (
                 <div className="useful-info-list">
@@ -308,16 +290,14 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
             {tour.faqs && tour.faqs.length > 0 ? (
               <div className="faqs-list">
                 {tour.faqs.map((faq, index) => (
-                  <FAQItem
-                    key={index}
-                    question={faq.question}
-                    answer={faq.answer}
-                  />
+                  <FAQItem key={index} question={faq.question} answer={faq.answer} />
                 ))}
               </div>
             ) : (
               <p className="tab-empty">No FAQs available for this tour.</p>
             )}
+
+            <QuestionForm tourId={tour.id} />
           </div>
         )}
       </div>
@@ -382,6 +362,215 @@ function InfoAccordionItem({ title, content }: { title: string; content: RichTex
         <div className="info-accordion-content">
           <RichText data={content} />
         </div>
+      )}
+    </div>
+  )
+}
+
+// Includes / Excludes Accordion Item
+type PriceRichText = NonNullable<NonNullable<Tour['pricing']>['priceIncludes']>
+
+function IncludesAccordionItem({
+  title,
+  sectionClass,
+  listClass,
+  iconStroke,
+  icon,
+  iconWrapClass,
+  content,
+  emptyText,
+  defaultOpen = false,
+}: {
+  title: string
+  sectionClass: string
+  listClass: string
+  iconStroke: string
+  icon: React.ReactNode
+  iconWrapClass: string
+  content?: PriceRichText | null
+  emptyText: string
+  defaultOpen?: boolean
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+
+  return (
+    <div className={`includes-section ${sectionClass}${isOpen ? ' open' : ''}`}>
+      <button className="includes-header" onClick={() => setIsOpen((p) => !p)}>
+        <span className={`includes-icon-wrap ${iconWrapClass}`}>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={iconStroke}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          >
+            {icon}
+          </svg>
+        </span>
+        <span className="includes-header-title">{title}</span>
+        <svg
+          className="includes-chevron"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+      <div className="includes-body">
+        <div className="includes-body-inner">
+          {content ? (
+            <div className={`includes-list ${listClass}`}>
+              <RichText data={content} />
+            </div>
+          ) : (
+            <p className="tab-empty" style={{ padding: '16px 20px', margin: 0 }}>
+              {emptyText}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Ask a Question Form
+function QuestionForm({ tourId }: { tourId: number }) {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [question, setQuestion] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setMessage('')
+
+    try {
+      const res = await fetch('/api/tour-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, question, tourId }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setStatus('success')
+        setMessage(data.message)
+        setName('')
+        setEmail('')
+        setQuestion('')
+      } else {
+        setStatus('error')
+        setMessage(data.message || 'Something went wrong.')
+      }
+    } catch {
+      setStatus('error')
+      setMessage('Network error. Please try again.')
+    }
+  }
+
+  return (
+    <div className="question-form-section">
+      <div className="question-form-header">
+        <div className="question-form-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+        </div>
+        <div>
+          <h3 className="question-form-title">Still have questions?</h3>
+          <p className="question-form-subtitle">Ask us anything about this tour and we&apos;ll get back to you.</p>
+        </div>
+      </div>
+
+      {status === 'success' ? (
+        <div className="question-form-success">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#69bd45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          <p>{message}</p>
+        </div>
+      ) : (
+        <form className="question-form" onSubmit={handleSubmit} noValidate>
+          <div className="question-form-row">
+            <div className="question-form-field">
+              <label className="question-form-label" htmlFor="q-name">Your Name</label>
+              <input
+                id="q-name"
+                type="text"
+                className="question-form-input"
+                placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                disabled={status === 'loading'}
+              />
+            </div>
+            <div className="question-form-field">
+              <label className="question-form-label" htmlFor="q-email">Email Address</label>
+              <input
+                id="q-email"
+                type="email"
+                className="question-form-input"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={status === 'loading'}
+              />
+            </div>
+          </div>
+
+          <div className="question-form-field">
+            <label className="question-form-label" htmlFor="q-question">Your Question</label>
+            <textarea
+              id="q-question"
+              className="question-form-input question-form-textarea"
+              placeholder="What would you like to know about this tour?"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              rows={4}
+              required
+              disabled={status === 'loading'}
+            />
+          </div>
+
+          {status === 'error' && (
+            <p className="question-form-error">{message}</p>
+          )}
+
+          <button
+            type="submit"
+            className="question-form-submit"
+            disabled={status === 'loading'}
+          >
+            {status === 'loading' ? (
+              <>
+                <svg className="question-form-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+                Sending…
+              </>
+            ) : (
+              <>
+                Send Question
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+              </>
+            )}
+          </button>
+        </form>
       )}
     </div>
   )

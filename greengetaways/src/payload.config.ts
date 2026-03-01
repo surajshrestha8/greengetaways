@@ -18,6 +18,7 @@ import { CSRProjects } from './collections/CsrProjects'
 import { SpecialServices } from './collections/SpecialServices'
 import { Fleet } from './collections/Fleet'
 import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
+import { TourQuestions } from './collections/TourQuestions'
 import { s3Storage } from '@payloadcms/storage-s3'
 
 const filename = fileURLToPath(import.meta.url)
@@ -45,6 +46,7 @@ export default buildConfig({
     SpecialServices,
     Fleet,
     NewsletterSubscribers,
+    TourQuestions,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

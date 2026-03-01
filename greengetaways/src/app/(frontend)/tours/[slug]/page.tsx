@@ -4,10 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour, Media, Testimonial, ActivityCategory } from '@/payload-types'
 import TourCard from '../../components/TourCard'
 import TourTabs from './TourTabs'
+import TourWhyChooseUsAccordion from './TourWhyChooseUsAccordion'
+import TourHighlightsAccordion from './TourHighlightsAccordion'
 import './tour-detail.css'
 
 interface TourDetailPageProps {
@@ -265,76 +266,6 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     ),
   }
 
-  // Helper to generate experience cards from highlights
-  const getExperienceIcon = (highlight: string): React.ReactNode => {
-    const lowerHighlight = highlight.toLowerCase()
-    if (lowerHighlight.includes('hik') || lowerHighlight.includes('trek') || lowerHighlight.includes('walk')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M13 16.5l3-3m0 0l3-3m-3 3l-3-3m3 3l3 3" />
-          <circle cx="8" cy="4" r="2" />
-          <path d="M12 22V10M4 22l4-10M8 10l-4-2M12 10l-4-6" />
-        </svg>
-      )
-    }
-    if (lowerHighlight.includes('food') || lowerHighlight.includes('cuisine') || lowerHighlight.includes('dining')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3" />
-        </svg>
-      )
-    }
-    if (lowerHighlight.includes('wildlife') || lowerHighlight.includes('animal') || lowerHighlight.includes('safari')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 2a4 4 0 014 4c0 1.5-.8 3-2 4l2 10H8l2-10c-1.2-1-2-2.5-2-4a4 4 0 014-4z" />
-        </svg>
-      )
-    }
-    if (lowerHighlight.includes('temple') || lowerHighlight.includes('cultur') || lowerHighlight.includes('histor') || lowerHighlight.includes('heritage')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-        </svg>
-      )
-    }
-    if (lowerHighlight.includes('sunset') || lowerHighlight.includes('sunrise') || lowerHighlight.includes('view') || lowerHighlight.includes('scenic')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M17 18a5 5 0 00-10 0" />
-          <line x1="12" y1="9" x2="12" y2="2" />
-          <line x1="4.22" y1="10.22" x2="5.64" y2="11.64" />
-          <line x1="1" y1="18" x2="3" y2="18" />
-          <line x1="21" y1="18" x2="23" y2="18" />
-          <line x1="18.36" y1="11.64" x2="19.78" y2="10.22" />
-          <line x1="23" y1="22" x2="1" y2="22" />
-          <polyline points="8 6 12 2 16 6" />
-        </svg>
-      )
-    }
-    if (lowerHighlight.includes('beach') || lowerHighlight.includes('ocean') || lowerHighlight.includes('sea')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="5" r="3" />
-          <path d="M12 22V8M5 12l7 3 7-3" />
-        </svg>
-      )
-    }
-    if (lowerHighlight.includes('mountain') || lowerHighlight.includes('peak') || lowerHighlight.includes('summit')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M8 3l4 8 5-5 5 15H2L8 3z" />
-        </svg>
-      )
-    }
-    // Default icon
-    return (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    )
-    }
-
     return (
       <div className="tour-detail">
       {/* Tour Title Section */}
@@ -486,29 +417,14 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
             {tour.highlights && tour.highlights.length > 0 && (
               <div className="tour-highlights">
                 <h2>Tour Highlights</h2>
-                <div className="highlights-grid">
-                  {tour.highlights.map((item, index) => {
-                    const highlight = item.highlight || ''
-                    return (
-                      <div key={index} className="highlight-item">
-                        <div className="highlight-icon">
-                          {getExperienceIcon(highlight)}
-                        </div>
-                        <span className="highlight-text">{highlight}</span>
-                      </div>
-                    )
-                  })}
-                </div>
+                <TourHighlightsAccordion highlights={tour.highlights} />
               </div>
             )}
 
             {/* Why Choose Us Section */}
             {tour.whyChooseUs && (
               <div className="why-choose-us">
-                <h2>Why Choose Us</h2>
-                <div className="why-choose-us-content">
-                  <RichText data={tour.whyChooseUs} />
-                </div>
+                <TourWhyChooseUsAccordion data={tour.whyChooseUs} />
               </div>
             )}
 

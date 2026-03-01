@@ -80,6 +80,7 @@ export interface Config {
     'special-services': SpecialService;
     fleet: Fleet;
     'newsletter-subscribers': NewsletterSubscriber;
+    'tour-questions': TourQuestion;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     'special-services': SpecialServicesSelect<false> | SpecialServicesSelect<true>;
     fleet: FleetSelect<false> | FleetSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    'tour-questions': TourQuestionsSelect<false> | TourQuestionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1399,6 +1401,26 @@ export interface NewsletterSubscriber {
   createdAt: string;
 }
 /**
+ * Questions submitted by visitors on tour pages
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-questions".
+ */
+export interface TourQuestion {
+  id: number;
+  name: string;
+  email: string;
+  question: string;
+  tour: number | Tour;
+  status: 'pending' | 'answered' | 'dismissed';
+  /**
+   * Optional reply to send back to the visitor
+   */
+  adminAnswer?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -1473,6 +1495,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'newsletter-subscribers';
         value: number | NewsletterSubscriber;
+      } | null)
+    | ({
+        relationTo: 'tour-questions';
+        value: number | TourQuestion;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -2096,6 +2122,20 @@ export interface NewsletterSubscribersSelect<T extends boolean = true> {
   email?: T;
   subscribedAt?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-questions_select".
+ */
+export interface TourQuestionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  question?: T;
+  tour?: T;
+  status?: T;
+  adminAnswer?: T;
   updatedAt?: T;
   createdAt?: T;
 }
