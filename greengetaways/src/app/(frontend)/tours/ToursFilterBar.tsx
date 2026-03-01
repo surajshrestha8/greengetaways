@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface ToursFilterBarProps {
   initialQuery: string
@@ -115,18 +116,20 @@ export default function ToursFilterBar({
             {resultCount === 1 ? 'tour' : 'tours'} found
             {initialQuery && (
               <>
-                {' '}for <strong>&ldquo;{initialQuery}&rdquo;</strong>
+                {' '}
+                for <strong>&ldquo;{initialQuery}&rdquo;</strong>
               </>
             )}
             {initialType && (
               <>
-                {' '}in <strong>{initialType}</strong>
+                {' '}
+                in <strong>{initialType}</strong>
               </>
             )}
           </span>
-          <a href="/tours" className="tours-filter-clear-all">
+          <Link href="/tours" className="tours-filter-clear-all">
             Clear all filters
-          </a>
+          </Link>
         </div>
       )}
     </div>

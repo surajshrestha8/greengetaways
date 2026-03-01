@@ -107,7 +107,7 @@ export default function BookingForm({ tourData }: BookingFormProps) {
   ) => {
     const { name, value, type } = e.target
     const parsed = type === 'number' ? parseInt(value, 10) || 1 : value
-    setFormData((prev) => ({ ...prev, [name]: parsed } as FormData))
+    setFormData((prev) => ({ ...prev, [name]: parsed }) as FormData)
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }))
     }
@@ -253,9 +253,7 @@ export default function BookingForm({ tourData }: BookingFormProps) {
                 min={new Date().toISOString().split('T')[0]}
               />
             )}
-            {errors.departureDate && (
-              <span className="form-error">{errors.departureDate}</span>
-            )}
+            {errors.departureDate && <span className="form-error">{errors.departureDate}</span>}
           </div>
 
           <div className="form-group">
@@ -492,9 +490,7 @@ export default function BookingForm({ tourData }: BookingFormProps) {
             <span className="summary-total-amount">{formatPrice(total)}</span>
           </div>
 
-          <p className="summary-note">
-            Total updates live as you change the number of travelers.
-          </p>
+          <p className="summary-note">Total updates live as you change the number of travelers.</p>
         </aside>
       )}
     </div>

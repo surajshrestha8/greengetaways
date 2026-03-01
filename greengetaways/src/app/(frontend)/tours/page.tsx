@@ -5,6 +5,7 @@ import TourCardSection from '../components/TourCardSection'
 import ToursFilterBar from './ToursFilterBar'
 import type { Tour, Destination } from '@/payload-types'
 import './tours.css'
+import Link from 'next/link'
 
 // Force dynamic rendering to avoid database queries at build time
 export const dynamic = 'force-dynamic'
@@ -80,7 +81,12 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
               </h1>
               <p className="tours-hero-subtitle">
                 Showing results for
-                {searchQuery && <> &ldquo;<strong>{searchQuery}</strong>&rdquo;</>}
+                {searchQuery && (
+                  <>
+                    {' '}
+                    &ldquo;<strong>{searchQuery}</strong>&rdquo;
+                  </>
+                )}
                 {typeFilter && (
                   <>
                     {searchQuery ? ' · ' : ' '}
@@ -113,9 +119,7 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
         <TourCardSection
           title={hasSearch ? undefined : 'All Tours'}
           subtitle={
-            hasSearch
-              ? undefined
-              : 'Choose from our collection of sustainable travel experiences'
+            hasSearch ? undefined : 'Choose from our collection of sustainable travel experiences'
           }
           tours={tours}
         />
@@ -129,9 +133,9 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
               : 'No tours available at the moment. Please check back soon!'}
           </p>
           {hasSearch && (
-            <a href="/tours" className="tours-empty-reset">
+            <Link href="/tours" className="tours-empty-reset">
               View all tours
-            </a>
+            </Link>
           )}
         </div>
       )}
