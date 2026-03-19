@@ -106,7 +106,9 @@ export default function Hero() {
 
         {/* Search Box */}
         <div className="hero-search" ref={searchRef}>
-          <div className={`search-box${showSuggestions && filteredSuggestions.length > 0 ? ' suggestions-open' : ''}`}>
+          <div
+            className={`search-box${showSuggestions && filteredSuggestions.length > 0 ? ' suggestions-open' : ''}`}
+          >
             <div className="search-field">
               <svg
                 className="search-icon"
@@ -195,24 +197,6 @@ export default function Hero() {
               {f.label}
             </button>
           ))}
-        </div>
-
-        {/* Quick Stats */}
-        <div className="hero-stats">
-          <div className="stat-item">
-            <span className="stat-number">500+</span>
-            <span className="stat-label">Eco Tours</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">50+</span>
-            <span className="stat-label">Destinations</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">10K+</span>
-            <span className="stat-label">Happy Travelers</span>
-          </div>
         </div>
 
         {/* CTA Button */}

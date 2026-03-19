@@ -116,6 +116,7 @@
   transition: all 0.3s ease;
   border-radius: 8px;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -176,6 +177,65 @@
   transform: translateX(4px);
 }
 
+/* Talk to an Expert Button */
+.expert-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  line-height: 1;
+}
+
+.expert-btn:hover {
+  border-color: #69bd45;
+  color: #69bd45;
+  background: rgba(105, 189, 69, 0.1);
+}
+
+.expert-btn-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.expert-btn-label {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.expert-btn-phone {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.mobile-expert-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  color: #69bd45;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.mobile-expert-btn:hover {
+  background: rgba(105, 189, 69, 0.12);
+}
+
 /* Header Right */
 .header-right {
   display: flex;
@@ -195,6 +255,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(0, 148, 68, 0.2);
   letter-spacing: 0.2px;
+  line-height: 1;
 }
 
 .cta-btn:hover {
@@ -358,6 +419,11 @@
     padding: 10px 20px;
     font-size: 13px;
   }
+
+  .expert-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -380,6 +446,10 @@
   }
 
   .cta-btn {
+    display: none;
+  }
+
+  .expert-btn {
     display: none;
   }
 
@@ -416,6 +486,8 @@ html {
 .nav-link:focus,
 .dropdown-link:focus,
 .cta-btn:focus,
+.expert-btn:focus,
+.mobile-expert-btn:focus,
 .mobile-menu-btn:focus {
   outline: 2px solid #69bd45;
   outline-offset: 4px;

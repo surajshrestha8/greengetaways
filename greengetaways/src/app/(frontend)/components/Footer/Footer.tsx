@@ -19,12 +19,10 @@ export default function Footer() {
           <div className="footer-grid">
             {/* Company Info */}
             <div className="footer-column footer-company">
-              <div className="footer-logo">
-                {/* Add logo here */}
-              </div>
+              <div className="footer-logo">{/* Add logo here */}</div>
               <p className="footer-description">
-                Green Getaways is a family-run, first sustainable tourism company in Nepal. We
-                offer more than hundred sustainable tourism packages making minimal harm to the local
+                Green Getaways is a family-run, first sustainable tourism company in Nepal. We offer
+                more than hundred sustainable tourism packages making minimal harm to the local
                 communities and the host environment.
               </p>
               <div className="footer-social">
@@ -46,7 +44,14 @@ export default function Footer() {
                   className="footer-social-link"
                   aria-label="Instagram"
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    width="20"
+                    height="20"
+                  >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -59,14 +64,30 @@ export default function Footer() {
             <div className="footer-column">
               <h3 className="footer-column-title">About</h3>
               <nav className="footer-nav">
-                <Link href="/about" className="footer-link">About Us</Link>
-                <Link href="/why-green-getaways" className="footer-link">Why Green Getaways</Link>
-                <Link href="/b2b-brochure" className="footer-link">Request a B2B Brochure</Link>
-                <Link href="/newsletter" className="footer-link">Sign Up for Newsletter</Link>
-                <Link href="/fleet" className="footer-link">Our Fleet</Link>
-                <Link href="/team" className="footer-link">Meet the Team</Link>
-                <Link href="/legal" className="footer-link">Legal Document</Link>
-                <Link href="/contact" className="footer-link">Contact Us</Link>
+                <Link href="/about" className="footer-link">
+                  About Us
+                </Link>
+                <Link href="/why-green-getaways" className="footer-link">
+                  Why Green Getaways
+                </Link>
+                <Link href="/b2b-brochure" className="footer-link">
+                  Request a B2B Brochure
+                </Link>
+                <Link href="/newsletter" className="footer-link">
+                  Sign Up for Newsletter
+                </Link>
+                <Link href="/fleet" className="footer-link">
+                  Our Fleet
+                </Link>
+                <Link href="/team" className="footer-link">
+                  Meet the Team
+                </Link>
+                <Link href="/legal" className="footer-link">
+                  Legal Document
+                </Link>
+                <Link href="/contact" className="footer-link">
+                  Contact Us
+                </Link>
               </nav>
             </div>
 
@@ -74,13 +95,27 @@ export default function Footer() {
             <div className="footer-column">
               <h3 className="footer-column-title">Quick Links</h3>
               <nav className="footer-nav">
-                <Link href="/" className="footer-link">Home</Link>
-                <Link href="/tours" className="footer-link">Tours</Link>
-                <Link href="/blogs" className="footer-link">Blogs</Link>
-                <Link href="/career" className="footer-link">Career</Link>
-                <Link href="/terms" className="footer-link">Terms and Conditions</Link>
-                <Link href="/privacy" className="footer-link">Privacy Policy</Link>
-                <Link href="/travel-insurance" className="footer-link">Travel Insurance</Link>
+                <Link href="/" className="footer-link">
+                  Home
+                </Link>
+                <Link href="/tours" className="footer-link">
+                  Tours
+                </Link>
+                <Link href="/blogs" className="footer-link">
+                  Blogs
+                </Link>
+                <Link href="/career" className="footer-link">
+                  Career
+                </Link>
+                <Link href="/terms" className="footer-link">
+                  Terms and Conditions
+                </Link>
+                <Link href="/privacy" className="footer-link">
+                  Privacy Policy
+                </Link>
+                <Link href="/travel-insurance" className="footer-link">
+                  Travel Insurance
+                </Link>
               </nav>
             </div>
 
@@ -96,9 +131,6 @@ export default function Footer() {
                 </a>
                 <a href="tel:+9779849934867" className="footer-contact-link">
                   +977 9849934867
-                </a>
-                <a href="tel:+9779801136694" className="footer-contact-link">
-                  +977 9801136694
                 </a>
               </div>
             </div>
