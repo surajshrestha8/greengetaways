@@ -200,8 +200,8 @@
 
 .tour-detail-layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 40px;
+  grid-template-columns: 1fr 460px;
+  gap: 32px;
 }
 
 /* Main Content */
@@ -1949,5 +1949,412 @@
 
   .tour-highlights h2 {
     font-size: 20px;
+  }
+}
+
+/* ── Itinerary Enquiry Banner ──────────────────────────────── */
+.itinerary-enquiry-banner {
+  position: relative;
+  margin-top: 28px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d2b2f 0%, #0f3d2e 60%, #1a4a2e 100%);
+  border: 1px solid rgba(105, 189, 69, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(105, 189, 69, 0.08);
+  transition: box-shadow 0.35s ease;
+}
+
+.itinerary-enquiry-banner.expanded {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(105, 189, 69, 0.2);
+}
+
+/* Animated top glow strip */
+.ienq-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #69bd45, #00c98d, #69bd45);
+  background-size: 200% 100%;
+  animation: ienq-shimmer 2.5s linear infinite;
+}
+
+@keyframes ienq-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.ienq-inner {
+  padding: 24px 28px 28px;
+}
+
+.ienq-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ienq-top-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ienq-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #69bd45, #00a86b);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.ienq-heading {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 3px;
+  line-height: 1.2;
+}
+
+.ienq-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ienq-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #69bd45 0%, #00a86b 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(105, 189, 69, 0.35);
+  flex-shrink: 0;
+}
+
+.ienq-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(105, 189, 69, 0.45);
+}
+
+/* Expanded form area */
+.ienq-form-wrap {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  animation: ienq-slide-in 0.3s ease;
+}
+
+@keyframes ienq-slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ienq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ienq-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ienq-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ienq-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.ienq-field input,
+.ienq-field textarea {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  resize: none;
+  font-family: inherit;
+}
+
+.ienq-field input::placeholder,
+.ienq-field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.ienq-field input:focus,
+.ienq-field textarea:focus {
+  border-color: rgba(105, 189, 69, 0.55);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.ienq-field input:disabled,
+.ienq-field textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ienq-error {
+  font-size: 13px;
+  color: #ff6b6b;
+  margin: 0;
+}
+
+.ienq-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.ienq-cancel-btn {
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ienq-cancel-btn:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.ienq-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: linear-gradient(135deg, #69bd45 0%, #00a86b 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(105, 189, 69, 0.3);
+}
+
+.ienq-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(105, 189, 69, 0.4);
+}
+
+.ienq-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Success state */
+.ienq-success {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.ienq-success-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+.ienq-success-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .ienq-inner {
+    padding: 20px 18px 22px;
+  }
+
+  .ienq-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ienq-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ienq-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ienq-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .ienq-cancel-btn,
+  .ienq-submit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   Trip Overview Grid (main content area)
+   ============================================================ */
+.trip-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.trip-overview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(105, 189, 69, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.trip-overview-card:hover {
+  background: rgba(105, 189, 69, 0.08);
+  border-color: rgba(105, 189, 69, 0.4);
+  transform: translateY(-2px);
+}
+
+.trip-overview-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(105, 189, 69, 0.2) 0%, rgba(105, 189, 69, 0.06) 100%);
+  border-radius: 10px;
+  color: #69bd45;
+}
+
+.trip-overview-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #808080;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trip-overview-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f0f0f0;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   Sidebar Trip Overview List
+   ============================================================ */
+.sidebar-trip-overview {
+  margin-top: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.sidebar-trip-overview h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-trip-overview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-trip-overview li {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+}
+
+.sidebar-trip-overview li:last-child {
+  border-bottom: none;
+}
+
+.sidebar-ov-icon {
+  color: #69bd45;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-ov-label {
+  color: #909090;
+}
+
+.sidebar-ov-value {
+  color: #fff;
+  font-weight: 500;
+  text-align: right;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Responsive overrides for trip overview grid
+   ============================================================ */
+@media (max-width: 480px) {
+  .trip-overview-grid {
+    gap: 8px;
+  }
+
+  .trip-overview-card {
+    padding: 12px;
   }
 }

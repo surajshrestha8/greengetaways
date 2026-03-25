@@ -67,6 +67,7 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
             ) : (
               <p className="tab-empty">Itinerary details coming soon.</p>
             )}
+            <ItineraryEnquiryBanner tourId={tour.id} tourTitle={tour.title} />
           </div>
         )}
 
@@ -572,6 +573,156 @@ function QuestionForm({ tourId }: { tourId: number }) {
           </button>
         </form>
       )}
+    </div>
+  )
+}
+
+// Itinerary Enquiry Banner
+function ItineraryEnquiryBanner({ tourId, tourTitle }: { tourId: number; tourTitle: string }) {
+  const [expanded, setExpanded] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    setErrorMsg('')
+    try {
+      const res = await fetch('/api/tour-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          question: `[Custom Itinerary Request for "${tourTitle}"] ${message}`,
+          tourId,
+        }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setStatus('success')
+      } else {
+        setStatus('error')
+        setErrorMsg(data.message || 'Something went wrong.')
+      }
+    } catch {
+      setStatus('error')
+      setErrorMsg('Network error. Please try again.')
+    }
+  }
+
+  return (
+    <div className={`itinerary-enquiry-banner ${expanded ? 'expanded' : ''}`}>
+      {/* Top gradient strip */}
+      <div className="ienq-glow" />
+
+      <div className="ienq-inner">
+        {/* Collapsed state — always visible */}
+        <div className="ienq-top">
+          <div className="ienq-top-left">
+            <span className="ienq-badge">Customize</span>
+            <div>
+              <p className="ienq-heading">Not loving this itinerary?</p>
+              <p className="ienq-sub">Tell us your preferences — we&apos;ll craft the perfect trip for you.</p>
+            </div>
+          </div>
+          {!expanded && (
+            <button className="ienq-cta-btn" onClick={() => setExpanded(true)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+              Request Custom Itinerary
+            </button>
+          )}
+        </div>
+
+        {/* Expanded form */}
+        {expanded && (
+          <div className="ienq-form-wrap">
+            {status === 'success' ? (
+              <div className="ienq-success">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#69bd45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <div>
+                  <p className="ienq-success-title">Request sent!</p>
+                  <p className="ienq-success-sub">We&apos;ll get back to you within 24 hours with a custom plan.</p>
+                </div>
+              </div>
+            ) : (
+              <form className="ienq-form" onSubmit={handleSubmit} noValidate>
+                <div className="ienq-form-row">
+                  <div className="ienq-field">
+                    <label htmlFor="ienq-name">Your Name</label>
+                    <input
+                      id="ienq-name"
+                      type="text"
+                      placeholder="Jane Smith"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      disabled={status === 'loading'}
+                    />
+                  </div>
+                  <div className="ienq-field">
+                    <label htmlFor="ienq-email">Email Address</label>
+                    <input
+                      id="ienq-email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      disabled={status === 'loading'}
+                    />
+                  </div>
+                </div>
+                <div className="ienq-field">
+                  <label htmlFor="ienq-message">What would you like to change or add?</label>
+                  <textarea
+                    id="ienq-message"
+                    placeholder="e.g. I'd love an extra day in Pokhara, prefer a sunrise hike on Day 3, skip the city tour..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={3}
+                    required
+                    disabled={status === 'loading'}
+                  />
+                </div>
+                {status === 'error' && <p className="ienq-error">{errorMsg}</p>}
+                <div className="ienq-form-actions">
+                  <button type="button" className="ienq-cancel-btn" onClick={() => setExpanded(false)}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="ienq-submit-btn" disabled={status === 'loading'}>
+                    {status === 'loading' ? (
+                      <>
+                        <svg className="question-form-spinner" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                        </svg>
+                        Sending…
+                      </>
+                    ) : (
+                      <>
+                        Send Request
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="22" y1="2" x2="11" y2="13" />
+                          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
