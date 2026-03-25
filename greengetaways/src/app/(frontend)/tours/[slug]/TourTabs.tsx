@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour, Media, Testimonial } from '@/payload-types'
+import { BookingTable, type MonthGroup } from './BookingTable'
 
 interface TourTabsProps {
   tour: Tour
@@ -20,6 +21,153 @@ const tabs: { key: TabKey; label: string }[] = [
   { key: 'reviews', label: 'Reviews' },
   { key: 'faqs', label: 'FAQs' },
 ]
+
+const MOCK_BOOKING_GROUPS: MonthGroup[] = [
+  {
+    month: 'MARCH 2026',
+    rows: [
+      {
+        id: 'mar-27',
+        arrivalDay: 'Friday',
+        arrivalDate: '27 Mar, 2026',
+        departureDay: 'Friday',
+        departureDate: '10 Apr, 2026',
+        availability: '6 spaces left',
+        priceUSD: 3790,
+        currency: 'USD',
+        bookingUrl: '/book?date=2026-03-27',
+      },
+    ],
+  },
+  {
+    month: 'APRIL 2026',
+    rows: [
+      {
+        id: 'apr-03',
+        arrivalDay: 'Friday',
+        arrivalDate: '03 Apr, 2026',
+        departureDay: 'Friday',
+        departureDate: '17 Apr, 2026',
+        availability: '1 spaces left',
+        priceUSD: 3790,
+        currency: 'USD',
+        bookingUrl: '/book?date=2026-04-03',
+      },
+      {
+        id: 'apr-10',
+        arrivalDay: 'Friday',
+        arrivalDate: '10 Apr, 2026',
+        departureDay: 'Friday',
+        departureDate: '24 Apr, 2026',
+        availability: '8 spaces left',
+        priceUSD: 3790,
+        currency: 'USD',
+        bookingUrl: '/book?date=2026-04-10',
+      },
+      {
+        id: 'apr-12',
+        arrivalDay: 'Sunday',
+        arrivalDate: '12 Apr, 2026',
+        departureDay: 'Sunday',
+        departureDate: '26 Apr, 2026',
+        availability: 'Available (private only)',
+        isPrivateOnly: true,
+        priceUSD: 3790,
+        currency: 'USD',
+        bookingUrl: '/book?date=2026-04-12',
+      },
+    ],
+  },
+  {
+    month: 'MAY 2026',
+    rows: [
+      {
+        id: 'may-01',
+        arrivalDay: 'Friday',
+        arrivalDate: '01 May, 2026',
+        departureDay: 'Friday',
+        departureDate: '15 May, 2026',
+        availability: '10 spaces left',
+        priceUSD: 3790,
+        currency: 'USD',
+        bookingUrl: '/book?date=2026-05-01',
+      },
+      {
+        id: 'may-15',
+        arrivalDay: 'Friday',
+        arrivalDate: '15 May, 2026',
+        departureDay: 'Friday',
+        departureDate: '29 May, 2026',
+        availability: 'Sold Out',
+        priceUSD: 3790,
+        currency: 'USD',
+        bookingUrl: '/book?date=2026-05-15',
+      },
+    ],
+  },
+]
+
+function buildMonthGroups(tour: Tour): MonthGroup[] {
+  const departures = tour.availability?.departureDates ?? []
+  const currency = tour.pricing?.currency ?? 'USD'
+  const basePrice = tour.pricing?.basePrice ?? 0
+  const durationDays = tour.duration?.days ?? 0
+
+  const monthMap = new Map<string, MonthGroup>()
+
+  departures.forEach((dep, i) => {
+    if (!dep.date) return
+    const arrival = new Date(dep.date)
+    const arrivalDay = arrival.toLocaleDateString('en-US', { weekday: 'long' })
+    const arrivalDate = arrival.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+
+    let departureDay = ''
+    let departureDate = ''
+    if (durationDays > 0) {
+      const dep2 = new Date(arrival)
+      dep2.setDate(dep2.getDate() + durationDays)
+      departureDay = dep2.toLocaleDateString('en-US', { weekday: 'long' })
+      departureDate = dep2.toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+    } else {
+      departureDay = arrivalDay
+      departureDate = arrivalDate
+    }
+
+    const seats = dep.availableSeats ?? 0
+    const availability = seats > 0 ? `${seats} spaces left` : 'Sold Out'
+
+    const monthKey = arrival.toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric',
+    }).toUpperCase()
+
+    if (!monthMap.has(monthKey)) {
+      monthMap.set(monthKey, { month: monthKey, rows: [] })
+    }
+
+    monthMap.get(monthKey)!.rows.push({
+      id: `dep-${i}`,
+      arrivalDay,
+      arrivalDate,
+      departureDay,
+      departureDate,
+      availability,
+      priceUSD: basePrice,
+      currency,
+      bookingUrl: `/book?tour=${tour.id}&date=${dep.date}`,
+    })
+  })
+
+  return Array.from(monthMap.values())
+}
 
 export default function TourTabs({ tour, testimonials }: TourTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('itinerary')
@@ -135,38 +283,14 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               {/* Available Dates */}
               <div className="available-dates">
                 <h3>Available Departure Dates</h3>
-                {tour.availability?.departureDates &&
-                tour.availability.departureDates.length > 0 ? (
-                  <div className="dates-table">
-                    <div className="dates-table-header">
-                      <span>Departure Date</span>
-                      <span>Available Seats</span>
-                      <span>Status</span>
-                    </div>
-                    {tour.availability.departureDates.map(
-                      (
-                        departure: { date?: string | null; availableSeats?: number | null },
-                        index: number,
-                      ) => (
-                        <div key={index} className="dates-table-row">
-                          <span className="departure-date">
-                            {departure.date ? formatDate(departure.date) : 'TBD'}
-                          </span>
-                          <span className="departure-seats">
-                            {departure.availableSeats ?? 0} seats
-                          </span>
-                          <span
-                            className={`departure-status ${(departure.availableSeats ?? 0) > 0 ? 'available' : 'sold-out'}`}
-                          >
-                            {(departure.availableSeats ?? 0) > 0 ? 'Available' : 'Sold Out'}
-                          </span>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                ) : (
-                  <p className="tab-empty">Contact us for available dates.</p>
-                )}
+                <BookingTable
+                  groups={
+                    tour.availability?.departureDates &&
+                    tour.availability.departureDates.length > 0
+                      ? buildMonthGroups(tour)
+                      : MOCK_BOOKING_GROUPS
+                  }
+                />
               </div>
             </div>
           </div>

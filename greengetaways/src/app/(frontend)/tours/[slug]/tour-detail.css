@@ -2358,3 +2358,170 @@
     padding: 12px;
   }
 }
+
+/* ============================================================
+   BookingTable (.bt-*)
+   ============================================================ */
+
+.bt-wrapper {
+  font-family: var(--font-ui);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-background);
+  width: 100%;
+}
+
+/* ── Header ── */
+.bt-header {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px 32px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  gap: 8px;
+}
+
+.bt-header-title {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bt-header-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-light);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* ── Column layout ── */
+.bt-col { display: flex; flex-direction: column; }
+
+.bt-col--dates  { flex: 3; }
+.bt-col--avail  { flex: 2; justify-content: center; }
+.bt-col--price  { flex: 2; justify-content: center; }
+.bt-col--action { flex: 1.5; align-items: flex-end; justify-content: center; }
+
+/* ── Month header ── */
+.bt-month-header {
+  padding: 14px 32px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(105, 189, 69, 0.06);
+}
+
+/* ── Row ── */
+.bt-row {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-background);
+  transition: background 0.15s;
+  gap: 8px;
+}
+
+.bt-row--alt {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bt-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Date pair ── */
+.bt-date-pair {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bt-date-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bt-day {
+  font-size: 12px;
+  color: var(--color-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bt-date {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.bt-arrow {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 20px;
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+/* ── Availability ── */
+.bt-avail {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+}
+
+.bt-avail--private {
+  color: #e8910a;
+  font-weight: 500;
+}
+
+/* ── Price ── */
+.bt-price {
+  font-size: 16px;
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ── Book button ── */
+.bt-book-btn {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.bt-book-btn:hover  { background: var(--color-primary-dark); }
+.bt-book-btn:active { transform: scale(0.97); }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .bt-row,
+  .bt-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .bt-col--dates  { flex: 100%; }
+  .bt-col--avail  { flex: 1; }
+  .bt-col--price  { flex: 1; }
+  .bt-col--action { flex: 100%; align-items: stretch; }
+  .bt-book-btn    { width: 100%; text-align: center; }
+}
