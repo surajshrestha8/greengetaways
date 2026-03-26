@@ -4,11 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Tour, Media, Testimonial, Destination, ActivityCategory } from '@/payload-types'
+import type { Tour, Media, Destination, ActivityCategory } from '@/payload-types'
 import TourCard from '../../components/TourCard'
 import TourTabs from './TourTabs'
 import TourWhyChooseUsAccordion from './TourWhyChooseUsAccordion'
-import TourHighlightsAccordion from './TourHighlightsAccordion'
 import './tour-detail.css'
 
 interface TourDetailPageProps {
@@ -62,19 +61,6 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     if (!tour) {
       notFound()
     }
-
-    // Fetch testimonials for this tour
-    const { docs: testimonials } = await payload.find({
-      collection: 'testimonials',
-      where: {
-        and: [
-          { tour: { equals: tour.id } },
-          { status: { equals: 'approved' } },
-        ],
-      },
-      limit: 10,
-      sort: '-createdAt',
-    })
 
     // Fetch suggested tours (same tour type, excluding current tour)
     const { docs: suggestedTours } = await payload.find({
@@ -445,14 +431,6 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
               <p>{tour.shortDescription}</p>
             </div>
 
-            {/* Tour Highlights */}
-            {tour.highlights && tour.highlights.length > 0 && (
-              <div className="tour-highlights">
-                <h2>Tour Highlights</h2>
-                <TourHighlightsAccordion highlights={tour.highlights} />
-              </div>
-            )}
-
             {/* Why Choose Us Section */}
             {tour.whyChooseUs && (
               <div className="why-choose-us">
@@ -461,7 +439,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
             )}
 
             {/* Tabs Section */}
-            <TourTabs tour={tour} testimonials={testimonials as Testimonial[]} />
+            <TourTabs tour={tour} />
           </div>
 
           {/* Right: Booking Sidebar */}

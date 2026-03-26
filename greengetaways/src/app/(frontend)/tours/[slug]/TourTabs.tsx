@@ -1,24 +1,23 @@
 'use client'
 
 import React, { useState } from 'react'
-import Image from 'next/image'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import type { Tour, Media, Testimonial } from '@/payload-types'
+import type { Tour } from '@/payload-types'
 import { BookingTable, type MonthGroup } from './BookingTable'
+import TourHighlightsAccordion from './TourHighlightsAccordion'
 
 interface TourTabsProps {
   tour: Tour
-  testimonials: Testimonial[]
 }
 
-type TabKey = 'itinerary' | 'includes' | 'dates-prices' | 'useful-info' | 'reviews' | 'faqs'
+type TabKey = 'itinerary' | 'highlights' | 'includes' | 'dates-prices' | 'useful-info' | 'faqs'
 
 const tabs: { key: TabKey; label: string }[] = [
+  { key: 'highlights', label: 'Highlights' },
   { key: 'itinerary', label: 'Itinerary' },
   { key: 'includes', label: 'Includes' },
   { key: 'dates-prices', label: 'Dates & Prices' },
   { key: 'useful-info', label: 'Useful Info' },
-  { key: 'reviews', label: 'Reviews' },
   { key: 'faqs', label: 'FAQs' },
 ]
 
@@ -144,10 +143,12 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
     const seats = dep.availableSeats ?? 0
     const availability = seats > 0 ? `${seats} spaces left` : 'Sold Out'
 
-    const monthKey = arrival.toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric',
-    }).toUpperCase()
+    const monthKey = arrival
+      .toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric',
+      })
+      .toUpperCase()
 
     if (!monthMap.has(monthKey)) {
       monthMap.set(monthKey, { month: monthKey, rows: [] })
@@ -169,7 +170,7 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
   return Array.from(monthMap.values())
 }
 
-export default function TourTabs({ tour, testimonials }: TourTabsProps) {
+export default function TourTabs({ tour }: TourTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('itinerary')
 
   const formatPrice = (amount: number, currency: string) => {
@@ -216,6 +217,17 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
               <p className="tab-empty">Itinerary details coming soon.</p>
             )}
             <ItineraryEnquiryBanner tourId={tour.id} tourTitle={tour.title} />
+          </div>
+        )}
+
+        {/* Highlights Tab */}
+        {activeTab === 'highlights' && (
+          <div className="tab-panel">
+            {tour.highlights && tour.highlights.length > 0 ? (
+              <TourHighlightsAccordion highlights={tour.highlights} />
+            ) : (
+              <p className="tab-empty">No highlights available for this tour.</p>
+            )}
           </div>
         )}
 
@@ -285,8 +297,7 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
                 <h3>Available Departure Dates</h3>
                 <BookingTable
                   groups={
-                    tour.availability?.departureDates &&
-                    tour.availability.departureDates.length > 0
+                    tour.availability?.departureDates && tour.availability.departureDates.length > 0
                       ? buildMonthGroups(tour)
                       : MOCK_BOOKING_GROUPS
                   }
@@ -328,84 +339,6 @@ export default function TourTabs({ tour, testimonials }: TourTabsProps) {
                 <p className="tab-empty">No additional information available for this tour.</p>
               )
             })()}
-          </div>
-        )}
-
-        {/* Reviews Tab */}
-        {activeTab === 'reviews' && (
-          <div className="tab-panel">
-            {testimonials && testimonials.length > 0 ? (
-              <div className="reviews-list">
-                {testimonials.map((testimonial: Testimonial) => (
-                  <div key={testimonial.id} className="review-card">
-                    <div className="review-header">
-                      <div className="reviewer-info">
-                        {testimonial.customerPhoto && (
-                          <div className="reviewer-photo">
-                            <Image
-                              src={
-                                (testimonial.customerPhoto as Media).url ||
-                                '/placeholder-avatar.jpg'
-                              }
-                              alt={testimonial.customerName}
-                              width={48}
-                              height={48}
-                            />
-                          </div>
-                        )}
-                        <div className="reviewer-details">
-                          <h4>{testimonial.customerName}</h4>
-                          {testimonial.customerLocation && (
-                            <span className="reviewer-location">
-                              {testimonial.customerLocation}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="review-rating">
-                        {[...Array(5)].map((_, i) => (
-                          <svg
-                            key={i}
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill={i < testimonial.rating ? '#ffc107' : 'none'}
-                            stroke="#ffc107"
-                            strokeWidth="2"
-                          >
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                          </svg>
-                        ))}
-                      </div>
-                    </div>
-                    <h5 className="review-title">{testimonial.title}</h5>
-                    <p className="review-text">{testimonial.review}</p>
-                    <span className="review-date">
-                      Traveled:{' '}
-                      {new Date(testimonial.travelDate).toLocaleDateString('en-US', {
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="no-reviews">
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                <p>No reviews yet for this tour.</p>
-                <span>Be the first to share your experience!</span>
-              </div>
-            )}
           </div>
         )}
 
@@ -606,19 +539,39 @@ function QuestionForm({ tourId }: { tourId: number }) {
     <div className="question-form-section">
       <div className="question-form-header">
         <div className="question-form-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
         </div>
         <div>
           <h3 className="question-form-title">Still have questions?</h3>
-          <p className="question-form-subtitle">Ask us anything about this tour and we&apos;ll get back to you.</p>
+          <p className="question-form-subtitle">
+            Ask us anything about this tour and we&apos;ll get back to you.
+          </p>
         </div>
       </div>
 
       {status === 'success' ? (
         <div className="question-form-success">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#69bd45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#69bd45"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
@@ -628,7 +581,9 @@ function QuestionForm({ tourId }: { tourId: number }) {
         <form className="question-form" onSubmit={handleSubmit} noValidate>
           <div className="question-form-row">
             <div className="question-form-field">
-              <label className="question-form-label" htmlFor="q-name">Your Name</label>
+              <label className="question-form-label" htmlFor="q-name">
+                Your Name
+              </label>
               <input
                 id="q-name"
                 type="text"
@@ -641,7 +596,9 @@ function QuestionForm({ tourId }: { tourId: number }) {
               />
             </div>
             <div className="question-form-field">
-              <label className="question-form-label" htmlFor="q-email">Email Address</label>
+              <label className="question-form-label" htmlFor="q-email">
+                Email Address
+              </label>
               <input
                 id="q-email"
                 type="email"
@@ -656,7 +613,9 @@ function QuestionForm({ tourId }: { tourId: number }) {
           </div>
 
           <div className="question-form-field">
-            <label className="question-form-label" htmlFor="q-question">Your Question</label>
+            <label className="question-form-label" htmlFor="q-question">
+              Your Question
+            </label>
             <textarea
               id="q-question"
               className="question-form-input question-form-textarea"
@@ -669,18 +628,20 @@ function QuestionForm({ tourId }: { tourId: number }) {
             />
           </div>
 
-          {status === 'error' && (
-            <p className="question-form-error">{message}</p>
-          )}
+          {status === 'error' && <p className="question-form-error">{message}</p>}
 
-          <button
-            type="submit"
-            className="question-form-submit"
-            disabled={status === 'loading'}
-          >
+          <button type="submit" className="question-form-submit" disabled={status === 'loading'}>
             {status === 'loading' ? (
               <>
-                <svg className="question-form-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  className="question-form-spinner"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                 </svg>
                 Sending…
@@ -688,7 +649,16 @@ function QuestionForm({ tourId }: { tourId: number }) {
             ) : (
               <>
                 Send Question
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <line x1="22" y1="2" x2="11" y2="13" />
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
@@ -750,12 +720,23 @@ function ItineraryEnquiryBanner({ tourId, tourTitle }: { tourId: number; tourTit
             <span className="ienq-badge">Customize</span>
             <div>
               <p className="ienq-heading">Not loving this itinerary?</p>
-              <p className="ienq-sub">Tell us your preferences — we&apos;ll craft the perfect trip for you.</p>
+              <p className="ienq-sub">
+                Tell us your preferences — we&apos;ll craft the perfect trip for you.
+              </p>
             </div>
           </div>
           {!expanded && (
             <button className="ienq-cta-btn" onClick={() => setExpanded(true)}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
@@ -769,13 +750,24 @@ function ItineraryEnquiryBanner({ tourId, tourTitle }: { tourId: number; tourTit
           <div className="ienq-form-wrap">
             {status === 'success' ? (
               <div className="ienq-success">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#69bd45" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#69bd45"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
                 <div>
                   <p className="ienq-success-title">Request sent!</p>
-                  <p className="ienq-success-sub">We&apos;ll get back to you within 24 hours with a custom plan.</p>
+                  <p className="ienq-success-sub">
+                    We&apos;ll get back to you within 24 hours with a custom plan.
+                  </p>
                 </div>
               </div>
             ) : (
@@ -820,13 +812,25 @@ function ItineraryEnquiryBanner({ tourId, tourTitle }: { tourId: number; tourTit
                 </div>
                 {status === 'error' && <p className="ienq-error">{errorMsg}</p>}
                 <div className="ienq-form-actions">
-                  <button type="button" className="ienq-cancel-btn" onClick={() => setExpanded(false)}>
+                  <button
+                    type="button"
+                    className="ienq-cancel-btn"
+                    onClick={() => setExpanded(false)}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="ienq-submit-btn" disabled={status === 'loading'}>
                     {status === 'loading' ? (
                       <>
-                        <svg className="question-form-spinner" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg
+                          className="question-form-spinner"
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
                           <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                         </svg>
                         Sending…
@@ -834,7 +838,16 @@ function ItineraryEnquiryBanner({ tourId, tourTitle }: { tourId: number; tourTit
                     ) : (
                       <>
                         Send Request
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <line x1="22" y1="2" x2="11" y2="13" />
                           <polygon points="22 2 15 22 11 13 2 9 22 2" />
                         </svg>
