@@ -22,7 +22,9 @@
       "Bash(npm install:*)",
       "Bash(pnpm install:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(find \"/c/Users/manju/Desktop/greengetaways/greengetaways/greengetaways/src/app/\\(frontend\\)\" -maxdepth 1 -type d)",
+      "Bash(find \"/c/Users/manju/Desktop/greengetaways/greengetaways/greengetaways/src/app/\\(frontend\\)\" -name \"page.tsx\" -o -name \"layout.tsx\")"
     ]
   }
 }

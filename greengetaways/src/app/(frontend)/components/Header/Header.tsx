@@ -43,6 +43,7 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
           { label: 'Why Choose Us', href: '/about/why-us' },
           { label: 'Our Team', href: '/about/team' },
           { label: 'Sustainability', href: '/about/sustainability' },
+          { label: 'Reviews', href: '/reviews' },
         ],
       },
       {

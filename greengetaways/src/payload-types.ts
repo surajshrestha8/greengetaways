@@ -821,7 +821,7 @@ export interface Testimonial {
    * City, Country
    */
   customerLocation?: string | null;
-  tour: number | Tour;
+  tour?: (number | null) | Tour;
   rating: number;
   /**
    * Testimonial headline

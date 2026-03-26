@@ -5,9 +5,10 @@ import './TestimonialSection.css'
 
 interface TestimonialSectionProps {
   testimonials: Testimonial[]
+  showHeader?: boolean
 }
 
-export default function TestimonialSection({ testimonials }: TestimonialSectionProps) {
+export default function TestimonialSection({ testimonials, showHeader = true }: TestimonialSectionProps) {
   if (!testimonials || testimonials.length === 0) {
     return null
   }
@@ -15,12 +16,14 @@ export default function TestimonialSection({ testimonials }: TestimonialSectionP
   return (
     <section className="testimonial-section">
       <div className="testimonial-section-container">
-        <div className="testimonial-section-header">
-          <h2 className="testimonial-section-title">What Our Customers Say</h2>
-          <p className="testimonial-section-subtitle">
-            Discover the feedbacks from our past customers!
-          </p>
-        </div>
+        {showHeader && (
+          <div className="testimonial-section-header">
+            <h2 className="testimonial-section-title">What Our Customers Say</h2>
+            <p className="testimonial-section-subtitle">
+              Discover the feedbacks from our past customers!
+            </p>
+          </div>
+        )}
 
         <div className="testimonial-grid">
           {testimonials.map((testimonial) => (

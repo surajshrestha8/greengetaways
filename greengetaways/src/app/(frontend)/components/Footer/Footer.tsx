@@ -116,6 +116,9 @@ export default function Footer() {
                 <Link href="/travel-insurance" className="footer-link">
                   Travel Insurance
                 </Link>
+                <Link href="/reviews" className="footer-link">
+                  Reviews
+                </Link>
               </nav>
             </div>
 

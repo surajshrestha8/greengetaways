@@ -31,7 +31,6 @@ export const Testimonials: CollectionConfig = {
       name: 'tour',
       type: 'relationship',
       relationTo: 'tours',
-      required: true,
     },
     {
       name: 'rating',
