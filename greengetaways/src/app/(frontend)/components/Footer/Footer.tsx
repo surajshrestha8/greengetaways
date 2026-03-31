@@ -27,7 +27,7 @@ export default function Footer() {
               </p>
               <div className="footer-social">
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/greengetaways2020/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer-social-link"
@@ -38,7 +38,7 @@ export default function Footer() {
                   </svg>
                 </a>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/green_getaways"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer-social-link"
