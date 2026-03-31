@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: defaultTitle,
     description: defaultDescription,
-    url: siteUrl,
+    url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
