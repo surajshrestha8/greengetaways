@@ -48,7 +48,7 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
       },
       {
         label: 'Blog',
-        href: '/blog',
+        href: '/blogs',
       },
       {
         label: "What's on",

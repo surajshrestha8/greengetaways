@@ -6,7 +6,8 @@ import TourCardSection from './components/TourCardSection'
 import WhyChooseUs from './components/WhyChooseUs'
 import CTASection from './components/CTASection'
 import TestimonialSection from './components/TestimonialSection'
-import type { Tour, Testimonial } from '@/payload-types'
+import BlogSection from './components/BlogSection'
+import type { Tour, Testimonial, Blog } from '@/payload-types'
 
 // Force dynamic rendering to avoid database queries at build time
 export const dynamic = 'force-dynamic'
@@ -14,10 +15,11 @@ export const dynamic = 'force-dynamic'
 export default async function HomePage() {
   let featuredTours: Tour[] = []
   let featuredTestimonials: Testimonial[] = []
+  let featuredBlogs: Blog[] = []
 
   try {
     const payload = await getPayload({ config: configPromise })
-    const [toursResult, testimonialsResult] = await Promise.all([
+    const [toursResult, testimonialsResult, blogsResult] = await Promise.all([
       payload.find({
         collection: 'tours',
         where: {
@@ -37,9 +39,21 @@ export default async function HomePage() {
         limit: 6,
         sort: '-createdAt',
       }),
+      payload.find({
+        collection: 'blog',
+        where: {
+          and: [
+            { featured: { equals: true } },
+            { status: { equals: 'published' } },
+          ],
+        },
+        limit: 3,
+        sort: '-publishedDate',
+      }),
     ])
     featuredTours = toursResult.docs
     featuredTestimonials = testimonialsResult.docs as Testimonial[]
+    featuredBlogs = blogsResult.docs as Blog[]
   } catch (_error) {
     // Database not ready yet (first deployment) - continue with empty data
     console.log('Database not ready, continuing with empty data')
@@ -55,6 +69,7 @@ export default async function HomePage() {
       />
       <WhyChooseUs />
       <TestimonialSection testimonials={featuredTestimonials} />
+      <BlogSection blogs={featuredBlogs} />
       <CTASection />
     </>
   )
