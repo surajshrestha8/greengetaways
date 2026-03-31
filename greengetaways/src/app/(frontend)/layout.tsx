@@ -1,13 +1,39 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import './styles.css'
+import { SITE_URL, SITE_NAME } from '@/config'
 
-export const metadata = {
-  description: 'Green Getaways - Travel for Sustainability. Discover eco-friendly tours and adventures.',
-  title: 'Green Getaways - Travel for Sustainability',
+const defaultTitle = `${SITE_NAME} - Travel for Sustainability`
+const defaultDescription =
+  'Discover eco-friendly tours and sustainable travel adventures with Green Getaways. Explore breathtaking destinations while preserving nature.'
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: defaultTitle,
+    template: '%s | Green Getaways',
+  },
+  description: defaultDescription,
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    title: defaultTitle,
+    description: defaultDescription,
+    url: siteUrl,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: defaultTitle,
+    description: defaultDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

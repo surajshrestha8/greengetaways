@@ -12,9 +12,21 @@ import Link from 'next/link'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Tours - Green Getaways',
+  title: 'Tours',
   description:
     'Explore our eco-friendly tours and sustainable travel packages. Discover breathtaking destinations while preserving nature.',
+  openGraph: {
+    title: 'Tours | Green Getaways',
+    description:
+      'Explore our eco-friendly tours and sustainable travel packages. Discover breathtaking destinations while preserving nature.',
+    type: 'website' as const,
+  },
+  twitter: {
+    card: 'summary_large_image' as const,
+    title: 'Tours | Green Getaways',
+    description:
+      'Explore our eco-friendly tours and sustainable travel packages. Discover breathtaking destinations while preserving nature.',
+  },
 }
 
 interface ToursPageProps {

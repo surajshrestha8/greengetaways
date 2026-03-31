@@ -1,11 +1,12 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import type { Blog, User } from '@/payload-types'
-import { formatDate } from '../../lib/utils'
+import type { Blog, User, Media } from '@/payload-types'
+import { formatDate, getImageUrl } from '../../lib/utils'
 import { BLOG_CATEGORY_LABELS } from '../../lib/constants'
 import './blog-detail.css'
 
@@ -15,7 +16,7 @@ interface BlogDetailPageProps {
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: BlogDetailPageProps) {
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params
 
   try {
@@ -26,13 +27,31 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
       limit: 1,
     })
     const blog = docs[0]
-    if (!blog) return { title: 'Blog Not Found - Green Getaways' }
+    if (!blog) return { title: 'Blog Not Found' }
+
+    const title = blog.metaTitle || blog.title
+    const description = blog.metaDescription || blog.excerpt || ''
+    const imageUrl = getImageUrl(blog.featuredImage as Media | null)
+    const ogImages = imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: title }] : []
+
     return {
-      title: `${blog.metaTitle || blog.title} - Green Getaways`,
-      description: blog.metaDescription || blog.excerpt,
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        images: ogImages,
+        type: 'article',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: imageUrl ? [imageUrl] : [],
+      },
     }
   } catch {
-    return { title: 'Blog - Green Getaways' }
+    return { title: 'Blog' }
   }
 }
 

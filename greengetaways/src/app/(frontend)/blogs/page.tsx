@@ -7,8 +7,18 @@ import './blogs.css'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Blog - Green Getaways',
+  title: 'Blog',
   description: 'Travel tips, destination guides, stories, and inspiration from the Green Getaways team.',
+  openGraph: {
+    title: 'Blog | Green Getaways',
+    description: 'Travel tips, destination guides, stories, and inspiration from the Green Getaways team.',
+    type: 'website' as const,
+  },
+  twitter: {
+    card: 'summary_large_image' as const,
+    title: 'Blog | Green Getaways',
+    description: 'Travel tips, destination guides, stories, and inspiration from the Green Getaways team.',
+  },
 }
 
 const MOCK_BLOGS: Blog[] = [

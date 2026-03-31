@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
 import type { Tour, Media, Destination, ActivityCategory } from '@/payload-types'
 import TourCard from '../../components/TourCard'
 import TourTabs from './TourTabs'
@@ -19,7 +20,7 @@ interface TourDetailPageProps {
 // Force dynamic rendering to avoid database queries at build time
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: TourDetailPageProps) {
+export async function generateMetadata({ params }: TourDetailPageProps): Promise<Metadata> {
   const { slug } = await params
 
   try {
@@ -33,16 +34,31 @@ export async function generateMetadata({ params }: TourDetailPageProps) {
     const tour = docs[0]
 
     if (!tour) {
-      return { title: 'Tour Not Found - Green Getaways' }
+      return { title: 'Tour Not Found' }
     }
 
+    const description = tour.shortDescription || tour.metaDescription || ''
+    const imageUrl = getImageUrl(tour.featuredImage as Media | null)
+    const ogImages = imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: tour.title }] : []
+
     return {
-      title: `${tour.title} - Green Getaways`,
-      description: tour.shortDescription || tour.metaDescription,
+      title: tour.title,
+      description,
+      openGraph: {
+        title: tour.title,
+        description,
+        images: ogImages,
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: tour.title,
+        description,
+        images: imageUrl ? [imageUrl] : [],
+      },
     }
   } catch (_error) {
-    // Database not ready yet
-    return { title: 'Tour - Green Getaways' }
+    return { title: 'Tour' }
   }
 }
 
