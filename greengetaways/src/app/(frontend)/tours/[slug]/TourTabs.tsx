@@ -5,6 +5,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour } from '@/payload-types'
 import { BookingTable, type MonthGroup } from './BookingTable'
 import TourHighlightsAccordion from './TourHighlightsAccordion'
+import { formatPrice } from '../../lib/utils'
 
 interface TourTabsProps {
   tour: Tour
@@ -173,10 +174,6 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
 export default function TourTabs({ tour }: TourTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('itinerary')
 
-  const formatPrice = (amount: number, currency: string) => {
-    const symbol = currency === 'USD' ? '$' : currency
-    return `${symbol} ${amount.toLocaleString()}`
-  }
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {

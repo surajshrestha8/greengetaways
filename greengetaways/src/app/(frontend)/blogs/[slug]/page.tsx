@@ -5,6 +5,8 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Blog, User } from '@/payload-types'
+import { formatDate } from '../../lib/utils'
+import { BLOG_CATEGORY_LABELS } from '../../lib/constants'
 import './blog-detail.css'
 
 interface BlogDetailPageProps {
@@ -34,16 +36,6 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
   }
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  'travel-tips': 'Travel Tips',
-  'destination-guides': 'Destination Guides',
-  'travel-stories': 'Travel Stories',
-  'travel-news': 'Travel News',
-  'photography': 'Photography',
-  'culture': 'Culture',
-  'food': 'Food & Cuisine',
-  'adventure': 'Adventure',
-}
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params
@@ -66,13 +58,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   const author = blog.author as User
   const authorName = author?.name || author?.email || 'Green Getaways'
-  const publishedDate = blog.publishedDate
-    ? new Date(blog.publishedDate).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : null
+  const publishedDate = formatDate(blog.publishedDate)
 
   return (
     <div className="blog-detail">
@@ -84,7 +70,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             <div className="blog-detail-categories">
               {blog.category.map((cat) => (
                 <span key={cat} className="blog-detail-category">
-                  {CATEGORY_LABELS[cat] || cat}
+                  {BLOG_CATEGORY_LABELS[cat] || cat}
                 </span>
               ))}
             </div>

@@ -2,32 +2,21 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Tour, Media, Destination } from '@/payload-types'
+import { getImageUrl, formatPrice } from '../../lib/utils'
 import './TourCard.css'
 
 interface TourCardProps {
   tour: Tour
 }
 
-function getSupabaseImageUrl(media: Media | null | undefined, fallback: string): string {
-  if (media?.filename && process.env.SUPABASE_PUBLIC_URL) {
-    return `${process.env.SUPABASE_PUBLIC_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET_NAME}/${media.filename}`
-  }
-  return media?.url || fallback
-}
-
 export default function TourCard({ tour }: TourCardProps) {
   const featuredImage = tour.featuredImage as Media
-  const imageUrl = getSupabaseImageUrl(featuredImage, '/placeholder-tour.jpg')
+  const imageUrl = getImageUrl(featuredImage, '/placeholder-tour.jpg')
   const duration = tour.duration?.days || 0
   const price = tour.pricing?.basePrice || 0
   const discountedPrice = tour.pricing?.discountedPrice
   const currency = tour.pricing?.currency || 'USD'
   const destinations = tour.destination as Destination[]
-
-  const formatPrice = (amount: number, curr: string) => {
-    const symbol = curr === 'USD' ? '$' : curr
-    return `${symbol}${amount.toLocaleString()}`
-  }
 
   // Calculate discount percentage
   const discountPercentage = discountedPrice
