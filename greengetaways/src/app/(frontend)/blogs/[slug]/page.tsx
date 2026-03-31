@@ -57,7 +57,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   if (!blog) return notFound()
 
   const author = blog.author as User
-  const authorName = author?.name || author?.email || 'Green Getaways'
+  const authorName = author?.email || 'Green Getaways'
   const publishedDate = formatDate(blog.publishedDate)
 
   return (
