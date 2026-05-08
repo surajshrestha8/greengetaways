@@ -250,7 +250,8 @@
 .cta-btn {
   background: linear-gradient(135deg, #009444 0%, #00a84d 100%);
   color: white;
-  padding: 12px 28px;
+  min-width: 170px;
+  padding: 12px 34px;
   border-radius: 50px;
   text-decoration: none;
   font-size: 14px;
@@ -259,6 +260,8 @@
   box-shadow: 0 4px 12px rgba(0, 148, 68, 0.2);
   letter-spacing: 0.2px;
   line-height: 1;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .cta-btn:hover {
@@ -419,6 +422,7 @@
   }
 
   .cta-btn {
+    min-width: 150px;
     padding: 10px 20px;
     font-size: 13px;
   }
