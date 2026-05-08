@@ -2,6 +2,29 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+type DepartureDate = {
+  date?: string | null
+  availableSeats?: number | null
+}
+
+const normalizeDate = (value: string | Date | null | undefined): string | null => {
+  if (!value) return null
+  const date = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(date.getTime())) return null
+  return date.toISOString().split('T')[0]
+}
+
+const isFutureOrToday = (value: string): boolean => {
+  const selectedDate = normalizeDate(value)
+  const today = normalizeDate(new Date())
+  return Boolean(selectedDate && today && selectedDate >= today)
+}
+
+const findDeparture = (departures: DepartureDate[], selectedDate: string) => {
+  const targetDate = normalizeDate(selectedDate)
+  return departures.find((departure) => normalizeDate(departure.date) === targetDate)
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -17,6 +40,8 @@ export async function POST(request: NextRequest) {
       specialRequests,
     } = body
 
+    const parsedNumberOfTravelers = Number(numberOfTravelers)
+
     if (!tourId || !departureDate || !numberOfTravelers || !firstName || !lastName || !email || !phone) {
       return NextResponse.json(
         { message: 'Missing required fields' },
@@ -24,9 +49,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (typeof numberOfTravelers !== 'number' || numberOfTravelers < 1) {
+    if (!Number.isInteger(parsedNumberOfTravelers) || parsedNumberOfTravelers < 1) {
       return NextResponse.json(
         { message: 'Number of travelers must be at least 1' },
+        { status: 400 },
+      )
+    }
+
+    if (!normalizeDate(departureDate) || !isFutureOrToday(departureDate)) {
+      return NextResponse.json(
+        { message: 'Please select a valid future departure date' },
         { status: 400 },
       )
     }
@@ -53,8 +85,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Tour not found' }, { status: 404 })
     }
 
+    if (tour.status !== 'active') {
+      return NextResponse.json({ message: 'This tour is not currently available for booking' }, { status: 400 })
+    }
+
+    const maxGroupSize = tour.groupSize?.max
+    if (maxGroupSize && parsedNumberOfTravelers > maxGroupSize) {
+      return NextResponse.json(
+        { message: `Maximum ${maxGroupSize} travelers allowed for this tour` },
+        { status: 400 },
+      )
+    }
+
+    const departures = tour.availability?.departureDates ?? []
+
+    if (departures.length > 0) {
+      const selectedDeparture = findDeparture(departures, departureDate)
+
+      if (!selectedDeparture) {
+        return NextResponse.json(
+          { message: 'Selected departure date is not available for this tour' },
+          { status: 400 },
+        )
+      }
+
+      const availableSeats = selectedDeparture.availableSeats ?? 0
+      if (availableSeats < parsedNumberOfTravelers) {
+        return NextResponse.json(
+          { message: `Only ${availableSeats} seats available for this departure date` },
+          { status: 409 },
+        )
+      }
+    }
+
     const pricePerPerson = tour.pricing?.discountedPrice || tour.pricing?.basePrice || 0
-    const subtotal = pricePerPerson * numberOfTravelers
+    const subtotal = pricePerPerson * parsedNumberOfTravelers
     const total = subtotal
 
     // Pre-generate reference so it is available even if beforeChange hook runs after validation
@@ -66,7 +131,7 @@ export async function POST(request: NextRequest) {
         bookingReference,
         tour: resolvedTourId,
         departureDate: new Date(departureDate).toISOString(),
-        numberOfTravelers,
+        numberOfTravelers: parsedNumberOfTravelers,
         customerInfo: {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
@@ -83,6 +148,8 @@ export async function POST(request: NextRequest) {
         },
         payment: {
           status: 'pending',
+          paidAmount: 0,
+          remainingAmount: total,
         },
         status: 'pending',
         specialRequests: specialRequests || '',
@@ -98,6 +165,11 @@ export async function POST(request: NextRequest) {
     )
   } catch (error) {
     console.error('Booking error:', error)
+
+    if (error instanceof Error && /seats|departure date/i.test(error.message)) {
+      return NextResponse.json({ message: error.message }, { status: 409 })
+    }
+
     return NextResponse.json(
       { message: 'An error occurred. Please try again later.' },
       { status: 500 },

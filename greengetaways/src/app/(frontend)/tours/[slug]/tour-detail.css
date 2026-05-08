@@ -2557,6 +2557,12 @@
 
 .bt-book-btn:hover  { background: var(--color-primary-dark); }
 .bt-book-btn:active { transform: scale(0.97); }
+.bt-book-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  background: rgba(255, 255, 255, 0.16);
+  transform: none;
+}
 
 /* ── Responsive ── */
 @media (max-width: 640px) {

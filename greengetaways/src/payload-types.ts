@@ -891,6 +891,15 @@ export interface Booking {
     remainingAmount?: number | null;
   };
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'refunded';
+  /**
+   * Tracks whether this booking is holding seats from a scheduled departure
+   */
+  seatHold?: {
+    status?: ('held' | 'released' | 'not-applicable') | null;
+    seats?: number | null;
+    releasedAt?: string | null;
+    releaseReason?: string | null;
+  };
   specialRequests?: string | null;
   /**
    * Internal notes not visible to customer
@@ -1838,6 +1847,14 @@ export interface BookingsSelect<T extends boolean = true> {
         remainingAmount?: T;
       };
   status?: T;
+  seatHold?:
+    | T
+    | {
+        status?: T;
+        seats?: T;
+        releasedAt?: T;
+        releaseReason?: T;
+      };
   specialRequests?: T;
   internalNotes?: T;
   assignedAgent?: T;

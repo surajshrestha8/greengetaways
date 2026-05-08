@@ -37,6 +37,7 @@ interface FormErrors {
 }
 
 interface BookingFormProps {
+  initialDepartureDate?: string
   tourData: TourData | null
 }
 
@@ -47,9 +48,9 @@ const difficultyColors: Record<string, string> = {
   difficult: '#9c27b0',
 }
 
-export default function BookingForm({ tourData }: BookingFormProps) {
+export default function BookingForm({ initialDepartureDate = '', tourData }: BookingFormProps) {
   const [formData, setFormData] = useState<FormData>({
-    departureDate: '',
+    departureDate: initialDepartureDate,
     numberOfTravelers: 1,
     firstName: '',
     lastName: '',
@@ -181,7 +182,7 @@ export default function BookingForm({ tourData }: BookingFormProps) {
             <span className="booking-reference-code">{bookingSuccess.bookingReference}</span>
           </div>
           <p className="booking-success-note">
-            Please save this reference number. Confirmation details will be sent to{' '}
+            Please save this reference number. Our team will contact you at{' '}
             <strong>{formData.email}</strong>.
           </p>
           <div className="booking-success-actions">

@@ -22,95 +22,10 @@ const tabs: { key: TabKey; label: string }[] = [
   { key: 'faqs', label: 'FAQs' },
 ]
 
-const MOCK_BOOKING_GROUPS: MonthGroup[] = [
-  {
-    month: 'MARCH 2026',
-    rows: [
-      {
-        id: 'mar-27',
-        arrivalDay: 'Friday',
-        arrivalDate: '27 Mar, 2026',
-        departureDay: 'Friday',
-        departureDate: '10 Apr, 2026',
-        availability: '6 spaces left',
-        priceUSD: 3790,
-        currency: 'USD',
-        bookingUrl: '/book?date=2026-03-27',
-      },
-    ],
-  },
-  {
-    month: 'APRIL 2026',
-    rows: [
-      {
-        id: 'apr-03',
-        arrivalDay: 'Friday',
-        arrivalDate: '03 Apr, 2026',
-        departureDay: 'Friday',
-        departureDate: '17 Apr, 2026',
-        availability: '1 spaces left',
-        priceUSD: 3790,
-        currency: 'USD',
-        bookingUrl: '/book?date=2026-04-03',
-      },
-      {
-        id: 'apr-10',
-        arrivalDay: 'Friday',
-        arrivalDate: '10 Apr, 2026',
-        departureDay: 'Friday',
-        departureDate: '24 Apr, 2026',
-        availability: '8 spaces left',
-        priceUSD: 3790,
-        currency: 'USD',
-        bookingUrl: '/book?date=2026-04-10',
-      },
-      {
-        id: 'apr-12',
-        arrivalDay: 'Sunday',
-        arrivalDate: '12 Apr, 2026',
-        departureDay: 'Sunday',
-        departureDate: '26 Apr, 2026',
-        availability: 'Available (private only)',
-        isPrivateOnly: true,
-        priceUSD: 3790,
-        currency: 'USD',
-        bookingUrl: '/book?date=2026-04-12',
-      },
-    ],
-  },
-  {
-    month: 'MAY 2026',
-    rows: [
-      {
-        id: 'may-01',
-        arrivalDay: 'Friday',
-        arrivalDate: '01 May, 2026',
-        departureDay: 'Friday',
-        departureDate: '15 May, 2026',
-        availability: '10 spaces left',
-        priceUSD: 3790,
-        currency: 'USD',
-        bookingUrl: '/book?date=2026-05-01',
-      },
-      {
-        id: 'may-15',
-        arrivalDay: 'Friday',
-        arrivalDate: '15 May, 2026',
-        departureDay: 'Friday',
-        departureDate: '29 May, 2026',
-        availability: 'Sold Out',
-        priceUSD: 3790,
-        currency: 'USD',
-        bookingUrl: '/book?date=2026-05-15',
-      },
-    ],
-  },
-]
-
 function buildMonthGroups(tour: Tour): MonthGroup[] {
   const departures = tour.availability?.departureDates ?? []
   const currency = tour.pricing?.currency ?? 'USD'
-  const basePrice = tour.pricing?.basePrice ?? 0
+  const basePrice = tour.pricing?.discountedPrice ?? tour.pricing?.basePrice ?? 0
   const durationDays = tour.duration?.days ?? 0
 
   const monthMap = new Map<string, MonthGroup>()
@@ -162,9 +77,10 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
       departureDay,
       departureDate,
       availability,
+      disabled: seats <= 0,
       priceUSD: basePrice,
       currency,
-      bookingUrl: `/book?tour=${tour.id}&date=${dep.date}`,
+      bookingUrl: `/book?tour=${tour.slug}&date=${encodeURIComponent(dep.date)}`,
     })
   })
 
@@ -292,13 +208,11 @@ export default function TourTabs({ tour }: TourTabsProps) {
               {/* Available Dates */}
               <div className="available-dates">
                 <h3>Available Departure Dates</h3>
-                <BookingTable
-                  groups={
-                    tour.availability?.departureDates && tour.availability.departureDates.length > 0
-                      ? buildMonthGroups(tour)
-                      : MOCK_BOOKING_GROUPS
-                  }
-                />
+                {tour.availability?.departureDates && tour.availability.departureDates.length > 0 ? (
+                  <BookingTable groups={buildMonthGroups(tour)} />
+                ) : (
+                  <p className="tab-empty">Departure dates are available on request.</p>
+                )}
               </div>
             </div>
           </div>

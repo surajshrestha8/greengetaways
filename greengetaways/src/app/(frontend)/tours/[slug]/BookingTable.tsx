@@ -10,6 +10,7 @@ export type BookingRow = {
   departureDay: string
   departureDate: string
   availability: string
+  disabled?: boolean
   isPrivateOnly?: boolean
   priceUSD: number
   currency: string
@@ -86,8 +87,12 @@ export function BookingTable({ groups }: BookingTableProps) {
 
               {/* CTA */}
               <div className="bt-col bt-col--action">
-                <button className="bt-book-btn" onClick={() => router.push(row.bookingUrl)}>
-                  BOOK NOW
+                <button
+                  className="bt-book-btn"
+                  disabled={row.disabled}
+                  onClick={() => router.push(row.bookingUrl)}
+                >
+                  {row.disabled ? 'SOLD OUT' : 'BOOK NOW'}
                 </button>
               </div>
             </div>

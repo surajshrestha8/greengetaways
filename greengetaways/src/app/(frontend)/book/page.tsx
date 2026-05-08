@@ -8,7 +8,7 @@ import type { TourData } from './BookingForm'
 import './booking.css'
 
 interface BookPageProps {
-  searchParams: Promise<{ tour?: string }>
+  searchParams: Promise<{ date?: string; tour?: string }>
 }
 
 export const dynamic = 'force-dynamic'
@@ -36,7 +36,7 @@ export async function generateMetadata({ searchParams }: BookPageProps) {
 }
 
 export default async function BookPage({ searchParams }: BookPageProps) {
-  const { tour: tourSlug } = await searchParams
+  const { date: selectedDate, tour: tourSlug } = await searchParams
 
   let tourData: TourData | null = null
 
@@ -116,7 +116,7 @@ export default async function BookPage({ searchParams }: BookPageProps) {
         </div>
       </div>
 
-      <BookingForm tourData={tourData} />
+      <BookingForm initialDepartureDate={selectedDate || ''} tourData={tourData} />
     </div>
   )
 }
