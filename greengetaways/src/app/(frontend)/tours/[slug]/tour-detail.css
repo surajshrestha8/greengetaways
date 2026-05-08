@@ -2485,6 +2485,11 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.bt-row--sold-out,
+.bt-row--blocked {
+  opacity: 0.78;
+}
+
 /* ── Date pair ── */
 .bt-date-pair {
   display: flex;
@@ -2521,14 +2526,44 @@
 
 /* ── Availability ── */
 .bt-avail {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.75);
   line-height: 1.4;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.bt-avail--private {
+.bt-avail--available {
+  color: #69bd45;
+  background: rgba(105, 189, 69, 0.12);
+  border-color: rgba(105, 189, 69, 0.24);
+  font-weight: 600;
+}
+
+.bt-avail--private-only {
   color: #e8910a;
-  font-weight: 500;
+  background: rgba(232, 145, 10, 0.12);
+  border-color: rgba(232, 145, 10, 0.28);
+  font-weight: 600;
+}
+
+.bt-avail--sold-out {
+  color: #ff8a80;
+  background: rgba(244, 67, 54, 0.1);
+  border-color: rgba(244, 67, 54, 0.22);
+  font-weight: 600;
+}
+
+.bt-avail--blocked {
+  color: #c0c0c0;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  font-weight: 600;
 }
 
 /* ── Price ── */

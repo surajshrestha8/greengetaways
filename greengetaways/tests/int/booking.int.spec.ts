@@ -162,7 +162,7 @@ describe('booking API', () => {
     expect(body.message).toBe('Selected departure date is not available for online booking')
   })
 
-  it('allows custom-date requests when a tour has no predefined departures', async () => {
+  it('rejects custom-date requests when a tour has no predefined departures', async () => {
     const create = vi.fn().mockResolvedValue({ bookingReference: 'BK-CUSTOM' })
     getPayloadMock.mockResolvedValue({
       findByID: vi.fn().mockResolvedValue({
@@ -176,9 +176,11 @@ describe('booking API', () => {
 
     const { POST } = await import('@/app/api/book/route')
     const response = await POST(makeRequest(validBookingBody) as never)
+    const body = await response.json()
 
-    expect(response.status).toBe(200)
-    expect(create).toHaveBeenCalledOnce()
+    expect(response.status).toBe(400)
+    expect(body.message).toBe('No departure dates are currently available for this tour')
+    expect(create).not.toHaveBeenCalled()
   })
 })
 

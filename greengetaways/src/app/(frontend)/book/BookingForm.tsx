@@ -64,12 +64,31 @@ const getDepartureLabel = (departure: TourData['departureDates'][number]) => {
   if (status === 'blocked') return 'Unavailable'
   if (status === 'private-only') return 'Private only'
   if (status === 'sold-out' || departure.availableSeats <= 0) return 'Sold out'
-  return `${departure.availableSeats} seats`
+  return `${departure.availableSeats} ${departure.availableSeats === 1 ? 'seat' : 'seats'} left`
+}
+
+const normalizeDate = (value: string | null | undefined) => {
+  if (!value) return null
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return null
+  return date.toISOString().split('T')[0]
+}
+
+const findBookableDeparture = (tourData: TourData | null, departureDate: string) => {
+  const selectedDate = normalizeDate(departureDate)
+  if (!selectedDate || !tourData) return null
+
+  return (
+    tourData.departureDates.find(
+      (departure) => normalizeDate(departure.date) === selectedDate && isBookableDeparture(departure),
+    ) ?? null
+  )
 }
 
 export default function BookingForm({ initialDepartureDate = '', tourData }: BookingFormProps) {
+  const initialBookableDeparture = findBookableDeparture(tourData, initialDepartureDate)
   const [formData, setFormData] = useState<FormData>({
-    departureDate: initialDepartureDate,
+    departureDate: initialBookableDeparture?.date ?? '',
     numberOfTravelers: 1,
     firstName: '',
     lastName: '',
@@ -86,6 +105,9 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
   const price = tourData?.price || 0
   const currency = tourData?.currency || 'USD'
   const total = price * formData.numberOfTravelers
+  const departureDates = tourData?.departureDates ?? []
+  const hasDepartureDates = departureDates.length > 0
+  const hasBookableDeparture = departureDates.some(isBookableDeparture)
 
   const formatPrice = (amount: number) => {
     const symbol = currency === 'USD' ? '$' : currency
@@ -95,8 +117,12 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
   const validate = (): boolean => {
     const newErrors: FormErrors = {}
 
-    if (!formData.departureDate) {
+    if (!hasDepartureDates) {
+      newErrors.departureDate = 'No departure dates are currently available for this tour'
+    } else if (!formData.departureDate) {
       newErrors.departureDate = 'Please select a departure date'
+    } else if (!findBookableDeparture(tourData, formData.departureDate)) {
+      newErrors.departureDate = 'Please select one of the available departure dates'
     }
     if (formData.numberOfTravelers < 1) {
       newErrors.numberOfTravelers = 'At least 1 traveler is required'
@@ -217,8 +243,6 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
     )
   }
 
-  const hasDepartureDates = tourData && tourData.departureDates.length > 0
-
   return (
     <div className="booking-layout">
       {/* Left: Form */}
@@ -250,7 +274,7 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
                 onChange={handleChange}
               >
                 <option value="">Select a departure date</option>
-                {tourData.departureDates.map((d) => (
+                {departureDates.map((d) => (
                   <option key={d.date} value={d.date} disabled={!isBookableDeparture(d)}>
                     {new Date(d.date).toLocaleDateString('en-US', {
                       weekday: 'long',
@@ -263,17 +287,17 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
                 ))}
               </select>
             ) : (
-              <input
-                type="date"
-                id="departureDate"
-                name="departureDate"
-                className={`form-input${errors.departureDate ? ' input-error' : ''}`}
-                value={formData.departureDate}
-                onChange={handleChange}
-                min={new Date().toISOString().split('T')[0]}
-              />
+              <div className="form-unavailable-date">
+                No departure dates are currently configured for this tour.
+              </div>
             )}
             {errors.departureDate && <span className="form-error">{errors.departureDate}</span>}
+            {hasDepartureDates && (
+              <p className="form-help-text">
+                Only admin-approved available dates can be selected. Sold out, private-only, and
+                unavailable dates are shown for reference.
+              </p>
+            )}
           </div>
 
           <div className="form-group">
@@ -415,7 +439,7 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
 
         {submitError && <div className="submit-error-message">{submitError}</div>}
 
-        <button type="submit" className="submit-btn" disabled={isSubmitting}>
+        <button type="submit" className="submit-btn" disabled={isSubmitting || !hasBookableDeparture}>
           {isSubmitting ? (
             <>
               <span className="btn-spinner" />

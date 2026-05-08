@@ -10,8 +10,8 @@ export type BookingRow = {
   departureDay: string
   departureDate: string
   availability: string
+  availabilityStatus?: 'available' | 'sold-out' | 'blocked' | 'private-only'
   disabled?: boolean
-  isPrivateOnly?: boolean
   priceUSD: number
   currency: string
   bookingUrl: string
@@ -31,6 +31,13 @@ const fmt = (price: number, currency: string) =>
 
 export function BookingTable({ groups }: BookingTableProps) {
   const router = useRouter()
+
+  const getButtonLabel = (row: BookingRow) => {
+    if (!row.disabled) return 'BOOK NOW'
+    if (row.availabilityStatus === 'blocked') return 'UNAVAILABLE'
+    if (row.availabilityStatus === 'private-only') return 'PRIVATE'
+    return 'SOLD OUT'
+  }
 
   return (
     <div className="bt-wrapper">
@@ -57,7 +64,10 @@ export function BookingTable({ groups }: BookingTableProps) {
           <div className="bt-month-header">{group.month}</div>
 
           {group.rows.map((row, i) => (
-            <div key={row.id} className={`bt-row${i % 2 === 1 ? ' bt-row--alt' : ''}`}>
+            <div
+              key={row.id}
+              className={`bt-row${i % 2 === 1 ? ' bt-row--alt' : ''} bt-row--${row.availabilityStatus || 'available'}`}
+            >
               {/* Dates */}
               <div className="bt-col bt-col--dates">
                 <div className="bt-date-pair">
@@ -65,7 +75,7 @@ export function BookingTable({ groups }: BookingTableProps) {
                     <span className="bt-day">{row.arrivalDay}</span>
                     <span className="bt-date">{row.arrivalDate}</span>
                   </div>
-                  <span className="bt-arrow">→</span>
+                  <span className="bt-arrow">-&gt;</span>
                   <div className="bt-date-block">
                     <span className="bt-day">{row.departureDay}</span>
                     <span className="bt-date">{row.departureDate}</span>
@@ -75,7 +85,7 @@ export function BookingTable({ groups }: BookingTableProps) {
 
               {/* Availability */}
               <div className="bt-col bt-col--avail">
-                <span className={row.isPrivateOnly ? 'bt-avail bt-avail--private' : 'bt-avail'}>
+                <span className={`bt-avail bt-avail--${row.availabilityStatus || 'available'}`}>
                   {row.availability}
                 </span>
               </div>
@@ -92,7 +102,7 @@ export function BookingTable({ groups }: BookingTableProps) {
                   disabled={row.disabled}
                   onClick={() => router.push(row.bookingUrl)}
                 >
-                  {row.disabled ? 'SOLD OUT' : 'BOOK NOW'}
+                  {getButtonLabel(row)}
                 </button>
               </div>
             </div>
