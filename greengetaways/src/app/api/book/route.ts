@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
 type DepartureDate = {
+  id?: string | null
   date?: string | null
   availableSeats?: number | null
   status?: 'available' | 'sold-out' | 'blocked' | 'private-only' | null
@@ -21,7 +22,16 @@ const isFutureOrToday = (value: string): boolean => {
   return Boolean(selectedDate && today && selectedDate >= today)
 }
 
-const findDeparture = (departures: DepartureDate[], selectedDate: string) => {
+const findDeparture = (
+  departures: DepartureDate[],
+  selectedDate: string,
+  selectedDepartureId?: string,
+) => {
+  if (selectedDepartureId) {
+    const departure = departures.find((item) => item.id === selectedDepartureId)
+    if (departure) return departure
+  }
+
   const targetDate = normalizeDate(selectedDate)
   return departures.find((departure) => normalizeDate(departure.date) === targetDate)
 }
@@ -32,6 +42,7 @@ export async function POST(request: NextRequest) {
     const {
       tourId,
       departureDate,
+      departureId,
       numberOfTravelers,
       firstName,
       lastName,
@@ -107,7 +118,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const selectedDeparture = findDeparture(departures, departureDate)
+    const selectedDeparture = findDeparture(departures, departureDate, departureId)
 
     if (!selectedDeparture) {
       return NextResponse.json(

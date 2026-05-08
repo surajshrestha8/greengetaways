@@ -16,6 +16,7 @@ export interface TourData {
   departureDates: {
     availableSeats: number
     date: string
+    id?: string | null
     note?: string | null
     status?: 'available' | 'sold-out' | 'blocked' | 'private-only' | null
   }[]
@@ -23,6 +24,7 @@ export interface TourData {
 
 interface FormData {
   departureDate: string
+  departureId: string
   numberOfTravelers: number
   firstName: string
   lastName: string
@@ -43,6 +45,7 @@ interface FormErrors {
 
 interface BookingFormProps {
   initialDepartureDate?: string
+  initialDepartureId?: string
   tourData: TourData | null
 }
 
@@ -74,7 +77,23 @@ const normalizeDate = (value: string | null | undefined) => {
   return date.toISOString().split('T')[0]
 }
 
-const findBookableDeparture = (tourData: TourData | null, departureDate: string) => {
+const getDepartureOptionValue = (
+  departure: TourData['departureDates'][number],
+  index: number,
+) => departure.id || `${departure.date}-${index}`
+
+const findBookableDeparture = (
+  tourData: TourData | null,
+  departureDate: string,
+  departureId?: string,
+) => {
+  if (departureId && tourData) {
+    const selectedByID = tourData.departureDates.find(
+      (departure) => departure.id === departureId && isBookableDeparture(departure),
+    )
+    if (selectedByID) return selectedByID
+  }
+
   const selectedDate = normalizeDate(departureDate)
   if (!selectedDate || !tourData) return null
 
@@ -86,9 +105,25 @@ const findBookableDeparture = (tourData: TourData | null, departureDate: string)
 }
 
 export default function BookingForm({ initialDepartureDate = '', tourData }: BookingFormProps) {
-  const initialBookableDeparture = findBookableDeparture(tourData, initialDepartureDate)
+export default function BookingForm({
+  initialDepartureDate = '',
+  initialDepartureId = '',
+  tourData,
+}: BookingFormProps) {
+  const initialBookableDeparture = findBookableDeparture(
+    tourData,
+    initialDepartureDate,
+    initialDepartureId,
+  )
+  const initialBookableDepartureIndex = initialBookableDeparture
+    ? (tourData?.departureDates ?? []).findIndex((departure) => departure === initialBookableDeparture)
+    : -1
   const [formData, setFormData] = useState<FormData>({
     departureDate: initialBookableDeparture?.date ?? '',
+    departureId:
+      initialBookableDeparture && initialBookableDepartureIndex >= 0
+        ? getDepartureOptionValue(initialBookableDeparture, initialBookableDepartureIndex)
+        : '',
     numberOfTravelers: 1,
     firstName: '',
     lastName: '',
@@ -119,9 +154,9 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
 
     if (!hasDepartureDates) {
       newErrors.departureDate = 'No departure dates are currently available for this tour'
-    } else if (!formData.departureDate) {
+    } else if (!formData.departureId || !formData.departureDate) {
       newErrors.departureDate = 'Please select a departure date'
-    } else if (!findBookableDeparture(tourData, formData.departureDate)) {
+    } else if (!findBookableDeparture(tourData, formData.departureDate, formData.departureId)) {
       newErrors.departureDate = 'Please select one of the available departure dates'
     }
     if (formData.numberOfTravelers < 1) {
@@ -152,6 +187,24 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const { name, value, type } = e.target
+
+    if (name === 'departureId') {
+      const selectedDeparture = departureDates.find(
+        (departure, index) => getDepartureOptionValue(departure, index) === value,
+      )
+
+      setFormData((prev) => ({
+        ...prev,
+        departureDate: selectedDeparture?.date ?? '',
+        departureId: value,
+      }))
+
+      if (errors.departureDate) {
+        setErrors((prev) => ({ ...prev, departureDate: undefined }))
+      }
+      return
+    }
+
     const parsed = type === 'number' ? parseInt(value, 10) || 1 : value
     setFormData((prev) => ({ ...prev, [name]: parsed }) as FormData)
     if (errors[name as keyof FormErrors]) {
@@ -178,6 +231,7 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
         body: JSON.stringify({
           tourId: tourData.id,
           departureDate: formData.departureDate,
+          departureId: formData.departureId,
           numberOfTravelers: formData.numberOfTravelers,
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -268,14 +322,18 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
             {hasDepartureDates ? (
               <select
                 id="departureDate"
-                name="departureDate"
+                name="departureId"
                 className={`form-select${errors.departureDate ? ' input-error' : ''}`}
-                value={formData.departureDate}
+                value={formData.departureId}
                 onChange={handleChange}
               >
                 <option value="">Select a departure date</option>
-                {departureDates.map((d) => (
-                  <option key={d.date} value={d.date} disabled={!isBookableDeparture(d)}>
+                {departureDates.map((d, index) => (
+                  <option
+                    key={d.id || `${d.date}-${index}`}
+                    value={getDepartureOptionValue(d, index)}
+                    disabled={!isBookableDeparture(d)}
+                  >
                     {new Date(d.date).toLocaleDateString('en-US', {
                       weekday: 'long',
                       year: 'numeric',
