@@ -12,6 +12,7 @@ interface TourTabsProps {
 }
 
 type TabKey = 'itinerary' | 'highlights' | 'includes' | 'dates-prices' | 'useful-info' | 'faqs'
+type DepartureStatus = 'available' | 'sold-out' | 'blocked' | 'private-only'
 
 const tabs: { key: TabKey; label: string }[] = [
   { key: 'highlights', label: 'Highlights' },
@@ -57,7 +58,16 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
     }
 
     const seats = dep.availableSeats ?? 0
-    const availability = seats > 0 ? `${seats} spaces left` : 'Sold Out'
+    const status = (dep.status || 'available') as DepartureStatus
+    const disabled = status !== 'available' || seats <= 0
+    const availability =
+      status === 'blocked'
+        ? 'Unavailable'
+        : status === 'private-only'
+          ? 'Available (private only)'
+          : status === 'sold-out' || seats <= 0
+            ? 'Sold Out'
+            : `${seats} spaces left`
 
     const monthKey = arrival
       .toLocaleDateString('en-US', {
@@ -77,7 +87,8 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
       departureDay,
       departureDate,
       availability,
-      disabled: seats <= 0,
+      disabled,
+      isPrivateOnly: status === 'private-only',
       priceUSD: basePrice,
       currency,
       bookingUrl: `/book?tour=${tour.slug}&date=${encodeURIComponent(dep.date)}`,

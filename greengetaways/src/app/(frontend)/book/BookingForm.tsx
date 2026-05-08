@@ -13,7 +13,12 @@ export interface TourData {
   duration: { days: number; nights: number }
   difficulty: string | null
   maxGroupSize: number
-  departureDates: { date: string; availableSeats: number }[]
+  departureDates: {
+    availableSeats: number
+    date: string
+    note?: string | null
+    status?: 'available' | 'sold-out' | 'blocked' | 'private-only' | null
+  }[]
 }
 
 interface FormData {
@@ -46,6 +51,20 @@ const difficultyColors: Record<string, string> = {
   moderate: '#ff9800',
   challenging: '#f44336',
   difficult: '#9c27b0',
+}
+
+const isBookableDeparture = (departure: TourData['departureDates'][number]) => {
+  const status = departure.status || 'available'
+  return status === 'available' && departure.availableSeats > 0
+}
+
+const getDepartureLabel = (departure: TourData['departureDates'][number]) => {
+  const status = departure.status || 'available'
+
+  if (status === 'blocked') return 'Unavailable'
+  if (status === 'private-only') return 'Private only'
+  if (status === 'sold-out' || departure.availableSeats <= 0) return 'Sold out'
+  return `${departure.availableSeats} seats`
 }
 
 export default function BookingForm({ initialDepartureDate = '', tourData }: BookingFormProps) {
@@ -232,14 +251,14 @@ export default function BookingForm({ initialDepartureDate = '', tourData }: Boo
               >
                 <option value="">Select a departure date</option>
                 {tourData.departureDates.map((d) => (
-                  <option key={d.date} value={d.date} disabled={d.availableSeats === 0}>
+                  <option key={d.date} value={d.date} disabled={!isBookableDeparture(d)}>
                     {new Date(d.date).toLocaleDateString('en-US', {
                       weekday: 'long',
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
                     })}
-                    {d.availableSeats > 0 ? ` — ${d.availableSeats} seats` : ' — Sold out'}
+                    {` - ${getDepartureLabel(d)}`}
                   </option>
                 ))}
               </select>

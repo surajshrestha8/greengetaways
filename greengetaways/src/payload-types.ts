@@ -449,6 +449,14 @@ export interface Tour {
       | {
           date?: string | null;
           availableSeats?: number | null;
+          /**
+           * Controls whether customers can choose this date when booking
+           */
+          status?: ('available' | 'sold-out' | 'blocked' | 'private-only') | null;
+          /**
+           * Optional internal note for this departure date
+           */
+          note?: string | null;
           id?: string | null;
         }[]
       | null;
@@ -1715,6 +1723,8 @@ export interface ToursSelect<T extends boolean = true> {
           | {
               date?: T;
               availableSeats?: T;
+              status?: T;
+              note?: T;
               id?: T;
             };
       };

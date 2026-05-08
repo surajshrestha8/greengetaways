@@ -296,6 +296,27 @@ export const Tours: CollectionConfig = {
                       type: 'number',
                       min: 0,
                     },
+                    {
+                      name: 'status',
+                      type: 'select',
+                      defaultValue: 'available',
+                      options: [
+                        { label: 'Available', value: 'available' },
+                        { label: 'Sold Out', value: 'sold-out' },
+                        { label: 'Blocked', value: 'blocked' },
+                        { label: 'Private Only', value: 'private-only' },
+                      ],
+                      admin: {
+                        description: 'Controls whether customers can choose this date when booking',
+                      },
+                    },
+                    {
+                      name: 'note',
+                      type: 'text',
+                      admin: {
+                        description: 'Optional internal note for this departure date',
+                      },
+                    },
                   ],
                 },
               ],

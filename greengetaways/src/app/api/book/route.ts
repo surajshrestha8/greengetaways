@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 type DepartureDate = {
   date?: string | null
   availableSeats?: number | null
+  status?: 'available' | 'sold-out' | 'blocked' | 'private-only' | null
 }
 
 const normalizeDate = (value: string | Date | null | undefined): string | null => {
@@ -106,6 +107,14 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { message: 'Selected departure date is not available for this tour' },
           { status: 400 },
+        )
+      }
+
+      const departureStatus = selectedDeparture.status || 'available'
+      if (departureStatus !== 'available') {
+        return NextResponse.json(
+          { message: 'Selected departure date is not available for online booking' },
+          { status: 409 },
         )
       }
 

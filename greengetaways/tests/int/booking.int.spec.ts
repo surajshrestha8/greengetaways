@@ -137,6 +137,31 @@ describe('booking API', () => {
     expect(body.message).toBe('Only 4 seats available for this departure date')
   })
 
+  it('returns 409 when the selected departure date is blocked by admin', async () => {
+    getPayloadMock.mockResolvedValue({
+      findByID: vi.fn().mockResolvedValue({
+        ...activeTour,
+        availability: {
+          departureDates: [
+            {
+              date: validBookingBody.departureDate,
+              availableSeats: 4,
+              status: 'blocked',
+            },
+          ],
+        },
+      }),
+      create: vi.fn(),
+    })
+
+    const { POST } = await import('@/app/api/book/route')
+    const response = await POST(makeRequest(validBookingBody) as never)
+    const body = await response.json()
+
+    expect(response.status).toBe(409)
+    expect(body.message).toBe('Selected departure date is not available for online booking')
+  })
+
   it('allows custom-date requests when a tour has no predefined departures', async () => {
     const create = vi.fn().mockResolvedValue({ bookingReference: 'BK-CUSTOM' })
     getPayloadMock.mockResolvedValue({

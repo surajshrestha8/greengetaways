@@ -71,6 +71,8 @@ export default async function BookPage({ searchParams }: BookPageProps) {
             .map((d) => ({
               date: d.date as string,
               availableSeats: d.availableSeats ?? 0,
+              status: d.status ?? 'available',
+              note: d.note ?? null,
             })),
         }
       }

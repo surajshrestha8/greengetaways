@@ -7,6 +7,8 @@ type DepartureDate = {
   id?: string | null
   date?: string | null
   availableSeats?: number | null
+  note?: string | null
+  status?: 'available' | 'sold-out' | 'blocked' | 'private-only' | null
 }
 
 type TourWithAvailability = {
