@@ -80,6 +80,15 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
       monthMap.set(monthKey, { month: monthKey, rows: [] })
     }
 
+    const bookingParams = new URLSearchParams({
+      date: dep.date,
+      tour: tour.slug,
+    })
+
+    if (dep.id) {
+      bookingParams.set('departureId', dep.id)
+    }
+
     monthMap.get(monthKey)!.rows.push({
       id: `dep-${i}`,
       arrivalDay,
@@ -91,7 +100,7 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
       disabled,
       priceUSD: basePrice,
       currency,
-      bookingUrl: `/book?tour=${tour.slug}&date=${encodeURIComponent(dep.date)}`,
+      bookingUrl: `/book?${bookingParams.toString()}`,
     })
   })
 

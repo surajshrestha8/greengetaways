@@ -104,7 +104,6 @@ const findBookableDeparture = (
   )
 }
 
-export default function BookingForm({ initialDepartureDate = '', tourData }: BookingFormProps) {
 export default function BookingForm({
   initialDepartureDate = '',
   initialDepartureId = '',
@@ -143,6 +142,14 @@ export default function BookingForm({
   const departureDates = tourData?.departureDates ?? []
   const hasDepartureDates = departureDates.length > 0
   const hasBookableDeparture = departureDates.some(isBookableDeparture)
+  const selectedDeparture = departureDates.find(
+    (departure, index) => getDepartureOptionValue(departure, index) === formData.departureId,
+  )
+  const selectedDepartureSeats = selectedDeparture?.availableSeats ?? null
+  const maxTravelers =
+    selectedDepartureSeats != null
+      ? Math.min(selectedDepartureSeats, tourData?.maxGroupSize ?? selectedDepartureSeats)
+      : tourData?.maxGroupSize ?? 20
 
   const formatPrice = (amount: number) => {
     const symbol = currency === 'USD' ? '$' : currency
@@ -161,6 +168,8 @@ export default function BookingForm({
     }
     if (formData.numberOfTravelers < 1) {
       newErrors.numberOfTravelers = 'At least 1 traveler is required'
+    } else if (selectedDepartureSeats != null && formData.numberOfTravelers > selectedDepartureSeats) {
+      newErrors.numberOfTravelers = `Only ${selectedDepartureSeats} seats are available for this departure`
     } else if (tourData && formData.numberOfTravelers > tourData.maxGroupSize) {
       newErrors.numberOfTravelers = `Maximum ${tourData.maxGroupSize} travelers allowed`
     }
@@ -192,20 +201,25 @@ export default function BookingForm({
       const selectedDeparture = departureDates.find(
         (departure, index) => getDepartureOptionValue(departure, index) === value,
       )
+      const selectedMaxTravelers = selectedDeparture
+        ? Math.min(selectedDeparture.availableSeats, tourData?.maxGroupSize ?? selectedDeparture.availableSeats)
+        : tourData?.maxGroupSize ?? 20
 
       setFormData((prev) => ({
         ...prev,
         departureDate: selectedDeparture?.date ?? '',
         departureId: value,
+        numberOfTravelers: Math.min(prev.numberOfTravelers, selectedMaxTravelers),
       }))
 
-      if (errors.departureDate) {
-        setErrors((prev) => ({ ...prev, departureDate: undefined }))
+      if (errors.departureDate || errors.numberOfTravelers) {
+        setErrors((prev) => ({ ...prev, departureDate: undefined, numberOfTravelers: undefined }))
       }
       return
     }
 
-    const parsed = type === 'number' ? parseInt(value, 10) || 1 : value
+    const parsed =
+      type === 'number' ? Math.min(Math.max(parseInt(value, 10) || 1, 1), maxTravelers) : value
     setFormData((prev) => ({ ...prev, [name]: parsed }) as FormData)
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }))
@@ -370,10 +384,16 @@ export default function BookingForm({
               value={formData.numberOfTravelers}
               onChange={handleChange}
               min={1}
-              max={tourData?.maxGroupSize ?? 20}
+              max={maxTravelers}
             />
             {errors.numberOfTravelers && (
               <span className="form-error">{errors.numberOfTravelers}</span>
+            )}
+            {selectedDepartureSeats != null && (
+              <p className="form-help-text">
+                Up to {maxTravelers} {maxTravelers === 1 ? 'traveler' : 'travelers'} can book this
+                departure.
+              </p>
             )}
           </div>
         </div>

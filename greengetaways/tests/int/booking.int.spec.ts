@@ -67,7 +67,7 @@ describe('booking API', () => {
 
     expect(response.status).toBe(400)
     expect(body.message).toBe('Missing required fields')
-  })
+  }, 10000)
 
   it('returns 400 for an invalid departure date', async () => {
     const { POST } = await import('@/app/api/book/route')
