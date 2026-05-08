@@ -255,6 +255,53 @@
   margin: 0;
 }
 
+/* Description Section */
+.tour-description {
+  padding: 28px 0 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tour-description h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+}
+
+.tour-description-content {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #c8c8c8;
+}
+
+.tour-description-content p {
+  margin: 0 0 14px 0;
+}
+
+.tour-description-content p:last-child {
+  margin-bottom: 0;
+}
+
+.tour-description-content ul,
+.tour-description-content ol {
+  margin: 12px 0 14px;
+  padding-left: 22px;
+}
+
+.tour-description-content li {
+  margin-bottom: 8px;
+}
+
+.tour-description-content a {
+  color: #69bd45;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tour-description-content strong {
+  color: #ffffff;
+}
+
 /* Tour Highlights Section */
 .tour-highlights {
   padding: 32px 0;

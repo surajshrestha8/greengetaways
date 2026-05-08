@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import configPromise from '@payload-config'
 import type { Metadata } from 'next'
 import type { Tour, Media, Destination, ActivityCategory } from '@/payload-types'
@@ -296,6 +297,16 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
               <h2>Overview</h2>
               <p>{tour.shortDescription}</p>
             </div>
+
+            {/* Description */}
+            {tour.description && (
+              <section className="tour-description">
+                <h2>Description</h2>
+                <div className="tour-description-content">
+                  <RichText data={tour.description} />
+                </div>
+              </section>
+            )}
 
             {/* Why Choose Us Section */}
             {tour.whyChooseUs && (
