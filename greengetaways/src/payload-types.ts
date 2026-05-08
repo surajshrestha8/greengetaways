@@ -436,18 +436,24 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Booking uses the Bookable Departure Dates list below. Start/end dates are informational only.
+   */
   availability?: {
     /**
-     * First available date
+     * Informational only. This does not make dates selectable for booking.
      */
     startDate?: string | null;
     /**
-     * Last available date
+     * Informational only. This does not make dates selectable for booking.
      */
     endDate?: string | null;
+    /**
+     * Only dates added here with status Available and seats greater than 0 can be selected by customers.
+     */
     departureDates?:
       | {
-          date?: string | null;
+          date: string;
           availableSeats?: number | null;
           /**
            * Controls whether customers can choose this date when booking

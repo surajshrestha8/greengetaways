@@ -5,7 +5,7 @@ type SeatHoldStatus = 'held' | 'released' | 'not-applicable'
 
 type DepartureDate = {
   id?: string | null
-  date?: string | null
+  date?: string
   availableSeats?: number | null
   note?: string | null
   status?: 'available' | 'sold-out' | 'blocked' | 'private-only' | null

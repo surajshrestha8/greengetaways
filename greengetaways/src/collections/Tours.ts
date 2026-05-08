@@ -268,33 +268,50 @@ export const Tours: CollectionConfig = {
             {
               name: 'availability',
               type: 'group',
+              admin: {
+                description:
+                  'Booking uses the Bookable Departure Dates list below. Start/end dates are informational only.',
+              },
               fields: [
                 {
                   name: 'startDate',
                   type: 'date',
                   admin: {
-                    description: 'First available date',
+                    description: 'Informational only. This does not make dates selectable for booking.',
                   },
                 },
                 {
                   name: 'endDate',
                   type: 'date',
                   admin: {
-                    description: 'Last available date',
+                    description: 'Informational only. This does not make dates selectable for booking.',
                   },
                 },
                 {
                   name: 'departureDates',
                   type: 'array',
+                  label: 'Bookable Departure Dates',
+                  labels: {
+                    singular: 'Departure Date',
+                    plural: 'Departure Dates',
+                  },
+                  admin: {
+                    description:
+                      'Only dates added here with status Available and seats greater than 0 can be selected by customers.',
+                    initCollapsed: false,
+                  },
                   fields: [
                     {
                       name: 'date',
                       type: 'date',
+                      required: true,
+                      label: 'Departure Date',
                     },
                     {
                       name: 'availableSeats',
                       type: 'number',
                       min: 0,
+                      label: 'Available Seats',
                     },
                     {
                       name: 'status',
