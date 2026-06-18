@@ -695,6 +695,38 @@
   font-size: 15px;
 }
 
+.no-dates-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 20px;
+}
+
+.no-dates-cta .tab-empty {
+  padding: 0;
+  margin: 0;
+}
+
+.no-dates-book-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: #69bd45;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.no-dates-book-btn:hover {
+  background: #58b038;
+  transform: translateY(-2px);
+}
+
 /* Itinerary Tab */
 .tour-itinerary {
   display: flex;

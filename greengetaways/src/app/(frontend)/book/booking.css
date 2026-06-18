@@ -237,6 +237,35 @@
   line-height: 1.5;
 }
 
+/* Custom date toggle */
+.custom-date-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #69bd45;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: opacity 0.2s;
+}
+
+.custom-date-toggle:hover {
+  opacity: 0.8;
+}
+
+.custom-date-toggle svg {
+  flex-shrink: 0;
+}
+
+/* Date input color scheme */
+.form-input[type='date'] {
+  color-scheme: dark;
+}
+
 /* Server-level error */
 .submit-error-message {
   margin: 0 32px 4px;

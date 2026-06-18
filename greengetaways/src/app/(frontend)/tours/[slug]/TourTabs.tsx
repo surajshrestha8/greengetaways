@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour } from '@/payload-types'
 import { BookingTable, type MonthGroup } from './BookingTable'
@@ -231,7 +232,15 @@ export default function TourTabs({ tour }: TourTabsProps) {
                 {tour.availability?.departureDates && tour.availability.departureDates.length > 0 ? (
                   <BookingTable groups={buildMonthGroups(tour)} />
                 ) : (
-                  <p className="tab-empty">Departure dates are available on request.</p>
+                  <div className="no-dates-cta">
+                    <p className="tab-empty">No fixed departure dates are scheduled for this tour yet.</p>
+                    <Link href={`/book?tour=${tour.slug}`} className="no-dates-book-btn">
+                      Choose Your Own Date
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>

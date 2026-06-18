@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
       tourId,
       departureDate,
       departureId,
+      isCustomDate,
       numberOfTravelers,
       firstName,
       lastName,
@@ -111,43 +112,48 @@ export async function POST(request: NextRequest) {
 
     const departures = tour.availability?.departureDates ?? []
 
-    if (departures.length === 0) {
-      return NextResponse.json(
-        { message: 'No departure dates are currently available for this tour' },
-        { status: 400 },
-      )
-    }
+    let seatHoldStatus: 'held' | 'not-applicable' = 'held'
 
-    const selectedDeparture = findDeparture(departures, departureDate, departureId)
+    if (isCustomDate) {
+      seatHoldStatus = 'not-applicable'
+    } else {
+      if (departures.length === 0) {
+        return NextResponse.json(
+          { message: 'No departure dates are currently available for this tour' },
+          { status: 400 },
+        )
+      }
 
-    if (!selectedDeparture) {
-      return NextResponse.json(
-        { message: 'Selected departure date is not available for this tour' },
-        { status: 400 },
-      )
-    }
+      const selectedDeparture = findDeparture(departures, departureDate, departureId)
 
-    const departureStatus = selectedDeparture.status || 'available'
-    if (departureStatus !== 'available') {
-      return NextResponse.json(
-        { message: 'Selected departure date is not available for online booking' },
-        { status: 409 },
-      )
-    }
+      if (!selectedDeparture) {
+        return NextResponse.json(
+          { message: 'Selected departure date is not available for this tour' },
+          { status: 400 },
+        )
+      }
 
-    const availableSeats = selectedDeparture.availableSeats ?? 0
-    if (availableSeats < parsedNumberOfTravelers) {
-      return NextResponse.json(
-        { message: `Only ${availableSeats} seats available for this departure date` },
-        { status: 409 },
-      )
+      const departureStatus = selectedDeparture.status || 'available'
+      if (departureStatus !== 'available') {
+        return NextResponse.json(
+          { message: 'Selected departure date is not available for online booking' },
+          { status: 409 },
+        )
+      }
+
+      const availableSeats = selectedDeparture.availableSeats ?? 0
+      if (availableSeats < parsedNumberOfTravelers) {
+        return NextResponse.json(
+          { message: `Only ${availableSeats} seats available for this departure date` },
+          { status: 409 },
+        )
+      }
     }
 
     const pricePerPerson = tour.pricing?.discountedPrice || tour.pricing?.basePrice || 0
     const subtotal = pricePerPerson * parsedNumberOfTravelers
     const total = subtotal
 
-    // Pre-generate reference so it is available even if beforeChange hook runs after validation
     const bookingReference = `BK-${Date.now()}-${Math.random().toString(36).substring(2, 11).toUpperCase()}`
 
     const booking = await payload.create({
@@ -177,7 +183,12 @@ export async function POST(request: NextRequest) {
           remainingAmount: total,
         },
         status: 'pending',
-        specialRequests: specialRequests || '',
+        seatHold: {
+          status: seatHoldStatus,
+        },
+        specialRequests: isCustomDate
+          ? `[Custom date request] ${specialRequests || ''}`
+          : specialRequests || '',
       },
     })
 
