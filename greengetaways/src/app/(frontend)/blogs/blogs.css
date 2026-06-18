@@ -30,6 +30,36 @@
   margin: 0;
 }
 
+.blogs-empty {
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.blogs-empty-text {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+.blogs-empty-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 28px;
+  background: #69bd45;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.blogs-empty-link:hover {
+  background: #58b038;
+  transform: translateY(-2px);
+}
+
 @media (max-width: 640px) {
   .blogs-hero {
     padding: 60px 20px 40px;

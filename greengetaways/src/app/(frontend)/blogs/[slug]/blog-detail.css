@@ -15,6 +15,10 @@
   margin: 0 auto;
 }
 
+.blog-detail-back-top {
+  margin-bottom: 24px;
+}
+
 .blog-detail-categories {
   display: flex;
   flex-wrap: wrap;
@@ -67,6 +71,25 @@
 .blog-detail-meta-item svg {
   flex-shrink: 0;
   color: #69bd45;
+}
+
+/* Featured Image */
+.blog-detail-featured-image {
+  padding: 0 24px;
+}
+
+.blog-detail-featured-image-inner {
+  max-width: 780px;
+  margin: -32px auto 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.blog-detail-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Body */
@@ -125,6 +148,23 @@
   font-weight: 600;
 }
 
+.blog-detail-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.blog-detail-content blockquote {
+  border-left: 3px solid #69bd45;
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(105, 189, 69, 0.06);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 /* Tags */
 .blog-detail-tags {
   display: flex;
@@ -150,6 +190,26 @@
   border-color: rgba(251, 176, 64, 0.35);
 }
 
+/* Related Tours */
+.blog-detail-related-tours {
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 40px;
+}
+
+.blog-detail-related-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 20px;
+}
+
+.blog-detail-related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
 /* Back link */
 .blog-detail-back {
   padding-top: 16px;
@@ -170,6 +230,103 @@
   color: #fff;
 }
 
+.blog-detail-back-link svg {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.blog-detail-back-link:hover svg {
+  transform: translateX(-3px);
+}
+
+/* More Blogs Section */
+.blog-detail-more {
+  padding: 60px 24px 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.blog-detail-more-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.blog-detail-more-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 32px;
+  text-align: center;
+}
+
+.blog-detail-more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.blog-more-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+.blog-more-card:hover {
+  border-color: rgba(105, 189, 69, 0.3);
+  transform: translateY(-4px);
+}
+
+.blog-more-card-img {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.blog-more-card-img img {
+  transition: transform 0.4s ease;
+}
+
+.blog-more-card:hover .blog-more-card-img img {
+  transform: scale(1.05);
+}
+
+.blog-more-card-body {
+  padding: 16px 20px 20px;
+}
+
+.blog-more-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-more-card-excerpt {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.55;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .blog-detail-more-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 640px) {
   .blog-detail-hero {
     padding: 56px 20px 40px;
@@ -183,11 +340,37 @@
     font-size: 16px;
   }
 
+  .blog-detail-featured-image {
+    padding: 0 16px;
+  }
+
+  .blog-detail-featured-image-inner {
+    margin-top: -20px;
+    border-radius: 8px;
+  }
+
   .blog-detail-body {
     padding: 40px 20px 60px;
   }
 
   .blog-detail-content {
     font-size: 16px;
+  }
+
+  .blog-detail-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-detail-more {
+    padding: 40px 20px 60px;
+  }
+
+  .blog-detail-more-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-detail-more-title {
+    font-size: 20px;
+    margin-bottom: 24px;
   }
 }
