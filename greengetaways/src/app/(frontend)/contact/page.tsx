@@ -63,7 +63,7 @@ export default function ContactPage() {
               </div>
               <div className="contact-info-text">
                 <span className="contact-info-label">Email</span>
-                <span className="contact-info-value">hello@greengetaways.com</span>
+                <span className="contact-info-value">info@greengetaways.com.np</span>
               </div>
             </div>
             <div className="contact-info-item">
@@ -81,7 +81,7 @@ export default function ContactPage() {
               </div>
               <div className="contact-info-text">
                 <span className="contact-info-label">Phone</span>
-                <span className="contact-info-value">+977 1 234 5678</span>
+                <span className="contact-info-value">+977 9849934867</span>
               </div>
             </div>
             <div className="contact-info-item">

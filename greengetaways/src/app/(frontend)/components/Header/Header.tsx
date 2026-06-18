@@ -168,7 +168,7 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
 
         {/* Right Section */}
         <div className="header-right">
-          <a href="tel:+97712345678" className="expert-btn">
+          <a href="tel:+9779849934867" className="expert-btn">
             <svg
               width="15"
               height="15"
@@ -232,7 +232,7 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
                 </div>
               ))}
               <div className="mobile-nav-item">
-                <a href="tel:+97712345678" className="mobile-expert-btn">
+                <a href="tel:+9779849934867" className="mobile-expert-btn">
                   <svg
                     width="16"
                     height="16"
@@ -250,7 +250,7 @@ export default function Header({ tours, logoUrl }: HeaderProps) {
                     <span
                       style={{ display: 'block', fontSize: '13px', opacity: 0.75, fontWeight: 400 }}
                     >
-                      +977 1 234 5678
+                      +977 9849934867
                     </span>
                   </span>
                 </a>
