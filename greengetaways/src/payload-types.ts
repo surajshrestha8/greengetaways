@@ -81,6 +81,7 @@ export interface Config {
     fleet: Fleet;
     'newsletter-subscribers': NewsletterSubscriber;
     'tour-questions': TourQuestion;
+    events: Event;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -102,6 +103,7 @@ export interface Config {
     fleet: FleetSelect<false> | FleetSelect<true>;
     'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     'tour-questions': TourQuestionsSelect<false> | TourQuestionsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1445,6 +1447,72 @@ export interface TourQuestion {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  slug: string;
+  eventType: 'festival' | 'workshop' | 'trek-departure' | 'cultural' | 'environmental' | 'community' | 'seasonal';
+  /**
+   * Brief summary for card preview
+   */
+  shortDescription: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  featuredImage: number | Media;
+  /**
+   * Primary date for calendar placement
+   */
+  startDate: string;
+  /**
+   * Optional end date for multi-day events
+   */
+  endDate?: string | null;
+  /**
+   * e.g. "8:00 AM"
+   */
+  startTime?: string | null;
+  /**
+   * e.g. "5:00 PM"
+   */
+  endTime?: string | null;
+  location?: {
+    name?: string | null;
+    region?: string | null;
+  };
+  pricing?: {
+    isFree?: boolean | null;
+    price?: number | null;
+    currency?: string | null;
+  };
+  relatedTour?: (number | null) | Tour;
+  /**
+   * Optional external registration URL
+   */
+  externalLink?: string | null;
+  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  featured?: boolean | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1522,6 +1590,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tour-questions';
         value: number | TourQuestion;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -2169,6 +2241,43 @@ export interface TourQuestionsSelect<T extends boolean = true> {
   tour?: T;
   status?: T;
   adminAnswer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  eventType?: T;
+  shortDescription?: T;
+  description?: T;
+  featuredImage?: T;
+  startDate?: T;
+  endDate?: T;
+  startTime?: T;
+  endTime?: T;
+  location?:
+    | T
+    | {
+        name?: T;
+        region?: T;
+      };
+  pricing?:
+    | T
+    | {
+        isFree?: T;
+        price?: T;
+        currency?: T;
+      };
+  relatedTour?: T;
+  externalLink?: T;
+  status?: T;
+  featured?: T;
+  metaTitle?: T;
+  metaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
 }
