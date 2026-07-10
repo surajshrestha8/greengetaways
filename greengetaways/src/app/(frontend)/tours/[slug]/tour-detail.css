@@ -191,9 +191,71 @@
   font-weight: 600;
 }
 
-/* Mobile-only gallery photo count hint */
-.gallery-mobile-hint {
+/* Mobile gallery slider (hidden on desktop, shown <=768px) */
+.tour-gallery-slider {
   display: none;
+  position: relative;
+}
+
+.tour-gallery-slider-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-radius: 16px;
+}
+
+.tour-gallery-slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.tour-gallery-slide {
+  position: relative;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  aspect-ratio: 4 / 3;
+}
+
+.tour-gallery-slider-counter {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.tour-gallery-slider-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.tour-gallery-slider-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.tour-gallery-slider-dot.active {
+  background: #69bd45;
+  transform: scale(1.3);
 }
 
 /* Container */
@@ -1927,38 +1989,11 @@
   }
 
   .tour-gallery-grid {
-    height: 280px;
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto !important;
-  }
-
-  .tour-gallery-grid .gallery-item:not(.gallery-main) {
     display: none;
   }
 
-  .tour-gallery-grid .gallery-main {
-    grid-row: auto !important;
-    height: 280px;
-  }
-
-  .gallery-mobile-hint {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 0 4px;
-    font-size: 13px;
-    font-family: var(--font-ui);
-    color: rgba(255, 255, 255, 0.45);
-  }
-
-  .gallery-mobile-hint-dot {
+  .tour-gallery-slider {
     display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #69bd45;
-    opacity: 0.8;
   }
 
   .tour-title-section {

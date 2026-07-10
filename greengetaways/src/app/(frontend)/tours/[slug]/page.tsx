@@ -9,6 +9,7 @@ import type { Metadata } from 'next'
 import type { Tour, Media, Destination, ActivityCategory } from '@/payload-types'
 import TourCard from '../../components/TourCard'
 import TourTabs from './TourTabs'
+import TourGallerySlider from './TourGallerySlider'
 import TourWhyChooseUsAccordion from './TourWhyChooseUsAccordion'
 import { getImageUrl, formatPrice, capitalize } from '../../lib/utils'
 import { DIFFICULTY_COLORS, TOUR_TYPE_COLORS, TOUR_TYPE_ICONS, ACTIVITY_ICONS } from '../../lib/constants'
@@ -256,12 +257,8 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
               </div>
             ))}
           </div>
-          {galleryImages.length > 1 && (
-            <div className="gallery-mobile-hint">
-              <span className="gallery-mobile-hint-dot" />
-              {galleryImages.length} photos
-            </div>
-          )}
+
+          <TourGallerySlider images={galleryImages} />
         </div>
       </section>
 
