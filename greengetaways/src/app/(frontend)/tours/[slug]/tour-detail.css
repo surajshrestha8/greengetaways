@@ -2001,8 +2001,33 @@
 
   .tour-tabs-nav {
     overflow-x: auto;
-    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
-    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+
+  .tour-tabs-nav.has-scroll-right {
+    -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
+    mask-image: linear-gradient(to right, black 92%, transparent 100%);
+  }
+
+  .tour-tabs-nav.has-scroll-left {
+    -webkit-mask-image: linear-gradient(to left, black 92%, transparent 100%);
+    mask-image: linear-gradient(to left, black 92%, transparent 100%);
+  }
+
+  .tour-tabs-nav.has-scroll-left.has-scroll-right {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
   }
 
   .tour-tab-btn {

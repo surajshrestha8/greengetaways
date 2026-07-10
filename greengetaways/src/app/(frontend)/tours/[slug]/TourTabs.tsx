@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { Tour } from '@/payload-types'
@@ -110,7 +110,28 @@ function buildMonthGroups(tour: Tour): MonthGroup[] {
 
 export default function TourTabs({ tour }: TourTabsProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('itinerary')
+  const tabsNavRef = useRef<HTMLDivElement>(null)
+  const [scrollEdges, setScrollEdges] = useState({ left: false, right: false })
 
+  useEffect(() => {
+    const el = tabsNavRef.current
+    if (!el) return
+
+    const updateScrollEdges = () => {
+      setScrollEdges({
+        left: el.scrollLeft > 1,
+        right: el.scrollLeft + el.clientWidth < el.scrollWidth - 1,
+      })
+    }
+
+    updateScrollEdges()
+    el.addEventListener('scroll', updateScrollEdges)
+    window.addEventListener('resize', updateScrollEdges)
+    return () => {
+      el.removeEventListener('scroll', updateScrollEdges)
+      window.removeEventListener('resize', updateScrollEdges)
+    }
+  }, [])
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -124,7 +145,10 @@ export default function TourTabs({ tour }: TourTabsProps) {
   return (
     <div className="tour-tabs">
       {/* Tab Navigation */}
-      <div className="tour-tabs-nav">
+      <div
+        ref={tabsNavRef}
+        className={`tour-tabs-nav ${scrollEdges.left ? 'has-scroll-left' : ''} ${scrollEdges.right ? 'has-scroll-right' : ''}`}
+      >
         {tabs.map((tab) => (
           <button
             key={tab.key}
