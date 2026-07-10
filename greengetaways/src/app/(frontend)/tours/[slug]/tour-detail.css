@@ -191,6 +191,11 @@
   font-weight: 600;
 }
 
+/* Mobile-only gallery photo count hint */
+.gallery-mobile-hint {
+  display: none;
+}
+
 /* Container */
 .tour-detail-container {
   max-width: 1280px;
@@ -1890,6 +1895,12 @@
   .tour-detail-sidebar {
     position: static;
     order: -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .tour-detail-main {
+    min-width: 0;
   }
 
   .tour-gallery-grid {
@@ -1930,8 +1941,57 @@
     height: 280px;
   }
 
+  .gallery-mobile-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 0 4px;
+    font-size: 13px;
+    font-family: var(--font-ui);
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .gallery-mobile-hint-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #69bd45;
+    opacity: 0.8;
+  }
+
+  .tour-title-section {
+    padding: 32px 20px 20px;
+  }
+
   .tour-detail-container {
-    padding: 0 16px 24px;
+    padding: 24px 16px 40px;
+  }
+
+  .tour-booking-card {
+    padding: 20px;
+  }
+
+  .tour-description-content {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .tour-description-content img,
+  .tour-description-content table,
+  .tour-description-content pre,
+  .tour-description-content iframe {
+    max-width: 100%;
+  }
+
+  .tour-description-content pre {
+    overflow-x: auto;
+  }
+
+  .tour-description-content table {
+    display: block;
+    overflow-x: auto;
   }
 
   .tour-quick-info-bar {
@@ -1941,6 +2001,8 @@
 
   .tour-tabs-nav {
     overflow-x: auto;
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
   }
 
   .tour-tab-btn {
@@ -1983,6 +2045,17 @@
   }
 }
 
+/* Center sidebar content on wide tablets (iPad landscape, etc.) */
+@media (min-width: 600px) and (max-width: 1024px) {
+  .tour-booking-card,
+  .sidebar-trip-overview,
+  .sidebar-quick-facts {
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 @media (max-width: 480px) {
   .tour-title-section {
     padding: 24px 16px 16px;
@@ -1990,6 +2063,15 @@
 
   .tour-main-title {
     font-size: 24px;
+  }
+
+  .tour-booking-card {
+    padding: 16px;
+  }
+
+  /* Trip overview single column on small screens */
+  .trip-overview-grid {
+    grid-template-columns: 1fr;
   }
 
   .tour-meta-info {

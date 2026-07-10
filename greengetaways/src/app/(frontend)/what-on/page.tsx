@@ -3,8 +3,7 @@ import configPromise from '@payload-config'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import type { Event } from '@/payload-types'
-import EventCard from '../components/EventCard'
-import MonthNav from './MonthNav'
+import EventCalendar from './EventCalendar'
 import './what-on.css'
 
 export const dynamic = 'force-dynamic'
@@ -19,11 +18,6 @@ export const metadata: Metadata = {
       'Discover upcoming events, festivals, treks, and cultural happenings throughout the year.',
   },
 }
-
-const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-]
 
 export default async function WhatsOnPage() {
   const currentYear = new Date().getFullYear()
@@ -50,17 +44,6 @@ export default async function WhatsOnPage() {
     // Database may not be ready yet
   }
 
-  const eventsByMonth = new Map<number, Event[]>()
-  for (const event of events) {
-    const month = new Date(event.startDate).getMonth()
-    if (!eventsByMonth.has(month)) {
-      eventsByMonth.set(month, [])
-    }
-    eventsByMonth.get(month)!.push(event)
-  }
-
-  const monthsWithEvents = Array.from(eventsByMonth.keys()).sort((a, b) => a - b)
-
   return (
     <div className="whats-on-page">
       <section className="whats-on-hero">
@@ -76,10 +59,8 @@ export default async function WhatsOnPage() {
         </div>
       </section>
 
-      <MonthNav monthsWithEvents={monthsWithEvents} />
-
-      <div className="whats-on-content">
-        {monthsWithEvents.length === 0 ? (
+      {events.length === 0 ? (
+        <div className="whats-on-content">
           <div className="whats-on-empty">
             <div className="whats-on-empty-icon">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5">
@@ -101,32 +82,10 @@ export default async function WhatsOnPage() {
               </svg>
             </Link>
           </div>
-        ) : (
-          monthsWithEvents.map((month) => {
-            const monthEvents = eventsByMonth.get(month)!
-            return (
-              <section
-                key={month}
-                className="month-section"
-                id={`month-${month}`}
-                data-month={month}
-              >
-                <div className="month-heading">
-                  <h2 className="month-heading-name">{MONTH_NAMES[month]}</h2>
-                  <span className="month-heading-count">
-                    {monthEvents.length} event{monthEvents.length !== 1 ? 's' : ''}
-                  </span>
-                </div>
-                <div className="event-grid">
-                  {monthEvents.map((event) => (
-                    <EventCard key={event.id} event={event} />
-                  ))}
-                </div>
-              </section>
-            )
-          })
-        )}
-      </div>
+        </div>
+      ) : (
+        <EventCalendar events={events} currentYear={currentYear} />
+      )}
     </div>
   )
 }

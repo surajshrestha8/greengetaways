@@ -41,6 +41,7 @@ body {
   margin: 0;
   color: var(--color-text);
   background: #0d2b2f;
+  overflow-x: clip;
 
   @media (max-width: 1024px) {
     font-size: 15px;

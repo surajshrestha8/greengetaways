@@ -256,6 +256,12 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
               </div>
             ))}
           </div>
+          {galleryImages.length > 1 && (
+            <div className="gallery-mobile-hint">
+              <span className="gallery-mobile-hint-dot" />
+              {galleryImages.length} photos
+            </div>
+          )}
         </div>
       </section>
 
